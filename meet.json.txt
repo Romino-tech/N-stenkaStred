@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "source": "rozpisysnv.online/meet.html",
+    "generated_at": "2025-11-04T22:00:00+01:00",
+    "version": "1.0"
+  },
+  "events": [
+    {
+      "id": "evt-2025-11-09-moroz",
+      "title": "121. Celosvetové bratstvo zachránené pred katastrofou",
+      "date": "2025-11-09",
+      "time": null,
+      "organizer": "Matej Moroz",
+      "location": null,
+      "description": "",
+      "tags": []
+    },
+    {
+      "id": "evt-2025-11-16-boros",
+      "title": "106. Ničenie zeme privádza Božskú odplatu",
+      "date": "2025-11-16",
+      "time": null,
+      "organizer": "Peter Boroš",
+      "location": null,
+      "description": "",
+      "tags": []
+    },
+    {
+      "id": "evt-2025-11-23-varga",
+      "title": "60. Čo je zmyslom",
+      "date": "2025-11-23",
+      "time": null,
+      "organizer": "Filip Varga",
+      "location": null,
+      "description": "",
+      "tags": []
+    }
+  ]
+}
