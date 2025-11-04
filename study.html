@@ -25,6 +25,29 @@
       margin-bottom: 20px;
     }
 
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    #searchBox {
+      flex: 1;
+      min-width: 250px;
+      padding: 10px;
+      margin: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    label {
+      margin: 5px;
+      font-size: 14px;
+    }
+
     .article {
       background: #fff;
       border-radius: 10px;
@@ -62,15 +85,6 @@
       color: #1f2937;
     }
 
-    #searchBox {
-      width: 100%;
-      padding: 10px;
-      margin: 20px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-
     footer {
       text-align: center;
       color: #6b7280;
@@ -91,58 +105,9 @@
 
   <h2>📖 Štúdium Strážnej veže a verejné prednášky</h2>
 
-  <input type="text" id="searchBox" placeholder="Zadaj tému, dátum alebo rečníka...">
+  <div class="controls">
+    <input type="text" id="searchBox" placeholder="Zadaj tému, dátum alebo rečníka...">
+    <label><input type="checkbox" id="futureOnly"> Len budúce týždne</label>
+  </div>
 
-  <div id="articles"></div>
-
-  <footer>© Zbor Spišská Nová Ves – Stred | Program zhromaždení 2025</footer>
-
-  <script>
-    async function loadData() {
-      try {
-        const res = await fetch('datastudy.json.txt');
-        if (!res.ok) throw new Error("Nepodarilo sa načítať dáta.");
-        const data = await res.json();
-        renderArticles(data);
-
-        document.getElementById("searchBox").addEventListener("input", e => {
-          renderArticles(data, e.target.value.toLowerCase());
-        });
-      } catch (err) {
-        document.getElementById("articles").innerHTML = `<p style="color:red">${err.message}</p>`;
-      }
-    }
-
-    function renderArticles(data, filter = '') {
-      const container = document.getElementById("articles");
-      container.innerHTML = '';
-
-      data.forEach(a => {
-        const text = (a.title + a.speaker + a.theme + a.date + a.watchtowerStudy).toLowerCase();
-        if (filter && !text.includes(filter)) return;
-
-        const div = document.createElement("div");
-        div.className = "article";
-        div.innerHTML = `
-          <div class="date">📅 ${a.date}</div>
-          <div class="title">${a.theme ? a.theme : "(bez prednášky)"}</div>
-          <div class="speaker">${a.speaker ? "Rečník: " + a.speaker : ""}</div>
-          ${a.reference ? `<div>Číslo prednášky: ${a.reference}</div>` : ""}
-          ${a.watchtowerStudy ? `<div class="watchtower">📖 Rozbor Strážnej veže: ${a.watchtowerStudy}</div>` : ""}
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    loadData();
-  </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
+  <div
