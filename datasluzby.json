@@ -1,0 +1,71 @@
+[
+  {
+    "datum": "30. október, štvrtok",
+    "program": [
+      {"úloha": "Usporiadateľ vchod", "brat": "Ladislav Mačuga"},
+      {"úloha": "Usporiadateľ sála", "brat": "Roman Chlebovec"},
+      {"úloha": "Obsluha audio", "brat": "Rúben Kopaničák"},
+      {"úloha": "Obsluha zoom", "brat": "Adam Vašák"},
+      {"úloha": "Mik. pódium", "brat": "Jaroslav Turčanik"},
+      {"úloha": "Mik. 1 prenosný", "brat": "Rastislav Popadič"},
+      {"úloha": "Mik. 2 prenosný", "brat": "Ján Merčák"}
+    ],
+    "nedela": {
+      "datum": "2. november",
+      "program": [
+        {"úloha": "Usporiadateľ vchod", "brat": "Ladislav Mačuga"},
+        {"úloha": "Usporiadateľ sála", "brat": "Peter Boroš"},
+        {"úloha": "Obsluha audio", "brat": "Rúben Kopaničák"},
+        {"úloha": "Obsluha zoom", "brat": "Adam Vašák"},
+        {"úloha": "Mik. pódium", "brat": "Rastislav Popadič"},
+        {"úloha": "Mik. prenosný", "brat": "Ján Merčák"}
+      ]
+    }
+  },
+  {
+    "datum": "6. november, štvrtok",
+    "program": [
+      {"úloha": "Usporiadateľ vchod", "brat": "Juraj Midlík"},
+      {"úloha": "Usporiadateľ sála", "brat": "Jaroslav Turčanik"},
+      {"úloha": "Obsluha audio", "brat": "Andrij Ševčuk"},
+      {"úloha": "Obsluha zoom", "brat": "Rastislav Popadič"},
+      {"úloha": "Mik. pódium", "brat": "Jozef Vašák"},
+      {"úloha": "Mik. 1 prenosný", "brat": "Ján Merčák"},
+      {"úloha": "Mik. 2 prenosný", "brat": "Rúben Kopaničák"}
+    ],
+    "nedela": {
+      "datum": "9. november",
+      "program": [
+        {"úloha": "Usporiadateľ vchod", "brat": "Juraj Midlík"},
+        {"úloha": "Usporiadateľ sála", "brat": "Jaroslav Turčanik"},
+        {"úloha": "Obsluha audio", "brat": "Andrij Ševčuk"},
+        {"úloha": "Obsluha zoom", "brat": "Jozef Vašák"},
+        {"úloha": "Mik. pódium", "brat": "Ján Merčák"},
+        {"úloha": "Mik. prenosný", "brat": "Rúben Kopaničák"}
+      ]
+    }
+  },
+  {
+    "datum": "13. november, štvrtok",
+    "program": [
+      {"úloha": "Usporiadateľ vchod", "brat": "Rastislav Popadič"},
+      {"úloha": "Usporiadateľ sála", "brat": "Michal Vypoštok"},
+      {"úloha": "Obsluha audio", "brat": "Rúben Kopaničák"},
+      {"úloha": "Obsluha zoom", "brat": "Jaroslav Turčanik"},
+      {"úloha": "Mik. pódium", "brat": "Jozef Vašák"},
+      {"úloha": "Mik. 1 prenosný", "brat": "Ladislav Mačuga"},
+      {"úloha": "Mik. 2 prenosný", "brat": "Juraj Midlík"}
+    ],
+    "nedela": {
+      "datum": "16. november",
+      "program": [
+        {"úloha": "Usporiadateľ vchod", "brat": "Rastislav Popadič"},
+        {"úloha": "Usporiadateľ sála", "brat": "Marek Džuris"},
+        {"úloha": "Obsluha audio", "brat": "Rúben Kopaničák"},
+        {"úloha": "Obsluha zoom", "brat": "Jaroslav Turčanik"},
+        {"úloha": "Mik. pódium", "brat": "Ladislav Mačuga"},
+        {"úloha": "Mik. 1 prenosný", "brat": "Juraj Midlík"}
+      ]
+    }
+  }
+]
