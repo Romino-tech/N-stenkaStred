@@ -1,3 +1,9 @@
+<script>
+if (sessionStorage.getItem("accessGranted") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
+
 <!DOCTYPE html>
 <html lang="sk">
 
@@ -259,6 +265,7 @@
   </script>
 </body>
 </html>
+
 
 
 
