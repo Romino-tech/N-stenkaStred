@@ -3,48 +3,56 @@
     "date": "9. november 2025",
     "speaker": "Matej Moroz",
     "theme": "121. Celosvetové bratstvo zachránené pred katastrofou",
-    "reference": "121"
+    "reference": "121",
+    "watchtowerStudy": "Jehova je našou silou — Strážna veža č. 45, články 1 – 7"
   },
   {
     "date": "16. november 2025",
     "speaker": "Peter Boroš",
     "theme": "106. Ničenie zeme privádza Božskú odplatu",
-    "reference": "106"
+    "reference": "106",
+    "watchtowerStudy": "Dôveruj Jehovovi zo srdca — Strážna veža č. 46, články 8 – 14"
   },
   {
     "date": "23. november 2025",
     "speaker": "Filip Varga",
     "theme": "60. Čo je zmyslom vášho života?",
-    "reference": "60"
+    "reference": "60",
+    "watchtowerStudy": "Zostaň pevný v skúške — Strážna veža č. 47, články 1 – 7"
   },
   {
     "date": "30. november 2025",
     "speaker": "Igor Paňák",
     "theme": "154. Ľudské vlády – zvážené na váhach",
-    "reference": "154"
+    "reference": "154",
+    "watchtowerStudy": "Radosť v službe Jehovovi — Strážna veža č. 47, články 8 – 14"
   },
   {
     "date": "7. december 2025",
     "speaker": "Jakub Hamsa",
     "theme": "79. Koho si vyberiete za priateľa?",
-    "reference": "79"
+    "reference": "79",
+    "watchtowerStudy": "Odpor proti zlým túžbam — Strážna veža č. 48, články 1 – 7"
   },
   {
     "date": "14. december 2025",
     "speaker": "Michal Výbošťok",
     "theme": "",
-    "reference": ""
+    "reference": "",
+    "watchtowerStudy": "Zostávajme bdelí a pevní vo viere — Strážna veža č. 48, články 8 – 14"
   },
   {
     "date": "21. december 2025",
     "speaker": "Grigorij Starodubcev",
     "theme": "171. Môžete žiť v pokoji už teraz — a navždy!",
-    "reference": "171"
+    "reference": "171",
+    "watchtowerStudy": "Buďme vďační za dar odpustenia — Strážna veža č. 49, články 1 – 7"
   },
   {
     "date": "28. december 2025",
     "speaker": "",
     "theme": "",
-    "reference": ""
+    "reference": "",
+    "watchtowerStudy": "Jehova je Bohom pokoja — Strážna veža č. 49, články 8 – 14"
   }
 ]
