@@ -3,7 +3,6 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   window.location.href = "login.html";
 }
 </script>
-
 <!doctype html>
 <html lang="sk">
 <head>
@@ -11,18 +10,82 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Rozpis schôdzok — prehľad</title>
   <style>
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial; padding: 20px; background:#f7f7fb; color:#111; }
-    .container { max-width:900px; margin:0 auto; }
-    header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
-    h1 { margin:0 0 10px 0; font-size:1.4rem; }
-    .controls { display:flex; gap:8px; }
-    .card { background:white; padding:12px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); margin-top:12px; }
-    .event { display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid #eee; }
-    .event:last-child { border-bottom: none; }
-    .meta { color:#666; font-size:0.95rem; }
-    button { padding:8px 10px; border-radius:8px; border:1px solid #ddd; background: #fff; cursor:pointer; }
-    input[type="date"] { padding:6px; border-radius:6px; border:1px solid #ddd; }
-    .empty { text-align:center; color:#777; padding:18px; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      padding: 20px;
+      background: #f6f7fb;
+      color: #111;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+    }
+    input[type="date"], button {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+    }
+    button {
+      cursor: pointer;
+      background: white;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #f0f0f0;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+    .event {
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .event:last-child {
+      border-bottom: none;
+    }
+    .event-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+    .meta {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    .empty {
+      text-align: center;
+      color: #777;
+      padding: 18px;
+    }
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #777;
+    }
   </style>
 </head>
 <body>
@@ -30,7 +93,9 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
     <header>
       <div>
         <h1>Prehľad schôdzok</h1>
-        <div class="meta" id="sourceMeta">Zdroj: rozpisysnv.online/meet.html • JSON: <span id="jsonStatus">neprítomný</span></div>
+        <div class="meta" id="sourceMeta">
+          Zdroj: rozpisysnv.online/meet.html • JSON: <span id="jsonStatus">načítavam...</span>
+        </div>
       </div>
       <div class="controls">
         <input id="filterDate" type="date" />
@@ -39,69 +104,72 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       </div>
     </header>
 
-    <div class="card" id="eventsCard">
-      <div id="eventsList" class="eventsList"></div>
+    <div class="card">
+      <div id="eventsList"></div>
       <div id="empty" class="empty" style="display:none">Žiadne udalosti</div>
     </div>
+
+    <footer>© 2025 rozpisysnv.online — zobrazenie kalendára schôdzok</footer>
   </div>
 
   <script>
     async function loadJSON() {
       try {
-        const res = await fetch('./meet.json', {cache: "no-store"});
-        if (!res.ok) throw new Error('JSON nie je k dispozícii: ' + res.status);
+        const res = await fetch('./meet.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('JSON nenájdený');
         const data = await res.json();
-        document.getElementById('jsonStatus').textContent = 'prítomný';
+        document.getElementById('jsonStatus').textContent = 'načítaný';
         return data;
       } catch (err) {
+        console.warn(err);
         document.getElementById('jsonStatus').textContent = 'chyba načítania';
-        console.warn('loadJSON error', err);
         return null;
       }
     }
 
     function renderEvents(data, filterDate) {
-      const container = document.getElementById('eventsList');
+      const list = document.getElementById('eventsList');
       const empty = document.getElementById('empty');
-      container.innerHTML = '';
-      if (!data || !Array.isArray(data.events) || data.events.length === 0) {
+      list.innerHTML = '';
+      if (!data || !data.events || data.events.length === 0) {
         empty.style.display = 'block';
         return;
       }
-      const events = data.events.slice().sort((a,b) => (a.date||'').localeCompare(b.date||''));
-      const filtered = filterDate ? events.filter(e => e.date === filterDate) : events;
+      const filtered = filterDate
+        ? data.events.filter(e => e.date === filterDate)
+        : data.events;
       if (filtered.length === 0) {
         empty.style.display = 'block';
         return;
       }
       empty.style.display = 'none';
+      filtered.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
       for (const e of filtered) {
-        const el = document.createElement('div');
-        el.className = 'event';
-        el.innerHTML = `
+        const div = document.createElement('div');
+        div.className = 'event';
+        div.innerHTML = `
           <div>
-            <div style="font-weight:600">${escapeHtml(e.title || 'Bez názvu')}</div>
-            <div class="meta">${e.organizer ? escapeHtml(e.organizer) + ' • ' : ''}${e.date || ''}${e.time ? ' • ' + e.time : ''}</div>
-            <div style="margin-top:6px">${e.location ? escapeHtml(e.location) : ''}</div>
-          </div>
-          <div style="text-align:right">
-            <div class="meta">${e.tags && e.tags.length? e.tags.join(', '): ''}</div>
+            <div class="event-title">${escapeHtml(e.title || 'Bez názvu')}</div>
+            <div class="meta">
+              ${e.date || ''}
+              ${e.time ? ' • ' + e.time : ''}
+              ${e.organizer ? ' • ' + escapeHtml(e.organizer) : ''}
+            </div>
           </div>
         `;
-        container.appendChild(el);
+        list.appendChild(div);
       }
     }
 
     function escapeHtml(s) {
-      if(!s) return '';
-      return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      if (!s) return '';
+      return s.replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
     }
 
     async function main() {
       const data = await loadJSON();
       renderEvents(data, null);
-
-      document.getElementById('filterDate').addEventListener('change', (ev) => {
+      document.getElementById('filterDate').addEventListener('change', ev => {
         renderEvents(data, ev.target.value || null);
       });
       document.getElementById('btnClearFilter').addEventListener('click', () => {
@@ -109,15 +177,13 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
         renderEvents(data, null);
       });
       document.getElementById('btnExportJson').addEventListener('click', () => {
-        if (!data) return alert('Žiadny JSON na export.');
-        const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        if (!data) return alert('Nie je čo exportovať.');
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = 'meet-export.json';
-        document.body.appendChild(a);
         a.click();
-        a.remove();
         URL.revokeObjectURL(url);
       });
     }
@@ -126,16 +192,3 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   </script>
 </body>
 </html>
-
-</a>  
-<nav>
-  <a href="index.html">Domov</a> |
-  <a href="zas.html">Život a služba</a> |
-  <a href="study.html">Štúdium SV</a> |
-  <a href="service.html">Služby </a> |
-  <a href="meet.html">Schôdzky</a> |
-  <a href="groups.html">Skupiny</a>
-</nav>
-<div style="height: 30px;"></div>
-</a>
-        <img src="meet.jpeg" alt="Rozpis - Schôdzky" width="700"
