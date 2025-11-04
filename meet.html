@@ -4,14 +4,128 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
 }
 </script>
 
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sk">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nástenka zboru SNV-Stred </SNV-Stred></title>
-    <link rel="stylesheet" href="style.css">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rozpis schôdzok — prehľad</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial; padding: 20px; background:#f7f7fb; color:#111; }
+    .container { max-width:900px; margin:0 auto; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    h1 { margin:0 0 10px 0; font-size:1.4rem; }
+    .controls { display:flex; gap:8px; }
+    .card { background:white; padding:12px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); margin-top:12px; }
+    .event { display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid #eee; }
+    .event:last-child { border-bottom: none; }
+    .meta { color:#666; font-size:0.95rem; }
+    button { padding:8px 10px; border-radius:8px; border:1px solid #ddd; background: #fff; cursor:pointer; }
+    input[type="date"] { padding:6px; border-radius:6px; border:1px solid #ddd; }
+    .empty { text-align:center; color:#777; padding:18px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Prehľad schôdzok</h1>
+        <div class="meta" id="sourceMeta">Zdroj: rozpisysnv.online/meet.html • JSON: <span id="jsonStatus">neprítomný</span></div>
+      </div>
+      <div class="controls">
+        <input id="filterDate" type="date" />
+        <button id="btnClearFilter">Vymazať filter</button>
+        <button id="btnExportJson">Exportovať JSON</button>
+      </div>
+    </header>
+
+    <div class="card" id="eventsCard">
+      <div id="eventsList" class="eventsList"></div>
+      <div id="empty" class="empty" style="display:none">Žiadne udalosti</div>
+    </div>
+  </div>
+
+  <script>
+    async function loadJSON() {
+      try {
+        const res = await fetch('./meet.json', {cache: "no-store"});
+        if (!res.ok) throw new Error('JSON nie je k dispozícii: ' + res.status);
+        const data = await res.json();
+        document.getElementById('jsonStatus').textContent = 'prítomný';
+        return data;
+      } catch (err) {
+        document.getElementById('jsonStatus').textContent = 'chyba načítania';
+        console.warn('loadJSON error', err);
+        return null;
+      }
+    }
+
+    function renderEvents(data, filterDate) {
+      const container = document.getElementById('eventsList');
+      const empty = document.getElementById('empty');
+      container.innerHTML = '';
+      if (!data || !Array.isArray(data.events) || data.events.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+      const events = data.events.slice().sort((a,b) => (a.date||'').localeCompare(b.date||''));
+      const filtered = filterDate ? events.filter(e => e.date === filterDate) : events;
+      if (filtered.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+      for (const e of filtered) {
+        const el = document.createElement('div');
+        el.className = 'event';
+        el.innerHTML = `
+          <div>
+            <div style="font-weight:600">${escapeHtml(e.title || 'Bez názvu')}</div>
+            <div class="meta">${e.organizer ? escapeHtml(e.organizer) + ' • ' : ''}${e.date || ''}${e.time ? ' • ' + e.time : ''}</div>
+            <div style="margin-top:6px">${e.location ? escapeHtml(e.location) : ''}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="meta">${e.tags && e.tags.length? e.tags.join(', '): ''}</div>
+          </div>
+        `;
+        container.appendChild(el);
+      }
+    }
+
+    function escapeHtml(s) {
+      if(!s) return '';
+      return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    async function main() {
+      const data = await loadJSON();
+      renderEvents(data, null);
+
+      document.getElementById('filterDate').addEventListener('change', (ev) => {
+        renderEvents(data, ev.target.value || null);
+      });
+      document.getElementById('btnClearFilter').addEventListener('click', () => {
+        document.getElementById('filterDate').value = '';
+        renderEvents(data, null);
+      });
+      document.getElementById('btnExportJson').addEventListener('click', () => {
+        if (!data) return alert('Žiadny JSON na export.');
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'meet-export.json';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    main();
+  </script>
+</body>
+</html>
 
 </a>  
 <nav>
@@ -24,13 +138,4 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
 </nav>
 <div style="height: 30px;"></div>
 </a>
-        <img src="meet.jpeg" alt="Rozpis - Schôdzky" width="700">
-
-<div id="header"></div>
-<script>
-  fetch("header.html")
-    .then(res => res.text())
-    .then(data => document.getElementById("header").innerHTML = data);
-</script>
-
-
+        <img src="meet.jpeg" alt="Rozpis - Schôdzky" width="700"
