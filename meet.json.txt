@@ -7,30 +7,30 @@
   "events": [
     {
       "id": "evt-2025-11-09-moroz",
-      "title": "121. Celosvetové bratstvo zachránené pred katastrofou",
-      "date": "2025-11-09",
-      "time": null,
-      "organizer": "Matej Moroz",
+      "title": "Skupinová schôdzka pred službou",
+      "date": "2025-11-10",
+      "time": "16:30",
+      "organizer": "Michal Výbošťok",
       "location": null,
       "description": "",
       "tags": []
     },
     {
       "id": "evt-2025-11-16-boros",
-      "title": "106. Ničenie zeme privádza Božskú odplatu",
-      "date": "2025-11-16",
-      "time": null,
-      "organizer": "Peter Boroš",
+      "title": "Skupinová schôdzka pred službou",
+      "date": "2025-11-11",
+      "time": "16:30",
+      "organizer": "Marek Dzuriš",
       "location": null,
       "description": "",
       "tags": []
     },
     {
       "id": "evt-2025-11-23-varga",
-      "title": "60. Čo je zmyslom",
-      "date": "2025-11-23",
-      "time": null,
-      "organizer": "Filip Varga",
+      "title": "Zborová schôdzka pred službou",
+      "date": "2025-11-12",
+      "time": "9:30",
+      "organizer": "Ján Kaščák",
       "location": null,
       "description": "",
       "tags": []
