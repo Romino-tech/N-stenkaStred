@@ -6,6 +6,166 @@
     <title>Nástenka zboru SNV-Stred </SNV-Stred></title>
     <link rel="stylesheet" href="style.css">
 
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nástenka zboru SNV-Stred – Služby</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8fafc;
+      padding: 20px;
+      color: #111827;
+    }
+    nav a {
+      color: #1e3a8a;
+      text-decoration: none;
+      margin-right: 5px;
+    }
+    nav a:hover { text-decoration: underline; }
+
+    h2 {
+      text-align: center;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+
+    .week {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+
+    .date {
+      font-weight: bold;
+      font-size: 18px;
+      color: #1e3a8a;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #1e3a8a;
+      padding-bottom: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #e0e7ff;
+    }
+
+    tr:nth-child(even) { background-color: #f3f4f6; }
+
+    .subtitle {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #374151;
+    }
+
+    #searchBox {
+      width: 100%;
+      padding: 10px;
+      margin: 20px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Domov</a> |
+    <a href="zas.html">Život a služba</a> |
+    <a href="study.html">Štúdium SV</a> |
+    <a href="service.html"><strong>Služby</strong></a> |
+    <a href="meet.html">Schôdzky</a> |
+    <a href="groups.html">Skupiny</a>
+  </nav>
+
+  <h2>🗓 Rozpis služieb – Spišská Nová Ves</h2>
+
+  <input type="text" id="searchBox" placeholder="Vyhľadaj podľa dátumu alebo mena...">
+
+  <div id="program"></div>
+
+  <script>
+    async function loadData() {
+      try {
+        const res = await fetch('datazasadnutia.json');
+        if (!res.ok) throw new Error("Nepodarilo sa načítať dáta.");
+        const data = await res.json();
+        renderTable(data);
+        document.getElementById("searchBox").addEventListener("input", e => {
+          renderTable(data, e.target.value.toLowerCase());
+        });
+      } catch (err) {
+        document.getElementById("program").innerHTML = `<p style="color:red">${err.message}</p>`;
+      }
+    }
+
+    function renderTable(data, filter = '') {
+      const container = document.getElementById("program");
+      container.innerHTML = '';
+
+      data.forEach(week => {
+        const allText = JSON.stringify(week).toLowerCase();
+        if (filter && !allText.includes(filter)) return;
+
+        const weekDiv = document.createElement("div");
+        weekDiv.className = "week";
+
+        weekDiv.innerHTML = `
+          <div class="date">📅 ${week.datum}</div>
+
+          <table>
+            <thead>
+              <tr><th>Úloha</th><th>Brat</th></tr>
+            </thead>
+            <tbody>
+              ${week.program.map(p => `
+                <tr><td>${p["úloha"]}</td><td>${p.brat}</td></tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          ${week.nedela ? `
+            <div class="subtitle">Nedeľa – ${week.nedela.datum}</div>
+            <table>
+              <thead>
+                <tr><th>Úloha</th><th>Brat</th></tr>
+              </thead>
+              <tbody>
+                ${week.nedela.program.map(p => `
+                  <tr><td>${p["úloha"]}</td><td>${p.brat}</td></tr>
+                `).join('')}
+              </tbody>
+            </table>
+          ` : ''}
+        `;
+
+        container.appendChild(weekDiv);
+      });
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
+
+
 </a>  
 <nav>
   <a href="index.html">Domov</a> |
@@ -17,7 +177,7 @@
 </nav>
 <div style="height: 30px;"></div>
 </a>
-        <img src="service.jpeg" alt="Rozpis - služby" width="700">
+        <img src="service.jpeg" alt="Rozpis - služby" width="400"></right>
 
 <div id="header"></div>
 <script>
@@ -25,4 +185,5 @@
     .then(res => res.text())
     .then(data => document.getElementById("header").innerHTML = data);
 </script>
+
 
