@@ -15,6 +15,103 @@
   <a href="groups.html">Skupiny</a>
 </nav>
 <div style="height: 30px;"></div>
+
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Štúdium Strážnej veže – SNV-Stred</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fafb;
+      padding: 20px;
+      color: #111827;
+    }
+    nav a {
+      color: #1e3a8a;
+      text-decoration: none;
+      margin-right: 5px;
+    }
+    nav a:hover { text-decoration: underline; }
+
+    h2 {
+      text-align: center;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+
+    .article {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .date {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+      color: #1e3a8a;
+      margin-bottom: 10px;
+    }
+
+    .speaker {
+      font-style: italic;
+      color: #374151;
+      margin-bottom: 10px;
+    }
+
+    .text {
+      line-height: 1.6;
+    }
+
+    #searchBox {
+      width: 100%;
+      padding: 10px;
+      margin: 20px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Domov</a> |
+    <a href="zas.html">Život a služba</a> |
+    <a href="study.html"><strong>Štúdium SV</strong></a> |
+    <a href="service.html">Služby</a> |
+    <a href="meet.html">Schôdzky</a> |
+    <a href="groups.html">Skupiny</a>
+  </nav>
+
+  <h2>📖 Štúdium Strážnej veže</h2>
+  <input type="text" id="searchBox" placeholder="Zadaj tému, dátum alebo rečníka...">
+
+  <div id="articles"></div>
+
+  <script>
+    async function loadData() {
+      try {
+        const res = await fetch('datastudy.json.txt'); // <- tvoj JSON súbor
+        if (!res.ok) throw new Error("Nepodarilo sa načítať dáta.");
+        const data = await res.json();
+        renderArticles(data);
+
+        document.getElementById("searchBox").addEventListener("input", e => {
+          renderArticles(data, e.target.value.toLowerCase());
+        });
+      } catc
+
 </a>
         <img src="study2.jpeg" alt="Rozpis - Štúdium SV" width="700">
 </a>
@@ -26,4 +123,5 @@
     .then(res => res.text())
     .then(data => document.getElementById("header").innerHTML = data);
 </script>
+
 
