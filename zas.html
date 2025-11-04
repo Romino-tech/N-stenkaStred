@@ -18,6 +18,248 @@
   <a href="groups.html">Skupiny</a>
 </nav>
 <div style="height: 30px;"></div>
+
+  <!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Program zhromaždenia v týždni — SNV</title>
+  <style>
+    :root{
+      --accent: #1e3a8a;
+      --gray: #6b7280;
+      --gold: #b97c00;
+      --maroon: #701a1a;
+      --paper: #f8fafc;
+      --card: #ffffff;
+    }
+    body{
+      font-family: "Arial", "Helvetica", sans-serif;
+      background: var(--paper);
+      margin: 0;
+      padding: 30px;
+      color: #111827;
+    }
+    .container{
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header{
+      display:flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid #000;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+    }
+    header .left{
+      font-size: 14px;
+      font-weight: 700;
+    }
+    header h1{
+      font-size: 28px;
+      margin: 0;
+      text-align:center;
+      flex:1;
+    }
+    .week{
+      background: var(--card);
+      padding: 14px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .week .topline{
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .week .dateTitle{
+      font-weight:700;
+      font-size:15px;
+    }
+    .meta{
+      text-align: right;
+      font-size: 14px;
+      color: var(--gray);
+    }
+    .time-list{
+      display: grid;
+      grid-template-columns: 80px 1fr 220px;
+      gap: 6px 18px;
+      align-items: start;
+      margin-top: 8px;
+    }
+    .section-label{
+      grid-column: 1 / -1;
+      padding: 8px 12px;
+      border-radius: 4px;
+      color: #fff;
+      font-weight:700;
+      margin-top: 10px;
+    }
+    .section-label.gray{ background: #4b5563; }
+    .section-label.gold{ background: var(--gold); }
+    .section-label.maroon{ background: var(--maroon); }
+    .time{
+      color: #111827;
+      font-weight:600;
+      padding-top:6px;
+    }
+    .text{
+      padding-top:6px;
+    }
+    .role{
+      text-align: right;
+      color: #111827;
+      padding-top:6px;
+      font-weight:600;
+    }
+    .small{
+      font-size:13px;
+      color:var(--gray);
+      font-weight:400;
+    }
+    .filter{
+      margin: 12px 0 18px;
+      display:flex;
+      gap:8px;
+    }
+    .filter input{
+      flex:1;
+      padding:8px 10px;
+      border-radius:6px;
+      border:1px solid #d1d5db;
+      font-size:14px;
+    }
+    @media (max-width:700px){
+      .time-list{ grid-template-columns: 80px 1fr; }
+      .role{ grid-column: 1 / -1; text-align:left; font-size:14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="left">Spišská Nová Ves - stred</div>
+      <h1>Program zhromaždenia v týždni</h1>
+      <div style="width:120px"></div>
+    </header>
+
+    <div class="filter">
+      <input id="search" placeholder="Vyhľadaj podľa mena, témy alebo dátumu..." />
+    </div>
+
+    <div id="weeks"></div>
+  </div>
+
+  <script>
+    async function loadData(){
+      try{
+        const res = await fetch('data/zasadnutia.json');
+        if(!res.ok) throw new Error('Nepodarilo sa načítať JSON');
+        const data = await res.json();
+        renderWeeks(data);
+        document.getElementById('search').addEventListener('input', e => {
+          renderWeeks(data, e.target.value.trim().toLowerCase());
+        });
+      } catch(err){
+        document.getElementById('weeks').innerHTML = '<p style="color:red">Chyba pri načítaní dát: '+err.message+'</p>';
+      }
+    }
+
+    function renderWeeks(data, filter=''){
+      const container = document.getElementById('weeks');
+      container.innerHTML = '';
+      data.forEach(week=>{
+        // build week card
+        const w = document.createElement('div');
+        w.className = 'week';
+
+        // top line
+        const topl = document.createElement('div');
+        topl.className = 'topline';
+        const left = document.createElement('div');
+        left.className = 'dateTitle';
+        const date = new Date(week.datum);
+        const options = { year:'numeric', month:'short', day:'numeric' };
+        left.innerHTML = `${formatDate(date)} | <span class="small">${escapeHtml(week.title_line)}</span>`;
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        meta.innerHTML = `<div><strong>Predsedajúci:</strong> ${escapeHtml(week.presedajuci)}</div>
+                          <div><strong>Modlitba:</strong> ${escapeHtml(week.modlitba)}</div>`;
+        topl.appendChild(left);
+        topl.appendChild(meta);
+        w.appendChild(topl);
+
+        // sections
+        week.sections.forEach(section=>{
+          // If filter, skip entire section if none of items match
+          const secText = JSON.stringify(section).toLowerCase();
+          if(filter && !secText.includes(filter)) {
+            // But still check items individually below (so keep logic per item)
+          }
+
+          if(section.label){
+            const lbl = document.createElement('div');
+            lbl.className = 'section-label ' + (section.color==='gold' ? 'gold' : section.color==='maroon' ? 'maroon' : 'gray');
+            lbl.textContent = section.label;
+            w.appendChild(lbl);
+          }
+
+          const list = document.createElement('div');
+          list.className = 'time-list';
+
+          section.items.forEach(item=>{
+            const itemText = (item.time + ' ' + item.text + ' ' + (item.role||'')).toLowerCase();
+            if(filter && !itemText.includes(filter)) return; // skip item when filtering
+
+            const timeEl = document.createElement('div');
+            timeEl.className = 'time';
+            timeEl.textContent = item.time || '';
+            const textEl = document.createElement('div');
+            textEl.className = 'text';
+            textEl.innerHTML = escapeHtml(item.text);
+            const roleEl = document.createElement('div');
+            roleEl.className = 'role';
+            roleEl.innerHTML = escapeHtml(item.role || '');
+
+            list.appendChild(timeEl);
+            list.appendChild(textEl);
+            list.appendChild(roleEl);
+          });
+
+          // if after filtering no items, don't append empty list
+          if(list.children.length > 0) w.appendChild(list);
+        });
+
+        container.appendChild(w);
+      });
+    }
+
+    function formatDate(d){
+      try{
+        const opts = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+        return d.toLocaleDateString('sk-SK', opts);
+      } catch(e){
+        return d.toDateString();
+      }
+    }
+
+    function escapeHtml(str){
+      if(!str) return '';
+      return String(str).replace(/[&<>"']/g, s => {
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]);
+      });
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
+
 </a>
         <img src="RozpisŽAS.jpg" alt="Rozpis - Život a služba" width="700">
 
@@ -27,6 +269,7 @@
     .then(res => res.text())
     .then(data => document.getElementById("header").innerHTML = data);
 </script>
+
 
 
 
