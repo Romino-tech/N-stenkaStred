@@ -26,14 +26,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vyhľadávanie</title>
+  <title>Rozpisy SNV – Vyhľadávanie</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 40px;
       background-color: #f9fafb;
+      padding: 40px;
     }
-    input {
+    h2 {
+      color: #1e40af;
+    }
+    #searchBox {
       width: 300px;
       padding: 10px;
       font-size: 16px;
@@ -42,42 +45,55 @@
       margin-bottom: 20px;
     }
     .result {
-      margin: 10px 0;
-      padding: 10px;
       background: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      padding: 12px 16px;
+      margin: 10px 0;
+    }
+    .result a {
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <h2>Vyhľadávanie na stránke</h2>
-  <input type="text" id="search" placeholder="Zadaj hľadaný výraz...">
+  <h2>🔍 Vyhľadávanie v rozpisoch SNV</h2>
+  <input type="text" id="searchBox" placeholder="Zadaj meno, deň alebo úlohu...">
 
   <div id="results"></div>
 
   <script>
-    // Tu si vlož svoj zoznam stránok alebo textov, kde sa má vyhľadávať
+    // Sem vložíme údaje o rozpisoch alebo stránkach
     const data = [
-      { title: "Domov", link: "index.html" },
-      { title: "Život a služba", link: "zas.html" },
-      { title: "Strážna Veža", link: "study.html" },
-      { title: ">Schôdzky", link: "meet.html" }
+      { title: "Pondelok – Služba s Jánom a Petrom", text: "Ján Novák, Peter Hruška, služba od 9:00 do 11:00", link: "rozpis-pondelok.html" },
+      { title: "Utorok – Rozpis sestry Anny", text: "Anna Kováčová, mestská služba, 14:00 – 16:00", link: "rozpis-utorok.html" },
+      { title: "Streda – Zborová služba", text: "Bratia: Marek Štefán, Daniel Pavlík. Miesto: centrum SNV", link: "rozpis-streda.html" },
+      { title: "Štvrtok – Neformálna služba", text: "Eva Michalová, Roman Duda, pri parku", link: "rozpis-stvrtok.html" },
+      { title: "Kontakt – Zbor Spišská Nová Ves", text: "Informácie, spojenie, zodpovední bratia", link: "kontakt.html" }
+    ];
 
-    const searchInput = document.getElementById("search");
+    const searchInput = document.getElementById("searchBox");
     const resultsDiv = document.getElementById("results");
 
     searchInput.addEventListener("keyup", () => {
       const term = searchInput.value.toLowerCase();
-      const results = data.filter(item => item.title.toLowerCase().includes(term));
+      const results = data.filter(item =>
+        item.title.toLowerCase().includes(term) ||
+        item.text.toLowerCase().includes(term)
+      );
 
-      resultsDiv.innerHTML = results.map(r => 
-        `<div class="result"><a href="${r.link}">${r.title}</a></div>`
+      resultsDiv.innerHTML = results.map(r =>
+        `<div class="result">
+          <a href="${r.link}">${r.title}</a>
+          <p>${r.text}</p>
+        </div>`
       ).join("");
 
       if (term && results.length === 0) {
-        resultsDiv.innerHTML = "<p>Žiadne výsledky.</p>";
+        resultsDiv.innerHTML = "<p>Žiadne výsledky pre daný výraz.</p>";
       }
       if (!term) {
         resultsDiv.innerHTML = "";
@@ -86,6 +102,7 @@
   </script>
 </body>
 </html>
+
 
 </a>  
 <nav>
@@ -110,6 +127,7 @@
     <footer>
         <p>&copy; 2025 Spišská Nová Ves - stred</p>
     </footer>
+
 
 
 
