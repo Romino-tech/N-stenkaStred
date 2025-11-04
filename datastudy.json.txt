@@ -1,20 +1,50 @@
 [
   {
-    "date": "3. november 2025",
-    "title": "Jehova miluje tých, ktorí ho napodobňujú",
-    "speaker": "Brat Ján Kaščák",
-    "summary": "Článok poukazuje na to, ako môžeme prejavovať Jehovove vlastnosti v každodennom živote. Obsahuje otázky z odsekov 1–10."
+    "date": "9. november 2025",
+    "speaker": "Matej Moroz",
+    "theme": "121. Celosvetové bratstvo zachránené pred katastrofou",
+    "reference": "121"
   },
   {
-    "date": "10. november 2025",
-    "title": "Buďme jednotní v službe Jehovovi",
-    "speaker": "Brat Marek Džuris",
-    "summary": "Štúdia zdôrazňuje dôležitosť jednoty medzi zborom a staršími. Poukazuje na príklad prvej kresťanskej cirkvi."
+    "date": "16. november 2025",
+    "speaker": "Peter Boroš",
+    "theme": "106. Ničenie zeme privádza Božskú odplatu",
+    "reference": "106"
   },
   {
-    "date": "17. november 2025",
-    "title": "Ako byť štedrý v dávaní",
-    "speaker": "Brat Peter Boroš",
-    "summary": "Diskusia o duchovnej i materiálnej štedrosti a o tom, ako Jehova žehná tým, ktorí dávajú z úprimného srdca."
+    "date": "23. november 2025",
+    "speaker": "Filip Varga",
+    "theme": "60. Čo je zmyslom vášho života?",
+    "reference": "60"
+  },
+  {
+    "date": "30. november 2025",
+    "speaker": "Igor Paňák",
+    "theme": "154. Ľudské vlády – zvážené na váhach",
+    "reference": "154"
+  },
+  {
+    "date": "7. december 2025",
+    "speaker": "Jakub Hamsa",
+    "theme": "79. Koho si vyberiete za priateľa?",
+    "reference": "79"
+  },
+  {
+    "date": "14. december 2025",
+    "speaker": "Michal Výbošťok",
+    "theme": "",
+    "reference": ""
+  },
+  {
+    "date": "21. december 2025",
+    "speaker": "Grigorij Starodubcev",
+    "theme": "171. Môžete žiť v pokoji už teraz — a navždy!",
+    "reference": "171"
+  },
+  {
+    "date": "28. december 2025",
+    "speaker": "",
+    "theme": "",
+    "reference": ""
   }
 ]
