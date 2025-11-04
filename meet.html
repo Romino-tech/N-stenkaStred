@@ -1,3 +1,10 @@
+<script>
+if (sessionStorage.getItem("accessGranted") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
+
+
 <!DOCTYPE html>
 <html lang="sk">
     <head>
@@ -25,4 +32,5 @@
     .then(res => res.text())
     .then(data => document.getElementById("header").innerHTML = data);
 </script>
+
 
