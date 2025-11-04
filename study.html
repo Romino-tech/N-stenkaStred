@@ -1,17 +1,3 @@
-<script>
-if (sessionStorage.getItem("accessGranted") !== "true") {
-  window.location.href = "login.html";
-}
-</script>
-
-<!DOCTYPE html>
-<html lang="sk">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nástenka zboru SNV-Stred </SNV-Stred></title>
-    <link rel="stylesheet" href="style.css">
-
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -66,8 +52,14 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       margin-bottom: 10px;
     }
 
-    .text {
-      line-height: 1.6;
+    .watchtower {
+      background: #f3f4f6;
+      border-left: 4px solid #1e3a8a;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 15px;
+      color: #1f2937;
     }
 
     #searchBox {
@@ -77,6 +69,13 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      color: #6b7280;
+      margin-top: 40px;
+      font-size: 13px;
     }
   </style>
 </head>
@@ -90,15 +89,18 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
     <a href="groups.html">Skupiny</a>
   </nav>
 
-  <h2>📖 Štúdium Strážnej veže</h2>
+  <h2>📖 Štúdium Strážnej veže a verejné prednášky</h2>
+
   <input type="text" id="searchBox" placeholder="Zadaj tému, dátum alebo rečníka...">
 
   <div id="articles"></div>
 
+  <footer>© Zbor Spišská Nová Ves – Stred | Program zhromaždení 2025</footer>
+
   <script>
     async function loadData() {
       try {
-        const res = await fetch('datastudy.json.txt'); //
+        const res = await fetch('datastudy.json.txt');
         if (!res.ok) throw new Error("Nepodarilo sa načítať dáta.");
         const data = await res.json();
         renderArticles(data);
@@ -106,14 +108,37 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
         document.getElementById("searchBox").addEventListener("input", e => {
           renderArticles(data, e.target.value.toLowerCase());
         });
-      } catc
+      } catch (err) {
+        document.getElementById("articles").innerHTML = `<p style="color:red">${err.message}</p>`;
+      }
+    }
 
-        <div id="header"></div>
-<script>
-  fetch("header.html")
-    .then(res => res.text())
-    .then(data => document.getElementById("header").innerHTML = data);
-</script>
+    function renderArticles(data, filter = '') {
+      const container = document.getElementById("articles");
+      container.innerHTML = '';
+
+      data.forEach(a => {
+        const text = (a.title + a.speaker + a.theme + a.date + a.watchtowerStudy).toLowerCase();
+        if (filter && !text.includes(filter)) return;
+
+        const div = document.createElement("div");
+        div.className = "article";
+        div.innerHTML = `
+          <div class="date">📅 ${a.date}</div>
+          <div class="title">${a.theme ? a.theme : "(bez prednášky)"}</div>
+          <div class="speaker">${a.speaker ? "Rečník: " + a.speaker : ""}</div>
+          ${a.reference ? `<div>Číslo prednášky: ${a.reference}</div>` : ""}
+          ${a.watchtowerStudy ? `<div class="watchtower">📖 Rozbor Strážnej veže: ${a.watchtowerStudy}</div>` : ""}
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
+
 
 
 
