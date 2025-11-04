@@ -115,7 +115,7 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <script>
     async function loadJSON() {
       try {
-        const res = await fetch('./meet.json', { cache: 'no-store' });
+        const res = await fetch('./meet.json.txt', { cache: 'no-store' });
         if (!res.ok) throw new Error('JSON nenájdený');
         const data = await res.json();
         document.getElementById('jsonStatus').textContent = 'načítaný';
@@ -192,3 +192,4 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   </script>
 </body>
 </html>
+
