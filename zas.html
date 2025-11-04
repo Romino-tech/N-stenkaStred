@@ -159,7 +159,7 @@
     async function loadData(){
       try{
         const res = await fetch('datazasadnutia.json');
-        if(!res.ok) throw new Error('Nepodarilo sa načítať JSON');
+         if(!res.ok) throw new Error('Nepodarilo sa načítať JSON');
         const data = await res.json();
         renderWeeks(data);
         document.getElementById('search').addEventListener('input', e => {
@@ -269,6 +269,7 @@
     .then(res => res.text())
     .then(data => document.getElementById("header").innerHTML = data);
 </script>
+
 
 
 
