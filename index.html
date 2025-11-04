@@ -21,6 +21,71 @@
 </head>
     <main>
         <p>Toto je naša interná nástenka zboru Spišská Nová Ves - stred 😊</p>
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vyhľadávanie</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f9fafb;
+    }
+    input {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .result {
+      margin: 10px 0;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Vyhľadávanie na stránke</h2>
+  <input type="text" id="search" placeholder="Zadaj hľadaný výraz...">
+
+  <div id="results"></div>
+
+  <script>
+    // Tu si vlož svoj zoznam stránok alebo textov, kde sa má vyhľadávať
+    const data = [
+      { title: "Domov", link: "index.html" },
+      { title: "Život a služba", link: "zas.html" },
+      { title: "Strážna Veža", link: "study.html" },
+      { title: ">Schôdzky", link: "meet.html" }
+
+    const searchInput = document.getElementById("search");
+    const resultsDiv = document.getElementById("results");
+
+    searchInput.addEventListener("keyup", () => {
+      const term = searchInput.value.toLowerCase();
+      const results = data.filter(item => item.title.toLowerCase().includes(term));
+
+      resultsDiv.innerHTML = results.map(r => 
+        `<div class="result"><a href="${r.link}">${r.title}</a></div>`
+      ).join("");
+
+      if (term && results.length === 0) {
+        resultsDiv.innerHTML = "<p>Žiadne výsledky.</p>";
+      }
+      if (!term) {
+        resultsDiv.innerHTML = "";
+      }
+    });
+  </script>
+</body>
+</html>
 
 </a>  
 <nav>
@@ -45,6 +110,7 @@
     <footer>
         <p>&copy; 2025 Spišská Nová Ves - stred</p>
     </footer>
+
 
 
 
