@@ -1,10 +1,9 @@
 <script>
-  const heslo = prompt("Zadaj prístupové heslo:");
-  if (heslo !== "12345") {
-    alert("Nesprávne heslo!");
-    window.location.href = "https://www.rozpisysnv.online"; // alebo iná stránka
-  }
+if (sessionStorage.getItem("accessGranted") !== "true") {
+  window.location.href = "login.html";
+}
 </script>
+
 
 <!DOCTYPE html>
 <html lang="sk">
@@ -127,6 +126,7 @@ searchInput.addEventListener("input", () => {
     <footer>
         <p>&copy; 2025 Spišská Nová Ves - stred</p>
     </footer>
+
 
 
 
