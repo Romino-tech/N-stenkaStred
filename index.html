@@ -74,45 +74,47 @@
 </head>
 <body>
 
-  <h2>🔍 Vyhľadávanie v rozpisoch SNV</h2>
-<input type="text" id="searchBox" placeholder="Zadaj meno, deň alebo úlohu...">
-
+ <h2>🔍 Vyhľadávanie na stránke SNV-Stred</h2>
+<input type="text" id="searchBox" placeholder="Zadaj meno, deň alebo tému..." style="width: 100%; padding: 10px; font-size: 16px; margin-bottom: 20px;">
 <div id="results"></div>
 
 <script>
-  const searchInput = document.getElementById("searchBox");
-  const resultsDiv = document.getElementById("results");
+// Tu vytvoríme „index“ stránok, v ktorých sa má vyhľadávať
+const pages = [
+  { title: "Rozpis zhromaždení", text: "Program, predsedajúci, modlitby, témy, rečníci", link: "zas.html" },
+  { title: "Rozpis služieb", text: "Usporiadatelia, mikrofóny, audio, zoom, technické služby", link: "service.html" },
+  { title: "Štúdium Strážnej veže", text: "Články, otázky a odpovede na týždeň", link: "study.html" },
+  { title: "Schôdzky starších a pomocníkov", text: "Zborové schôdzky, úlohy, skupiny", link: "meet.html" },
+  { title: "Skupiny na službu", text: "Rozdelenie kazateľov podľa oblastí, vedúci skupín", link: "groups.html" }
+];
 
-  searchInput.addEventListener("input", () => {
-    const term = searchInput.value.toLowerCase();
-    const allItems = document.querySelectorAll("table, .week, .rozpis, .result-item"); 
-    // ↑ sem vlož názvy elementov, kde má hľadať – napr. všetky <table> alebo <div class="week">
+const searchInput = document.getElementById("searchBox");
+const resultsDiv = document.getElementById("results");
 
-    let matches = [];
+searchInput.addEventListener("input", () => {
+  const term = searchInput.value.toLowerCase().trim();
+  const results = pages.filter(item =>
+    item.title.toLowerCase().includes(term) ||
+    item.text.toLowerCase().includes(term)
+  );
 
-    allItems.forEach(el => {
-      const text = el.textContent.toLowerCase();
-      if (text.includes(term) && term.length > 1) {
-        matches.push(el.outerHTML);
-      }
-    });
+  if (!term) {
+    resultsDiv.innerHTML = "";
+    return;
+  }
 
-    if (term === "") {
-      resultsDiv.innerHTML = "";
-      return;
-    }
-
-    if (matches.length > 0) {
-      resultsDiv.innerHTML = matches
-        .map(html => `<div class="found">${html}</div>`)
-        .join("<hr>");
-    } else {
-      resultsDiv.innerHTML = "<p>Žiadne výsledky pre daný výraz.</p>";
-    }
-  });
+  if (results.length > 0) {
+    resultsDiv.innerHTML = results.map(r => `
+      <div style="padding:10px; background:#f9fafb; margin-bottom:10px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+        <a href="${r.link}" style="font-weight:bold; color:#1e3a8a; text-decoration:none;">${r.title}</a>
+        <p style="margin:5px 0 0;">${r.text}</p>
+      </div>
+    `).join("");
+  } else {
+    resultsDiv.innerHTML = "<p>Žiadne výsledky pre daný výraz.</p>";
+  }
+});
 </script>
-
-
 
         
     <a href="https://www.jw.org/sk" target="_blank" class="button">
@@ -125,6 +127,7 @@
     <footer>
         <p>&copy; 2025 Spišská Nová Ves - stred</p>
     </footer>
+
 
 
 
