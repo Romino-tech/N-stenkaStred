@@ -1,0 +1,93 @@
+[
+  {
+    "datum": "2025-11-06",
+    "title_line": "TÝŽDENNÉ ČÍTANIE BIBLIE – Šal. Pieseň 1, 2",
+    "presedajuci": "Výboštok Michal",
+    "modlitba": "Dzuřiš Marek",
+    "sections": [
+      {
+        "label": "",
+        "items": [
+          { "time": "18.00", "text": "Pieseň č. 132", "role": "" },
+          { "time": "", "text": "Úvodné slová (1 min)", "role": "" }
+        ]
+      },
+      {
+        "label": "POKLADY Z BOŽIEHO SLOVA",
+        "color": "gray",
+        "items": [
+          { "time": "18.06", "text": "1. príbeh nezlomnej lásky (10 min)", "role": "Kaščák Ján" },
+          { "time": "18.16", "text": "2. Hľadáme duchovné poklady (10 min)", "role": "Chlebovec Roman" },
+          { "time": "18.26", "text": "3. Čítanie Biblie (4 min)", "role": "Shevchuk Andrij" }
+        ]
+      },
+      {
+        "label": "ZLEPŠUJME SA V SLUŽBE",
+        "color": "gold",
+        "items": [
+          { "time": "18.31", "text": "4. Keď začínaš rozhovor (3 min)", "role": "Merčáková D.ml./Midlíková D." },
+          { "time": "18.36", "text": "5. Na opätovných návštevách (4 min)", "role": "Popadičová E./Turčaniková M." },
+          { "time": "18.40", "text": "6. Na biblickom kurze (5 min)", "role": "Turčaniková Da./Oprendeková E." }
+        ]
+      },
+      {
+        "label": "ŽIVOT KRESŤANA",
+        "color": "maroon",
+        "items": [
+          { "time": "18.47", "text": "Pieseň č. 46", "role": "" },
+          { "time": "18.52", "text": "7. „Štedrý človek bude požehnaný“? (15 min)", "role": "Boroš Peter" },
+          { "time": "19.07", "text": "8. Zborové štúdium Biblie (30 min)", "role": "Dzuřiš Marek/Vašák Jozef" },
+          { "time": "19.37", "text": "Záverečné slová (3 min)", "role": "" },
+          { "time": "19.40", "text": "Pieseň č. 137", "role": "" }
+        ],
+        "closing_prayer": "Výboštok Michal"
+      }
+    ]
+  },
+  {
+    "datum": "2025-11-13",
+    "title_line": "TÝŽDENNÉ ČÍTANIE BIBLIE – Šal. pieseň 3-5",
+    "presedajuci": "Kaščák Ján",
+    "modlitba": "Boroš Peter",
+    "sections": [
+      {
+        "label": "",
+        "items": [
+          { "time": "18.00", "text": "Pieseň č. 31", "role": "" },
+          { "time": "", "text": "Úvodné slová (1 min)", "role": "" }
+        ]
+      },
+      {
+        "label": "POKLADY Z BOŽIEHO SLOVA",
+        "color": "gray",
+        "items": [
+          { "time": "18.06", "text": "1. Dôležitosť vnútornej krásy (10 min)", "role": "Chlebovec Roman" },
+          { "time": "18.16", "text": "2. Hľadáme duchovné poklady (10 min)", "role": "Dzuřiš Marek" },
+          { "time": "18.26", "text": "3. Čítanie Biblie (4 min)", "role": "Popadič Rastislav" }
+        ]
+      },
+      {
+        "label": "ZLEPŠUJME SA V SLUŽBE",
+        "color": "gold",
+        "items": [
+          { "time": "18.31", "text": "4. Keď začínaš rozhovor (2 min)", "role": "Schiserová M./Merčáková D.st" },
+          { "time": "18.34", "text": "5. Keď začínaš rozhovor (2 min)", "role": "Barbušová V./Závacká S." },
+          { "time": "18.37", "text": "6. Prejav (2 min)", "role": "Midlík J." }
+        ]
+      },
+      {
+        "label": "ŽIVOT KRESŤANA",
+        "color": "maroon",
+        "items": [
+          { "time": "18.47", "text": "Pieseň č. 36", "role": "" },
+          { "time": "18.52", "text": "7. Manželstvo iba v Pánovi (8 min)", "role": "Výboštok Michal" },
+          { "time": "19.00", "text": "8. Budeš dobrým manželským partnerom? (7 min)", "role": "Boroš Peter" },
+          { "time": "19.07", "text": "9. Zborové štúdium Biblie (30 min)", "role": "Vašák Jozef/Výboštok Michal" },
+          { "time": "19.37", "text": "Záverečné slová (3 min)", "role": "" },
+          { "time": "19.40", "text": "Pieseň č. 44", "role": "" }
+        ],
+        "closing_prayer": "Kaščák Ján"
+      }
+    ]
+  }
+]
