@@ -75,47 +75,43 @@
 <body>
 
   <h2>🔍 Vyhľadávanie v rozpisoch SNV</h2>
-  <input type="text" id="searchBox" placeholder="Zadaj meno, deň alebo úlohu...">
+<input type="text" id="searchBox" placeholder="Zadaj meno, deň alebo úlohu...">
 
-  <div id="results"></div>
+<div id="results"></div>
 
-  <script>
-    // Sem vložíme údaje o rozpisoch alebo stránkach
-    const data = [
-      { title: "Pondelok – Služba s Jánom a Petrom", text: "Ján Novák, Peter Hruška, služba od 9:00 do 11:00", link: "rozpis-pondelok.html" },
-      { title: "Utorok – Rozpis sestry Anny", text: "Anna Kováčová, mestská služba, 14:00 – 16:00", link: "rozpis-utorok.html" },
-      { title: "Streda – Zborová služba", text: "Bratia: Marek Štefán, Daniel Pavlík. Miesto: centrum SNV", link: "rozpis-streda.html" },
-      { title: "Štvrtok – Neformálna služba", text: "Eva Michalová, Roman Duda, pri parku", link: "rozpis-stvrtok.html" },
-      { title: "Kontakt – Zbor Spišská Nová Ves", text: "Informácie, spojenie, zodpovední bratia", link: "kontakt.html" }
-    ];
+<script>
+  const searchInput = document.getElementById("searchBox");
+  const resultsDiv = document.getElementById("results");
 
-    const searchInput = document.getElementById("searchBox");
-    const resultsDiv = document.getElementById("results");
+  searchInput.addEventListener("input", () => {
+    const term = searchInput.value.toLowerCase();
+    const allItems = document.querySelectorAll("table, .week, .rozpis, .result-item"); 
+    // ↑ sem vlož názvy elementov, kde má hľadať – napr. všetky <table> alebo <div class="week">
 
-    searchInput.addEventListener("keyup", () => {
-      const term = searchInput.value.toLowerCase();
-      const results = data.filter(item =>
-        item.title.toLowerCase().includes(term) ||
-        item.text.toLowerCase().includes(term)
-      );
+    let matches = [];
 
-      resultsDiv.innerHTML = results.map(r =>
-        `<div class="result">
-          <a href="${r.link}">${r.title}</a>
-          <p>${r.text}</p>
-        </div>`
-      ).join("");
-
-      if (term && results.length === 0) {
-        resultsDiv.innerHTML = "<p>Žiadne výsledky pre daný výraz.</p>";
-      }
-      if (!term) {
-        resultsDiv.innerHTML = "";
+    allItems.forEach(el => {
+      const text = el.textContent.toLowerCase();
+      if (text.includes(term) && term.length > 1) {
+        matches.push(el.outerHTML);
       }
     });
-  </script>
-</body>
-</html>
+
+    if (term === "") {
+      resultsDiv.innerHTML = "";
+      return;
+    }
+
+    if (matches.length > 0) {
+      resultsDiv.innerHTML = matches
+        .map(html => `<div class="found">${html}</div>`)
+        .join("<hr>");
+    } else {
+      resultsDiv.innerHTML = "<p>Žiadne výsledky pre daný výraz.</p>";
+    }
+  });
+</script>
+
 
 
         
@@ -129,6 +125,7 @@
     <footer>
         <p>&copy; 2025 Spišská Nová Ves - stred</p>
     </footer>
+
 
 
 
