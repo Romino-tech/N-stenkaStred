@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nástenka zboru SNV-Stred </SNV-Stred></title>
     <link rel="stylesheet" href="style.css">
-</a>  
-<nav>
-  <a href="index.html">Domov</a> |
-  <a href="zas.html">Život a služba</a> |
-  <a href="study.html">Štúdium SV</a> |
-  <a href="service.html">Služby </a> |
-  <a href="meet.html">Schôdzky</a> |
-  <a href="groups.html">Skupiny</a>
-</nav>
-<div style="height: 30px;"></div>
 
 <!DOCTYPE html>
 <html lang="sk">
@@ -102,7 +92,7 @@
   <script>
     async function loadData() {
       try {
-        const res = await fetch('datastudy.json.txt'); // <- tvoj JSON súbor
+        const res = await fetch('datastudy.json.txt'); //
         if (!res.ok) throw new Error("Nepodarilo sa načítať dáta.");
         const data = await res.json();
         renderArticles(data);
@@ -118,6 +108,7 @@
     .then(res => res.text())
     .then(data => document.getElementById("header").innerHTML = data);
 </script>
+
 
 
 
