@@ -98,7 +98,7 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <script>
     async function loadData() {
       try {
-        const res = await fetch('datastudy.json.txt'); //
+        const res = await fetch('datastudy.json'); //
         if (!res.ok) throw new Error("Nepodarilo sa načítať dáta.");
         const data = await res.json();
         renderArticles(data);
@@ -114,6 +114,7 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
     .then(res => res.text())
     .then(data => document.getElementById("header").innerHTML = data);
 </script>
+
 
 
 
