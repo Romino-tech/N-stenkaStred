@@ -1,39 +1,156 @@
-{
-  "meta": {
-    "source": "rozpisysnv.online/meet.html",
-    "generated_at": "2025-11-04T22:00:00+01:00",
-    "version": "1.0"
+[
+  {
+    "date": "1. november 2025",
+    "day": "Sobota",
+    "time": "09:30",
+    "group": "ZBOROVÁ",
+    "place": "sála Kráľovstva - Dzuriš Marek"
   },
-  "events": [
-    {
-      "id": "evt-2025-11-09-moroz",
-      "title": "Skupinová schôdzka pred službou",
-      "date": "2025-11-10",
-      "time": "16:30",
-      "organizer": "Michal Výbošťok",
-      "location": null,
-      "description": "",
-      "tags": []
-    },
-    {
-      "id": "evt-2025-11-16-boros",
-      "title": "Skupinová schôdzka pred službou",
-      "date": "2025-11-11",
-      "time": "16:30",
-      "organizer": "Marek Dzuriš",
-      "location": null,
-      "description": "",
-      "tags": []
-    },
-    {
-      "id": "evt-2025-11-23-varga",
-      "title": "Zborová schôdzka pred službou",
-      "date": "2025-11-12",
-      "time": "9:30",
-      "organizer": "Ján Kaščák",
-      "location": null,
-      "description": "",
-      "tags": []
-    }
-  ]
-}
+  {
+    "date": "2. november 2025",
+    "day": "Nedeľa",
+    "time": "12:00",
+    "group": "č.3",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "3. november 2025",
+    "day": "Pondelok",
+    "time": "16:30",
+    "group": "č.1",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "4. november 2025",
+    "day": "Utorok",
+    "time": "16:30",
+    "group": "č.2",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "5. november 2025",
+    "day": "Streda",
+    "time": "09:30",
+    "group": "ZBOROVÁ",
+    "place": "sála Kráľovstva - Kaščák Ján"
+  },
+  {
+    "date": "8. november 2025",
+    "day": "Sobota",
+    "time": "09:30",
+    "group": "ZBOROVÁ",
+    "place": "sála Kráľovstva - Boroš Peter"
+  },
+  {
+    "date": "9. november 2025",
+    "day": "Nedeľa",
+    "time": "12:00",
+    "group": "č.3",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "10. november 2025",
+    "day": "Pondelok",
+    "time": "16:30",
+    "group": "č.1",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "11. november 2025",
+    "day": "Utorok",
+    "time": "16:30",
+    "group": "č.2",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "12. november 2025",
+    "day": "Streda",
+    "time": "09:30",
+    "group": "ZBOROVÁ",
+    "place": "sála Kráľovstva - Dzuriš Marek"
+  },
+  {
+    "date": "15. november 2025",
+    "day": "Sobota",
+    "time": "09:30",
+    "group": "ZBOROVÁ",
+    "place": "sála Kráľovstva - Výbošťok Michal"
+  },
+  {
+    "date": "16. november 2025",
+    "day": "Nedeľa",
+    "time": "12:00",
+    "group": "č.3",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "17. november 2025",
+    "day": "Pondelok",
+    "time": "16:30",
+    "group": "č.1",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "18. november 2025",
+    "day": "Utorok",
+    "time": "16:30",
+    "group": "č.2",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "19. november 2025",
+    "day": "Streda",
+    "time": "09:30",
+    "group": "ZBOROVÁ",
+    "place": "sála Kráľovstva - Kaščák Ján"
+  },
+  {
+    "date": "22. november 2025",
+    "day": "Sobota",
+    "time": "09:30",
+    "group": "ZBOROVÁ",
+    "place": "sála Kráľovstva - Vašák Jozef"
+  },
+  {
+    "date": "23. november 2025",
+    "day": "Nedeľa",
+    "time": "12:00",
+    "group": "č.3",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "24. november 2025",
+    "day": "Pondelok",
+    "time": "16:30",
+    "group": "č.1",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "25. november 2025",
+    "day": "Utorok",
+    "time": "16:30",
+    "group": "č.2",
+    "place": "sála Kráľovstva"
+  },
+  {
+    "date": "26. november 2025",
+    "day": "Streda",
+    "time": "09:30",
+    "group": "ZBOROVÁ",
+    "place": "sála Kráľovstva - Kaščák Ján"
+  },
+  {
+    "date": "29. november 2025",
+    "day": "Sobota",
+    "time": "09:30",
+    "group": "ZBOROVÁ",
+    "place": "KROMPACHY - Chlebovec Roman"
+  },
+  {
+    "date": "30. november 2025",
+    "day": "Nedeľa",
+    "time": "12:00",
+    "group": "č.3",
+    "place": "sála Kráľovstva"
+  }
+]
