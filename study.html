@@ -3,6 +3,10 @@
   if (sessionStorage.getItem("accessGranted") !== "true") {
     window.location.href = "login.html";
   }
+<script>
+if (sessionStorage.getItem("accessGranted") !== "true") {
+  window.location.href = "login.html";
+}
 </script>
 
 <!DOCTYPE html>
@@ -11,6 +15,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Štúdium Strážnej veže – SNV-Stred</title>
+  <link rel="stylesheet" href="style.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -24,30 +29,36 @@
       margin-right: 5px;
     }
     nav a:hover { text-decoration: underline; }
+
     h2 {
       text-align: center;
       color: #1e3a8a;
       margin-bottom: 20px;
     }
-    .controls, .admin-form {
+
+    .controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       margin-bottom: 15px;
-      gap: 10px;
     }
-    #searchBox, .admin-form input {
+
+    #searchBox {
       flex: 1;
-      min-width: 180px;
+      min-width: 250px;
       padding: 10px;
+      margin: 5px;
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 14px;
     }
+
     label {
+      margin: 5px;
       font-size: 14px;
     }
+
     .article {
       background: #fff;
       border-radius: 10px;
@@ -55,22 +66,26 @@
       padding: 20px;
       margin-bottom: 20px;
     }
+
     .date {
       font-size: 14px;
       color: #6b7280;
       margin-bottom: 6px;
     }
+
     .title {
       font-weight: bold;
       font-size: 18px;
       color: #1e3a8a;
       margin-bottom: 10px;
     }
+
     .speaker {
       font-style: italic;
       color: #374151;
       margin-bottom: 10px;
     }
+
     .watchtower {
       background: #f3f4f6;
       border-left: 4px solid #1e3a8a;
@@ -80,17 +95,7 @@
       font-size: 15px;
       color: #1f2937;
     }
-    button {
-      background-color: #1e3a8a;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #3749b3;
-    }
+
     footer {
       text-align: center;
       color: #6b7280;
@@ -118,15 +123,6 @@
 
   <div id="articles"></div>
 
-  <h3>➕ Pridať nový záznam (lokálne)</h3>
-  <form class="admin-form" id="addForm">
-    <input type="date" id="newDate" required>
-    <input type="text" id="newTitle" placeholder="Téma" required>
-    <input type="text" id="newSpeaker" placeholder="Rečník" required>
-    <input type="text" id="newWatchtower" placeholder="Článok / poznámka" required>
-    <button type="submit">Pridať</button>
-  </form>
-
   <footer>
     © 2025 Zbor SNV-Stred – všetky práva vyhradené
   </footer>
@@ -136,7 +132,7 @@
 
     async function loadData() {
       try {
-        const response = await fetch("datastudy.json.txt");
+        const response = await fetch("study.json.txt");
         const data = await response.json();
         studyData = data;
         renderData();
@@ -154,9 +150,9 @@
 
       const filtered = studyData.filter(item => {
         const match =
-          item.title.toLowerCase().includes(search) ||
+          item.theme.toLowerCase().includes(search) ||
           item.speaker.toLowerCase().includes(search) ||
-          item.date.includes(search);
+          item.date.toLowerCase().includes(search);
         const future = !futureOnly || new Date(item.date) >= now;
         return match && future;
       });
@@ -164,28 +160,15 @@
       container.innerHTML = filtered.map(item => `
         <div class="article">
           <div class="date">${item.date}</div>
-          <div class="title">${item.title}</div>
-          <div class="speaker">Rečník: ${item.speaker}</div>
-          <div class="watchtower">${item.watchtower}</div>
+          <div class="title">${item.theme || "—"}</div>
+          <div class="speaker">${item.speaker ? "Rečník: " + item.speaker : ""}</div>
+          <div class="watchtower">${item.watchtowerStudy}</div>
         </div>
       `).join('') || "<p>Žiadne výsledky.</p>";
     }
 
     document.getElementById("searchBox").addEventListener("input", renderData);
     document.getElementById("futureOnly").addEventListener("change", renderData);
-
-    document.getElementById("addForm").addEventListener("submit", e => {
-      e.preventDefault();
-      const newItem = {
-        date: document.getElementById("newDate").value,
-        title: document.getElementById("newTitle").value,
-        speaker: document.getElementById("newSpeaker").value,
-        watchtower: document.getElementById("newWatchtower").value
-      };
-      studyData.push(newItem);
-      renderData();
-      e.target.reset();
-    });
 
     loadData();
   </script>
