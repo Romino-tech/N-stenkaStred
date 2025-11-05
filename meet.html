@@ -3,223 +3,105 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   window.location.href = "login.html";
 }
 </script>
-
 <!DOCTYPE html>
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nástenka zboru SNV-Stred – Služby</title>
-  <link rel="stylesheet" href="style.css">  
-  <div style="height: 15px;"></div>
-
-  
-  
-    </head>
-<body>
-  <div class="container">
-  <nav>
-    <a href="index.html">Domov</a> |
-    <a href="zas.html">Život a služba</a> |
-    <a href="study.html">Štúdium SV</a> |
-    <a href="service.html"><strong>Služby</strong></a> |
-    <a href="meet.html">Schôdzky</a> |
-    <a href="groups.html">Skupiny</a>
-  </nav>
-   <link rel="stylesheet" href="style.css">
-    <div style="height: 15px;"></div>
-  
-
-<!doctype html>
-<html lang="sk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rozpis schôdzok — prehľad</title>
-  <link rel="stylesheet" href="style.css">
-
-
+  <title>Schôdzky – Spišská Nová Ves</title>
   <style>
     body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-      padding: 20px;
-      background: #f6f7fb;
-      color: #111;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
+      font-family: Arial, sans-serif;
+      background-color: #f3f7f7;
+      color: #222;
+      text-align: center;
+      margin: 0;
+      padding: 0;
     }
     h1 {
+      background-color: #009999;
+      color: white;
+      padding: 20px;
       margin: 0;
-      font-size: 1.5rem;
     }
-    .controls {
-      display: flex;
-      gap: 8px;
-    }
-    input[type="date"], button {
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 0.95rem;
-    }
-    button {
-      cursor: pointer;
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 95%;
       background: white;
-      transition: 0.2s;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    button:hover {
-      background: #f0f0f0;
+    th {
+      background-color: #009999;
+      color: white;
+      padding: 10px;
     }
-    .card {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
     }
-    .event {
-      border-bottom: 1px solid #eee;
-      padding: 12px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
     }
-    .event:last-child {
-      border-bottom: none;
+    .group-ZBOROVÁ {
+      background-color: #00b050;
+      color: white;
+      font-weight: bold;
     }
-    .event-title {
-      font-weight: 600;
-      font-size: 1.05rem;
-      margin-bottom: 4px;
+    .group-č1 {
+      background-color: #00b0f0;
+      color: white;
+      font-weight: bold;
     }
-    .meta {
-      color: #666;
-      font-size: 0.9rem;
+    .group-č2 {
+      background-color: #92d050;
+      color: white;
+      font-weight: bold;
     }
-    .empty {
-      text-align: center;
-      color: #777;
-      padding: 18px;
-    }
-    footer {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 0.8rem;
-      color: #777;
+    .group-č3 {
+      background-color: #ffc000;
+      color: white;
+      font-weight: bold;
     }
   </style>
-  
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div>
-        <h3>Prehľad schôdzok</h1>
-        <div class="meta" id="sourceMeta">
-        </div>
-      </div>
-      <div class="controls">
-        <input id="filterDate" type="date" />
-      </div>
-    </header>
-
-    <div class="card">
-      <div id="eventsList"></div>
-      <div id="empty" class="empty" style="display:none">Žiadne udalosti</div>
-    </div>
-
-    <footer>© 2025 rozpisysnv.online — zobrazenie kalendára schôdzok</footer>
-  </div>
+  <h1>Schôdzky pred zvestovateľskou službou – November 2025</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Dátum</th>
+        <th>Deň</th>
+        <th>Čas</th>
+        <th>Skupina</th>
+        <th>Miesto</th>
+      </tr>
+    </thead>
+    <tbody id="meetings"></tbody>
+  </table>
 
   <script>
-    async function loadJSON() {
-      try {
-        const res = await fetch('./meet.json.txt',) 
-        if (!res.ok) throw new Error('JSON nenájdený');
-        const data = await res.json();
-        document.getElementById('jsonStatus').textContent = 'načítaný';
-        return data;
-      } catch (err) {
-        console.warn(err);
-        document.getElementById('jsonStatus').textContent = 'chyba načítania';
-        return null;
-      }
-    }
+    async function loadMeetings() {
+      const response = await fetch("meet.json");
+      const data = await response.json();
 
-    function renderEvents(data, filterDate) {
-      const list = document.getElementById('eventsList');
-      const empty = document.getElementById('empty');
-      list.innerHTML = '';
-      if (!data || !data.events || data.events.length === 0) {
-        empty.style.display = 'block';
-        return;
-      }
-      const filtered = filterDate
-        ? data.events.filter(e => e.date === filterDate)
-        : data.events;
-      if (filtered.length === 0) {
-        empty.style.display = 'block';
-        return;
-      }
-      empty.style.display = 'none';
-      filtered.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
-      for (const e of filtered) {
-        const div = document.createElement('div');
-        div.className = 'event';
-        div.innerHTML = `
-          <div>
-            <div class="event-title">${escapeHtml(e.title || 'Bez názvu')}</div>
-            <div class="meta">
-              ${e.date || ''}
-              ${e.time ? ' • ' + e.time : ''}
-              ${e.organizer ? ' • ' + escapeHtml(e.organizer) : ''}
-            </div>
-          </div>
+      const tbody = document.getElementById("meetings");
+      data.forEach(item => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${item.date}</td>
+          <td>${item.day}</td>
+          <td>${item.time}</td>
+          <td class="group-${item.group.replace('.', '')}">${item.group}</td>
+          <td>${item.place}</td>
         `;
-        list.appendChild(div);
-      }
-    }
-
-    function escapeHtml(s) {
-      if (!s) return '';
-      return s.replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
-    }
-
-    async function main() {
-      const data = await loadJSON();
-      renderEvents(data, null);
-      document.getElementById('filterDate').addEventListener('change', ev => {
-        renderEvents(data, ev.target.value || null);
-      });
-      document.getElementById('btnClearFilter').addEventListener('click', () => {
-        document.getElementById('filterDate').value = '';
-        renderEvents(data, null);
-      });
-      document.getElementById('btnExportJson').addEventListener('click', () => {
-        if (!data) return alert('Nie je čo exportovať.');
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        URL.revokeObjectURL(url);
+        tbody.appendChild(tr);
       });
     }
-
-    main();
+    loadMeetings();
   </script>
 </body>
 </html>
-
-
 
 
 
