@@ -68,7 +68,7 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
 
   <script>
-    fetch('service.json.txt')
+    fetch('datasluzby.json.txt')
       .then(res => res.json())
       .then(data => {
         const div = document.getElementById('content');
@@ -94,5 +94,6 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   </script>
 </body>
 </html>
+
 
 
