@@ -29,24 +29,23 @@
       color: #1e3a8a;
       margin-bottom: 20px;
     }
-    .controls {
+    .controls, .admin-form {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       margin-bottom: 15px;
+      gap: 10px;
     }
-    #searchBox {
+    #searchBox, .admin-form input {
       flex: 1;
-      min-width: 250px;
+      min-width: 180px;
       padding: 10px;
-      margin: 5px;
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 14px;
     }
     label {
-      margin: 5px;
       font-size: 14px;
     }
     .article {
@@ -81,6 +80,17 @@
       font-size: 15px;
       color: #1f2937;
     }
+    button {
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3749b3;
+    }
     footer {
       text-align: center;
       color: #6b7280;
@@ -108,61 +118,76 @@
 
   <div id="articles"></div>
 
+  <h3>➕ Pridať nový záznam (lokálne)</h3>
+  <form class="admin-form" id="addForm">
+    <input type="date" id="newDate" required>
+    <input type="text" id="newTitle" placeholder="Téma" required>
+    <input type="text" id="newSpeaker" placeholder="Rečník" required>
+    <input type="text" id="newWatchtower" placeholder="Článok / poznámka" required>
+    <button type="submit">Pridať</button>
+  </form>
+
   <footer>
     © 2025 Zbor SNV-Stred – všetky práva vyhradené
   </footer>
 
   <script>
+    let studyData = [];
+
     async function loadData() {
       try {
         const response = await fetch("datastudy.json.txt");
         const data = await response.json();
-        renderData(data);
+        studyData = data;
+        renderData();
       } catch (e) {
         document.getElementById("articles").innerHTML =
           "<p style='color:red;'>Nepodarilo sa načítať dáta.</p>";
       }
     }
 
-    function renderData(data) {
+    function renderData() {
       const container = document.getElementById("articles");
-      const searchBox = document.getElementById("searchBox");
-      const futureOnly = document.getElementById("futureOnly");
+      const search = document.getElementById("searchBox").value.toLowerCase();
+      const futureOnly = document.getElementById("futureOnly").checked;
+      const now = new Date();
 
-      function update() {
-        const search = searchBox.value.toLowerCase();
-        const now = new Date();
+      const filtered = studyData.filter(item => {
+        const match =
+          item.title.toLowerCase().includes(search) ||
+          item.speaker.toLowerCase().includes(search) ||
+          item.date.includes(search);
+        const future = !futureOnly || new Date(item.date) >= now;
+        return match && future;
+      });
 
-        const filtered = data.filter(item => {
-          const match = (
-            item.title.toLowerCase().includes(search) ||
-            item.speaker.toLowerCase().includes(search) ||
-            item.date.includes(search)
-          );
-          const future = !futureOnly.checked || new Date(item.date) >= now;
-          return match && future;
-        });
-
-        container.innerHTML = filtered.map(item => `
-          <div class="article">
-            <div class="date">${item.date}</div>
-            <div class="title">${item.title}</div>
-            <div class="speaker">Rečník: ${item.speaker}</div>
-            <div class="watchtower">${item.watchtower}</div>
-          </div>
-        `).join('') || "<p>Žiadne výsledky.</p>";
-      }
-
-      searchBox.addEventListener("input", update);
-      futureOnly.addEventListener("change", update);
-      update();
+      container.innerHTML = filtered.map(item => `
+        <div class="article">
+          <div class="date">${item.date}</div>
+          <div class="title">${item.title}</div>
+          <div class="speaker">Rečník: ${item.speaker}</div>
+          <div class="watchtower">${item.watchtower}</div>
+        </div>
+      `).join('') || "<p>Žiadne výsledky.</p>";
     }
+
+    document.getElementById("searchBox").addEventListener("input", renderData);
+    document.getElementById("futureOnly").addEventListener("change", renderData);
+
+    document.getElementById("addForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const newItem = {
+        date: document.getElementById("newDate").value,
+        title: document.getElementById("newTitle").value,
+        speaker: document.getElementById("newSpeaker").value,
+        watchtower: document.getElementById("newWatchtower").value
+      };
+      studyData.push(newItem);
+      renderData();
+      e.target.reset();
+    });
 
     loadData();
   </script>
 </body>
 </html>
-
-
-
-
