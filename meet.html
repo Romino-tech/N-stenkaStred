@@ -156,7 +156,7 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <script>
     async function loadMeetings() {
       try {
-        const response = await fetch("meet.json");
+        const response = await fetch("meet.json.txt");
         const data = await response.json();
 
         const tbody = document.getElementById("meetings");
@@ -181,4 +181,5 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
 
 </body>
 </html>
+
 
