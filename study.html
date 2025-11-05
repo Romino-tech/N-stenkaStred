@@ -132,7 +132,7 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
 
     async function loadData() {
       try {
-        const response = await fetch("study.json.txt");
+        const response = await fetch("datastudy.json.txt");
         const data = await response.json();
         studyData = data;
         renderData();
@@ -174,3 +174,4 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   </script>
 </body>
 </html>
+
