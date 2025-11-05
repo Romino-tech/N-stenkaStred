@@ -6,194 +6,92 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
 
 <!DOCTYPE html>
 <html lang="sk">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nástenka zboru SNV-Stred </SNV-Stred></title>
-    <link rel="stylesheet" href="style.css">
-
-<!DOCTYPE html>
-<html lang="sk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nástenka zboru SNV-Stred – Služby</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Technická podpora – SNV Stred</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f8fafc;
-      padding: 20px;
-      color: #111827;
-    }
-    nav a {
-      color: #1e3a8a;
-      text-decoration: none;
-      margin-right: 5px;
-    }
-    nav a:hover { text-decoration: underline; }
-
-    h2 {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #c2ffd0;
       text-align: center;
-      color: #1e3a8a;
-      margin-bottom: 20px;
+      padding: 15px;
     }
-
-    .week {
-      background: white;
+    header {
+      background-color: #9e7743cb;
+      color: #fff;
+      padding: 10px;
       border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 25px;
     }
-
-    .date {
-      font-weight: bold;
-      font-size: 18px;
-      color: #1e3a8a;
-      margin-bottom: 10px;
-      border-bottom: 2px solid #1e3a8a;
-      padding-bottom: 5px;
-    }
-
     table {
-      width: 100%;
+      width: 95%;
+      max-width: 1000px;
+      margin: 20px auto;
       border-collapse: collapse;
-      margin-top: 10px;
+      background-color: #ffffffd8;
+      border-radius: 10px;
+      overflow: hidden;
     }
-
-    th, td {
-      padding: 8px;
+    th {
+      background-color: #23572f;
+      color: white;
+      padding: 10px;
+      text-transform: uppercase;
+    }
+    td {
+      padding: 8px 10px;
       border-bottom: 1px solid #ddd;
       text-align: left;
     }
-
-    th {
-      background-color: #e0e7ff;
+    tr:nth-child(even) { background-color: #f0fdf4; }
+    h2 {
+      color: #23572f;
+      margin-top: 20px;
     }
-
-    tr:nth-child(even) { background-color: #f3f4f6; }
-
-    .subtitle {
-      margin-top: 15px;
-      font-weight: bold;
-      color: #374151;
+    footer {
+      margin-top: 30px;
+      color: #555;
+      font-size: 13px;
     }
-
-    #searchBox {
-      width: 100%;
-      padding: 10px;
-      margin: 20px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-
   </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html">Domov</a> |
-    <a href="zas.html">Život a služba</a> |
-    <a href="study.html">Štúdium SV</a> |
-    <a href="service.html"><strong>Služby</strong></a> |
-    <a href="meet.html">Schôdzky</a> |
-    <a href="groups.html">Skupiny</a>
-  </nav>
+  <header>
+    <h1>Zborové zhromaždenie – Technická podpora</h1>
+    <p>Spišská Nová Ves – stred</p>
+  </header>
 
-  <h2>🗓 Rozpis služieb – Spišská Nová Ves</h2>
-
+    <h2>🗓 Rozpis služieb – Spišská Nová Ves</h2>
   <input type="text" id="searchBox" placeholder="Vyhľadaj podľa dátumu alebo mena...">
-
   <div id="program"></div>
+  <div id="content"></div>
+  <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
 
   <script>
-    async function loadData() {
-      try {
-        const res = await fetch('datasluzby.json.txt');
-        if (!res.ok) throw new Error("Nepodarilo sa načítať dáta.");
-        const data = await res.json();
-        renderTable(data);
-        document.getElementById("searchBox").addEventListener("input", e => {
-          renderTable(data, e.target.value.toLowerCase());
-        });
-      } catch (err) {
-        document.getElementById("program").innerHTML = `<p style="color:red">${err.message}</p>`;
-      }
-    }
-
-    function renderTable(data, filter = '') {
-      const container = document.getElementById("program");
-      container.innerHTML = '';
-
-      data.forEach(week => {
-        const allText = JSON.stringify(week).toLowerCase();
-        if (filter && !allText.includes(filter)) return;
-
-        const weekDiv = document.createElement("div");
-        weekDiv.className = "week";
-
-        weekDiv.innerHTML = `
-          <div class="date">📅 ${week.datum}</div>
-
-          <table>
-            <thead>
-              <tr><th>Úloha</th><th>Brat</th></tr>
-            </thead>
-            <tbody>
-              ${week.program.map(p => `
-                <tr><td>${p["úloha"]}</td><td>${p.brat}</td></tr>
-              `).join('')}
-            </tbody>
-          </table>
-
-          ${week.nedela ? `
-            <div class="subtitle">Nedeľa – ${week.nedela.datum}</div>
+    fetch('service.json')
+      .then(res => res.json())
+      .then(data => {
+        const div = document.getElementById('content');
+        data.forEach(item => {
+          div.innerHTML += `
+            <h2>${item.datum} (${item.den})</h2>
             <table>
-              <thead>
-                <tr><th>Úloha</th><th>Brat</th></tr>
-              </thead>
-              <tbody>
-                ${week.nedela.program.map(p => `
-                  <tr><td>${p["úloha"]}</td><td>${p.brat}</td></tr>
-                `).join('')}
-              </tbody>
+              <tr><th colspan="2">${item.podujatie}</th></tr>
+              ${Object.entries(item.sluzby).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('')}
             </table>
-          ` : ''}
-        `;
 
-        container.appendChild(weekDiv);
+            <table>
+              <tr><th colspan="2">Nedeľa – ${item.nedela.datum}</th></tr>
+              ${Object.entries(item.nedela).filter(([k])=>k!=="datum").map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('')}
+            </table>
+          `;
+        });
+      })
+      .catch(err => {
+        document.getElementById('content').innerHTML = "<p>⚠️ Chyba pri načítaní údajov.</p>";
+        console.error(err);
       });
-    }
-
-    loadData();
   </script>
 </body>
 </html>
-
-
-</a>  
-<nav>
-  <a href="index.html">Domov</a> |
-  <a href="zas.html">Život a služba</a> |
-  <a href="study.html">Štúdium SV</a> |
-  <a href="service.html">Služby </a> |
-  <a href="meet.html">Schôdzky</a> |
-  <a href="groups.html">Skupiny</a>
-</nav>
-<div style="height: 30px;"></div>
-</a>
-        <img src="service.jpeg" alt="Rozpis - služby" width="400"></right>
-
-<div id="header"></div>
-<script>
-  fetch("header.html")
-    .then(res => res.text())
-    .then(data => document.getElementById("header").innerHTML = data);
-</script>
-
-
-
-
-
 
