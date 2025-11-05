@@ -1,0 +1,82 @@
+[
+  {
+    "groupNumber": "1",
+    "coordinator": "VÝBOŠTOK Michal",
+    "assistant": "KAŠČÁK Ján",
+    "members": [
+      "BREJKOVÁ Jelena",
+      "CIPKALA Jaroslav",
+      "KRIVÁKOVÁ Mária",
+      "KOPANIČÁK MIROSLAV",
+      "KOPANIČÁKOVÁ Lenka",
+      "KOPANIČÁK Rúben",
+      "LIPTÁKOVÁ Mária",
+      "MAČUGA Ladislav",
+      "MIDLÍK Juraj",
+      "MIDLÍKOVÁ Dana",
+      "MIDLÍKOVÁ Ráchel",
+      "MICHNICOVÁ Zuzana",
+      "PALKOVÁ Mária",
+      "PELC Mariya",
+      "POPADIČ Rastislav",
+      "POPADIČOVÁ Eva",
+      "SCHISEROVÁ Mária",
+      "STRIŠOVSKÁ Jana",
+      "ŠVAJKOVÁ Eva",
+      "VÝBOŠTOKOVÁ Simona"
+    ]
+  },
+  {
+    "groupNumber": "2",
+    "coordinator": "DZURIŠ Marek",
+    "assistant": "VAŠÁK Jozef",
+    "members": [
+      "BARBUŠOVÁ Viera",
+      "DZURIŠOVÁ Lucia",
+      "HORVÁTOVÁ Monika",
+      "KANDOVÁ Jana",
+      "KLEMPAYOVÁ Viera",
+      "MERČÁKOVÁ Dana st.",
+      "MEZOVSKÁ Anna",
+      "ORAVCOVÁ Milena",
+      "SCHEVCHUK Andriy",
+      "SCHEVCHUK Valentina ml.",
+      "SCHEVCHUK Valentina st.",
+      "TURČANÍK Jozef",
+      "TURČANÍK Samuel",
+      "TURČANÍKOVÁ Danka",
+      "TURČANÍKOVÁ Diana",
+      "TURČANÍKOVÁ Mária",
+      "VAŠÁKOVÁ Agáta",
+      "VAŠÁKOVÁ Anna"
+    ]
+  },
+  {
+    "groupNumber": "3",
+    "coordinator": "CHLEBOVEC Roman",
+    "assistant": "BOROŠ Peter",
+    "members": [
+      "BALOG Peter",
+      "BALOGOVÁ Jana",
+      "BOROŠOVÁ Julka",
+      "BUHAJČUKOVÁ Irina",
+      "CHLEBOVCOVÁ Tatiana",
+      "HUDÁKOVÁ Oľga",
+      "GÁBORČÍK Ján",
+      "GÁBORČÍKOVÁ Júlia",
+      "CHLEBOVCOVÁ Júlia",
+      "CHLEBOVEC Ján",
+      "MAJCHROVIČOVÁ Ružena",
+      "MERČÁK Ján",
+      "MERČÁKOVÁ Dana ml.",
+      "OPRENDEK Jozef",
+      "OPRENDEKOVÁ Elena",
+      "TURČANÍK Jaroslav",
+      "TURČANÍKOVÁ Ľubomíra",
+      "VAŠÁK Adam",
+      "VAŠÁKOVÁ Jana",
+      "ZÁVACKÁ Slávka",
+      "ZÁVACKY Ondrej"
+    ]
+  }
+]
