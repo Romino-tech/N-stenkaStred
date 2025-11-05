@@ -1,9 +1,9 @@
 <script>
-if (sessionStorage.getItem("accessGranted") !== "true") {
-  window.location.href = "login.html";
-}
+  // Overenie prístupu
+  if (sessionStorage.getItem("accessGranted") !== "true") {
+    window.location.href = "login.html";
+  }
 </script>
-
 
 <!DOCTYPE html>
 <html lang="sk">
@@ -11,7 +11,6 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Štúdium Strážnej veže – SNV-Stred</title>
-  <link rel="stylesheet" href="style.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -25,13 +24,11 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       margin-right: 5px;
     }
     nav a:hover { text-decoration: underline; }
-
     h2 {
       text-align: center;
       color: #1e3a8a;
       margin-bottom: 20px;
     }
-
     .controls {
       display: flex;
       justify-content: space-between;
@@ -39,7 +36,6 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       flex-wrap: wrap;
       margin-bottom: 15px;
     }
-
     #searchBox {
       flex: 1;
       min-width: 250px;
@@ -49,12 +45,10 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       border: 1px solid #ccc;
       font-size: 14px;
     }
-
     label {
       margin: 5px;
       font-size: 14px;
     }
-
     .article {
       background: #fff;
       border-radius: 10px;
@@ -62,26 +56,22 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       padding: 20px;
       margin-bottom: 20px;
     }
-
     .date {
       font-size: 14px;
       color: #6b7280;
       margin-bottom: 6px;
     }
-
     .title {
       font-weight: bold;
       font-size: 18px;
       color: #1e3a8a;
       margin-bottom: 10px;
     }
-
     .speaker {
       font-style: italic;
       color: #374151;
       margin-bottom: 10px;
     }
-
     .watchtower {
       background: #f3f4f6;
       border-left: 4px solid #1e3a8a;
@@ -91,7 +81,6 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       font-size: 15px;
       color: #1f2937;
     }
-
     footer {
       text-align: center;
       color: #6b7280;
@@ -117,5 +106,62 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
     <label><input type="checkbox" id="futureOnly"> Len budúce týždne</label>
   </div>
 
-  <div
+  <div id="articles"></div>
+
+  <footer>
+    © 2025 Zbor SNV-Stred – všetky práva vyhradené
+  </footer>
+
+  <script>
+    async function loadData() {
+      try {
+        const response = await fetch("datastudy.json.txt");
+        const data = await response.json();
+        renderData(data);
+      } catch (e) {
+        document.getElementById("articles").innerHTML =
+          "<p style='color:red;'>Nepodarilo sa načítať dáta.</p>";
+      }
+    }
+
+    function renderData(data) {
+      const container = document.getElementById("articles");
+      const searchBox = document.getElementById("searchBox");
+      const futureOnly = document.getElementById("futureOnly");
+
+      function update() {
+        const search = searchBox.value.toLowerCase();
+        const now = new Date();
+
+        const filtered = data.filter(item => {
+          const match = (
+            item.title.toLowerCase().includes(search) ||
+            item.speaker.toLowerCase().includes(search) ||
+            item.date.includes(search)
+          );
+          const future = !futureOnly.checked || new Date(item.date) >= now;
+          return match && future;
+        });
+
+        container.innerHTML = filtered.map(item => `
+          <div class="article">
+            <div class="date">${item.date}</div>
+            <div class="title">${item.title}</div>
+            <div class="speaker">Rečník: ${item.speaker}</div>
+            <div class="watchtower">${item.watchtower}</div>
+          </div>
+        `).join('') || "<p>Žiadne výsledky.</p>";
+      }
+
+      searchBox.addEventListener("input", update);
+      futureOnly.addEventListener("change", update);
+      update();
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
+
+
 
