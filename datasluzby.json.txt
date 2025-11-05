@@ -1,71 +1,170 @@
 [
   {
-    "datum": "30. október, štvrtok",
-    "program": [
-      {"úloha": "Usporiadateľ vchod", "brat": "Ladislav Mačuga"},
-      {"úloha": "Usporiadateľ sála", "brat": "Roman Chlebovec"},
-      {"úloha": "Obsluha audio", "brat": "Rúben Kopaničák"},
-      {"úloha": "Obsluha zoom", "brat": "Adam Vašák"},
-      {"úloha": "Mik. pódium", "brat": "Jaroslav Turčanik"},
-      {"úloha": "Mik. 1 prenosný", "brat": "Rastislav Popadič"},
-      {"úloha": "Mik. 2 prenosný", "brat": "Ján Merčák"}
-    ],
+    "datum": "30.10.2025",
+    "den": "Štvrtok",
+    "podujatie": "Zborové zhromaždenie",
+    "sluzby": {
+      "Usporiadateľ vchod": "Ladislav Mačuga",
+      "Usporiadateľ sála": "Roman Chlebovec",
+      "Obsluha audio": "Rúben Kopaničák",
+      "Obsluha zoom": "Adam Vašák",
+      "Mikrofón pódium": "Jaroslav Turčanik",
+      "Mikrofón 1 prenosný": "Rastislav Popadič",
+      "Mikrofón 2 prenosný": "Ján Merčák"
+    },
     "nedela": {
-      "datum": "2. november",
-      "program": [
-        {"úloha": "Usporiadateľ vchod", "brat": "Ladislav Mačuga"},
-        {"úloha": "Usporiadateľ sála", "brat": "Peter Boroš"},
-        {"úloha": "Obsluha audio", "brat": "Rúben Kopaničák"},
-        {"úloha": "Obsluha zoom", "brat": "Adam Vašák"},
-        {"úloha": "Mik. pódium", "brat": "Rastislav Popadič"},
-        {"úloha": "Mik. prenosný", "brat": "Ján Merčák"}
-      ]
+      "datum": "2.11.2025",
+      "Usporiadateľ vchod": "Ladislav Mačuga",
+      "Usporiadateľ sála": "Peter Boroš",
+      "Obsluha audio": "Rúben Kopaničák",
+      "Obsluha zoom": "Adam Vašák",
+      "Mikrofón pódium": "Rastislav Popadič",
+      "Mikrofón 1 prenosný": "Rastislav Popadič",
+      "Mikrofón 2 prenosný": "Ján Merčák"
     }
   },
   {
-    "datum": "6. november, štvrtok",
-    "program": [
-      {"úloha": "Usporiadateľ vchod", "brat": "Juraj Midlík"},
-      {"úloha": "Usporiadateľ sála", "brat": "Jaroslav Turčanik"},
-      {"úloha": "Obsluha audio", "brat": "Andrij Ševčuk"},
-      {"úloha": "Obsluha zoom", "brat": "Rastislav Popadič"},
-      {"úloha": "Mik. pódium", "brat": "Jozef Vašák"},
-      {"úloha": "Mik. 1 prenosný", "brat": "Ján Merčák"},
-      {"úloha": "Mik. 2 prenosný", "brat": "Rúben Kopaničák"}
-    ],
+    "datum": "6.11.2025",
+    "den": "Štvrtok",
+    "podujatie": "Zborové zhromaždenie",
+    "sluzby": {
+      "Usporiadateľ vchod": "Juraj Midlík",
+      "Usporiadateľ sála": "Jaroslav Turčanik",
+      "Obsluha audio": "Andrij Ševčuk",
+      "Obsluha zoom": "Rastislav Popadič",
+      "Mikrofón pódium": "Jozef Vašák",
+      "Mikrofón 1 prenosný": "Ján Merčák",
+      "Mikrofón 2 prenosný": "Rúben Kopaničák"
+    },
     "nedela": {
-      "datum": "9. november",
-      "program": [
-        {"úloha": "Usporiadateľ vchod", "brat": "Juraj Midlík"},
-        {"úloha": "Usporiadateľ sála", "brat": "Jaroslav Turčanik"},
-        {"úloha": "Obsluha audio", "brat": "Andrij Ševčuk"},
-        {"úloha": "Obsluha zoom", "brat": "Jozef Vašák"},
-        {"úloha": "Mik. pódium", "brat": "Ján Merčák"},
-        {"úloha": "Mik. prenosný", "brat": "Rúben Kopaničák"}
-      ]
+      "datum": "9.11.2025",
+      "Usporiadateľ vchod": "Juraj Midlík",
+      "Usporiadateľ sála": "Jaroslav Turčanik",
+      "Obsluha audio": "Andrij Ševčuk",
+      "Obsluha zoom": "Rastislav Popadič",
+      "Mikrofón pódium": "Jozef Vašák",
+      "Mikrofón 1 prenosný": "Ján Merčák",
+      "Mikrofón 2 prenosný": "Rúben Kopaničák"
     }
   },
   {
-    "datum": "13. november, štvrtok",
-    "program": [
-      {"úloha": "Usporiadateľ vchod", "brat": "Rastislav Popadič"},
-      {"úloha": "Usporiadateľ sála", "brat": "Michal Vypoštok"},
-      {"úloha": "Obsluha audio", "brat": "Rúben Kopaničák"},
-      {"úloha": "Obsluha zoom", "brat": "Jaroslav Turčanik"},
-      {"úloha": "Mik. pódium", "brat": "Jozef Vašák"},
-      {"úloha": "Mik. 1 prenosný", "brat": "Ladislav Mačuga"},
-      {"úloha": "Mik. 2 prenosný", "brat": "Juraj Midlík"}
-    ],
+    "datum": "13.11.2025",
+    "den": "Štvrtok",
+    "podujatie": "Zborové zhromaždenie",
+    "sluzby": {
+      "Usporiadateľ vchod": "Rastislav Popadič",
+      "Usporiadateľ sála": "Michal Výboštok",
+      "Obsluha audio": "Rúben Kopaničák",
+      "Obsluha zoom": "Jaroslav Turčanik",
+      "Mikrofón pódium": "Jozef Vašák",
+      "Mikrofón 1 prenosný": "Ladislav Mačuga",
+      "Mikrofón 2 prenosný": "Juraj Midlík"
+    },
     "nedela": {
-      "datum": "16. november",
-      "program": [
-        {"úloha": "Usporiadateľ vchod", "brat": "Rastislav Popadič"},
-        {"úloha": "Usporiadateľ sála", "brat": "Marek Džuris"},
-        {"úloha": "Obsluha audio", "brat": "Rúben Kopaničák"},
-        {"úloha": "Obsluha zoom", "brat": "Jaroslav Turčanik"},
-        {"úloha": "Mik. pódium", "brat": "Ladislav Mačuga"},
-        {"úloha": "Mik. 1 prenosný", "brat": "Juraj Midlík"}
-      ]
+      "datum": "16.11.2025",
+      "Usporiadateľ vchod": "Rastislav Popadič",
+      "Usporiadateľ sála": "Marek Dzuriš",
+      "Obsluha audio": "Rúben Kopaničák",
+      "Obsluha zoom": "Jaroslav Turčanik",
+      "Mikrofón pódium": "Jozef Vašák",
+      "Mikrofón 1 prenosný": "Ladislav Mačuga",
+      "Mikrofón 2 prenosný": "Juraj Midlík"
+    }
+  },
+  {
+    "datum": "20.11.2025",
+    "den": "Štvrtok",
+    "podujatie": "Zborové zhromaždenie",
+    "sluzby": {
+      "Usporiadateľ vchod": "Jozef Vašák",
+      "Usporiadateľ sála": "Rastislav Popadič",
+      "Obsluha audio": "Juraj Midlík",
+      "Obsluha zoom": "Adam Vašák",
+      "Mikrofón pódium": "Andrij Ševčuk",
+      "Mikrofón 1 prenosný": "Samuel Turčanik",
+      "Mikrofón 2 prenosný": "Ján Merčák"
+    },
+    "nedela": {
+      "datum": "23.11.2025",
+      "Usporiadateľ vchod": "Jozef Vašák",
+      "Usporiadateľ sála": "Rastislav Popadič",
+      "Obsluha audio": "Adam Vašák",
+      "Obsluha zoom": "Rastislav Popadič",
+      "Mikrofón pódium": "Andrij Ševčuk",
+      "Mikrofón 1 prenosný": "Samuel Turčanik",
+      "Mikrofón 2 prenosný": "Ján Merčák"
+    }
+  },
+  {
+    "datum": "27.11.2025",
+    "den": "Štvrtok",
+    "podujatie": "Zborové zhromaždenie",
+    "sluzby": {
+      "Usporiadateľ vchod": "Jozef Turčanik",
+      "Usporiadateľ sála": "Ján Kaščák",
+      "Obsluha audio": "Jozef Vašák",
+      "Obsluha zoom": "Rastislav Popadič",
+      "Mikrofón pódium": "Samuel Turčanik",
+      "Mikrofón 1 prenosný": "Samuel Turčanik",
+      "Mikrofón 2 prenosný": "Andrij Ševčuk"
+    },
+    "nedela": {
+      "datum": "30.11.2025",
+      "Usporiadateľ vchod": "Jozef Turčanik",
+      "Usporiadateľ sála": "Ján Kaščák",
+      "Obsluha audio": "Jozef Vašák",
+      "Obsluha zoom": "Rastislav Popadič",
+      "Mikrofón pódium": "Samuel Turčanik",
+      "Mikrofón 1 prenosný": "Samuel Turčanik",
+      "Mikrofón 2 prenosný": "Andrij Ševčuk"
+    }
+  },
+  {
+    "datum": "4.12.2025",
+    "den": "Štvrtok",
+    "podujatie": "Zborové zhromaždenie",
+    "sluzby": {
+      "Usporiadateľ vchod": "Jaroslav Turčanik",
+      "Usporiadateľ sála": "Jozef Vašák",
+      "Obsluha audio": "Adam Vašák",
+      "Obsluha zoom": "Andrij Ševčuk",
+      "Mikrofón pódium": "Rastislav Popadič",
+      "Mikrofón 1 prenosný": "Rúben Kopaničák",
+      "Mikrofón 2 prenosný": "Ladislav Mačuga"
+    },
+    "nedela": {
+      "datum": "7.12.2025",
+      "Usporiadateľ vchod": "Jaroslav Turčanik",
+      "Usporiadateľ sála": "Jozef Vašák",
+      "Obsluha audio": "Adam Vašák",
+      "Obsluha zoom": "Andrij Ševčuk",
+      "Mikrofón pódium": "Rúben Kopaničák",
+      "Mikrofón 1 prenosný": "Rúben Kopaničák",
+      "Mikrofón 2 prenosný": "Ladislav Mačuga"
+    }
+  },
+  {
+    "datum": "11.12.2025",
+    "den": "Štvrtok",
+    "podujatie": "Zborové zhromaždenie",
+    "sluzby": {
+      "Usporiadateľ vchod": "Rúben Kopaničák",
+      "Usporiadateľ sála": "Ladislav Mačuga",
+      "Obsluha audio": "Rastislav Popadič",
+      "Obsluha zoom": "Jaroslav Turčanik",
+      "Mikrofón pódium": "Ján Merčák",
+      "Mikrofón 1 prenosný": "Jozef Turčanik",
+      "Mikrofón 2 prenosný": "Andrij Ševčuk"
+    },
+    "nedela": {
+      "datum": "14.12.2025",
+      "Usporiadateľ vchod": "Rúben Kopaničák",
+      "Usporiadateľ sála": "Ladislav Mačuga",
+      "Obsluha audio": "Rastislav Popadič",
+      "Obsluha zoom": "Jaroslav Turčanik",
+      "Mikrofón pódium": "Ján Merčák",
+      "Mikrofón 1 prenosný": "Jozef Turčanik",
+      "Mikrofón 2 prenosný": "Andrij Ševčuk"
     }
   }
 ]
