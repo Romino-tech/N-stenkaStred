@@ -3,34 +3,186 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   window.location.href = "login.html";
 }
 </script>
-
-
 <!DOCTYPE html>
 <html lang="sk">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nástenka zboru SNV-Stred </SNV-Stred></title>
-    <link rel="stylesheet" href="style.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Služobné skupiny – SNV-Stred</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #c2ffd0;
+      text-align: center;
+      padding: 10px;
+      color: #111827;
+    }
 
-</a>  
-<nav>
-  <a href="index.html">Domov</a> |
-  <a href="zas.html">Život a služba</a> |
-  <a href="study.html">Štúdium SV</a> |
-  <a href="service.html">Služby </a> |
-  <a href="meet.html">Schôdzky</a> |
-  <a href="groups.html">Skupiny</a>
-</nav>
-<div style="height: 30px;"></div>
-</a>
-        <img src="groups.jpeg" alt="Rozpis - Skupiny" width="700">
+    nav a {
+      color: #1e3a8a;
+      text-decoration: none;
+      margin: 0 8px;
+      font-weight: bold;
+    }
 
-<div id="header"></div>
-<script>
-  fetch("header.html")
-    .then(res => res.text())
-    .then(data => document.getElementById("header").innerHTML = data);
-</script>
+    nav a:hover { text-decoration: underline; }
 
+    h2 {
+      text-align: center;
+      color: #23572f;
+      margin-bottom: 15px;
+    }
 
+    .search-box {
+      margin: 20px auto;
+      max-width: 500px;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #23572f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    button:hover {
+      background-color: #e2cd52;
+      color: #111;
+    }
+
+    .group {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin: 15px auto;
+      max-width: 800px;
+      padding: 20px;
+    }
+
+    .header {
+      background: #9e7743cb;
+      color: white;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    li {
+      background: #f0fdf4;
+      margin: 4px 0;
+      padding: 6px 10px;
+      border-radius: 5px;
+    }
+
+    footer {
+      text-align: center;
+      color: #6b7280;
+      margin-top: 40px;
+      font-size: 13px;
+    }
+
+    .highlight {
+      background-color: #ffe58a;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">Domov</a> |
+    <a href="zas.html">Život a služba</a> |
+    <a href="study.html">Štúdium SV</a> |
+    <a href="service.html">Služby</a> |
+    <a href="meet.html">Schôdzky</a> |
+    <a href="groups.html"><strong>Služobné skupiny</strong></a>
+  </nav>
+
+  <h2>📋 Služobné skupiny – Spišská Nová Ves – stred</h2>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Zadaj meno (napr. Závacky)">
+    <button onclick="searchName()">Hľadaj</button>
+  </div>
+
+  <div id="groupsContainer"></div>
+
+  <footer>
+    © 2025 Zbor SNV-Stred | Interné použitie
+  </footer>
+
+  <script>
+    let allGroups = [];
+
+    fetch('groups.json.txt')
+      .then(response => response.json())
+      .then(data => {
+        allGroups = data;
+        renderGroups(allGroups);
+      })
+      .catch(err => {
+        document.getElementById('groupsContainer').innerHTML = "<p>⚠️ Chyba pri načítaní skupín.</p>";
+        console.error(err);
+      });
+
+    function renderGroups(groups, highlight = "") {
+      const container = document.getElementById('groupsContainer');
+      container.innerHTML = "";
+      groups.forEach(group => {
+        const div = document.createElement('div');
+        div.className = 'group';
+        const membersList = group.members.map(name => {
+          if (highlight && name.toLowerCase().includes(highlight.toLowerCase())) {
+            return `<li class="highlight">${name}</li>`;
+          } else {
+            return `<li>${name}</li>`;
+          }
+        }).join('');
+        div.innerHTML = `
+          <div class="header">
+            🟢 Skupina č.${group.groupNumber}<br>
+            <small>Koordinátor: ${group.coordinator} | Zástupca: ${group.assistant}</small>
+          </div>
+          <ul>${membersList}</ul>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function searchName() {
+      const input = document.getElementById('searchInput').value.trim();
+      if (!input) {
+        renderGroups(allGroups);
+        return;
+      }
+      const results = allGroups.filter(g => g.members.some(m => m.toLowerCase().includes(input.toLowerCase())));
+      if (results.length > 0) {
+        renderGroups(results, input);
+      } else {
+        document.getElementById('groupsContainer').innerHTML = `<p>😕 Člen <strong>${input}</strong> nebol nájdený.</p>`;
+      }
+    }
+  </script>
+
+</body>
+</html>
