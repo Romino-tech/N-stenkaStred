@@ -3,11 +3,6 @@
   if (sessionStorage.getItem("accessGranted") !== "true") {
     window.location.href = "login.html";
   }
-<script>
-if (sessionStorage.getItem("accessGranted") !== "true") {
-  window.location.href = "login.html";
-}
-</script>
 
 <!DOCTYPE html>
 <html lang="sk">
@@ -15,13 +10,41 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Štúdium Strážnej veže – SNV-Stred</title>
+    <h2> Štúdium Strážnej veže a verejné prednášky</h2>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f9fafb;
-      padding: 20px;
+
+   <style>
+    :root{
+      --accent: #1e3a8a;
+      --gray: #6b7280;
+      --gold: #b97c00;
+      --maroon: #701a1a;
+      --paper: #f8fafc;
+      --card: #ffffff;
+    }
+    body{
+      font-family: "Arial", "Helvetica", sans-serif;
+      background: var(--paper);
+      margin: 0;
+      padding: 30px;
       color: #111827;
+
+     }
+    .container{
+      max-width: 700px;
+      margin: 0 auto;
+    }   
+    }
+    header .center{
+      font-size: 14px;
+      font-weight: 700;
+    }
+    header h4{
+      font-size: 28px;
+      margin: 0;
+      text-align:center;
+      flex:1;
+    }
     }
     nav a {
       color: #1e3a8a;
@@ -113,8 +136,7 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
     <a href="meet.html">Schôdzky</a> |
     <a href="groups.html">Skupiny</a>
   </nav>
-
-  <h2>📖 Štúdium Strážnej veže a verejné prednášky</h2>
+  <link rel="stylesheet" href="style.css">
 
   <div class="controls">
     <input type="text" id="searchBox" placeholder="Zadaj tému, dátum alebo rečníka...">

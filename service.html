@@ -11,31 +11,35 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Technická podpora – SNV Stred</title>
 
-  </a>  
-<nav>
-  <div class="container">
-  <a href="index.html">Domov</a>|
-  <a href="zas.html">Život a služba</a>|
-  <a href="study.html">Štúdium SV</a>|
-  <a href="service.html">Služby </a>|
-  <a href="meet.html">Schôdzky</a>|
-  <a href="groups.html">Skupiny</a>
-</nav>
-<div style="height: 30px;"></div>
-
-  
   <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: #c2ffd0;
-      text-align: center;
-      padding: 15px;
+    body{
+      font-family: "Arial", "Helvetica", sans-serif;
+      background: var(--paper);
+      margin: 0;
+      padding: 30px;
+      color: #111827;
     }
     header {
       background-color: #9e7743cb;
-      color: #fff;
+      color: #020101;
       padding: 10px;
       border-radius: 10px;
+    }
+    nav a {
+      color: rgb(20, 17, 17);
+      text-decoration: none;
+      margin: 0 10px;
+      padding: 8px 16px;
+      font-weight: bold;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    nav a:hover { text-decoration: underline; }
+    header h3{
+      font-size: 24px;
+      margin: 0;
+      text-align: center;
+      flex: 1;
     }
     table {
       width: 95%;
@@ -71,14 +75,26 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
 </head>
 <body>
   <header>
-    <h1>Zborové zhromaždenie – Technická podpora</h1>
-    <p>Spišská Nová Ves – stred</p>
+    <h3>Technická podpora zhromaždení </h3>
   </header>
+  
+  <div style="height: 15px;"></div> 
+  <nav>
+    <div class="container">
+      <a href="index.html">Domov</a>|
+      <a href="zas.html">Život a služba</a>|
+      <a href="study.html">Štúdium SV</a>|
+      <a href="service.html">Služby </a>|
+      <a href="meet.html">Schôdzky</a>|
+      <a href="groups.html">Skupiny</a> 
+    </div>
+  </nav>
 
-    <h2>🗓 Rozpis služieb – Spišská Nová Ves</h2>
   <input type="text" id="searchBox" placeholder="Vyhľadaj podľa dátumu alebo mena...">
+  <center>
   <div id="program"></div>
   <div id="content"></div>
+
   <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
 
   <script>
@@ -86,7 +102,26 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       .then(res => res.json())
       .then(data => {
         const div = document.getElementById('content');
-        data.forEach(item => {
+        const dnes = new Date();
+
+        // funkcia na konverziu dátumu z formátu "DD.MM.YYYY" na objekt Date
+        function parseDatum(datum) {
+          const [d, m, r] = datum.split('.').map(Number);
+          return new Date(r, m - 1, d);
+        }
+
+        // filtrovanie len budúcich alebo dnešných dátumov
+        const filtrData = data.filter(item => {
+          const datumTyzden = parseDatum(item.datum);
+          return datumTyzden >= new Date(dnes.getFullYear(), dnes.getMonth(), dnes.getDate());
+        });
+
+        if (filtrData.length === 0) {
+          div.innerHTML = "<p>Žiadne nadchádzajúce týždne na zobrazenie.</p>";
+          return;
+        }
+
+        filtrData.forEach(item => {
           div.innerHTML += `
             <h2>${item.datum} (${item.den})</h2>
             <table>
@@ -108,7 +143,3 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   </script>
 </body>
 </html>
-
-
-
-

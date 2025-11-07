@@ -4,143 +4,197 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
 }
 </script>
 
-
 <!DOCTYPE html>
-<html lang="sk">
-<head>
-    <title>Nástenka zboru SNV-Stred </SNV-Stred></title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h2>Vitaj na nástenke SNV - stred </h2>
-    </header>
-</head>
-    <main>
-        <p>Toto je naša interná nástenka zboru Spišská Nová Ves - stred 😊</p>
-
-      
-</a>  
-<nav>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <a href="index.html">Domov</a>|
-  <a href="zas.html">Život a služba</a>|
-  <a href="study.html">Štúdium SV</a>|
-  <a href="service.html">Služby </a>|
-  <a href="meet.html">Schôdzky</a>|
-  <a href="groups.html">Skupiny</a>
-</nav>
-
-<div style="height: 30px;"></div>
-      
-      <!DOCTYPE html>
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <h3></h3>   >Rozpisy SNV – Vyhľadávanie</title>
+  <title>Zbor SNV-Stred</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f9fafb;
-      padding: 40px;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html {
+      height: 100%;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: white;
+      overflow: hidden;
     }
-    h2 {
-      color: #1e40af;
+
+    /* 🔹 Video pozadie */
+    video.background {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      filter: brightness(0.6);
+      object-fit: cover;
     }
-    #searchBox {
-      width: 300px;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-bottom: 20px;
+
+    /* 🔹 Horné menu */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.45);
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 14px 10px;
+      z-index: 10;
+      backdrop-filter: blur(6px);
     }
-    .result {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-      padding: 12px 16px;
-      margin: 10px 0;
-    }
-    .result a {
+
+    nav a {
+      color: #fff;
       text-decoration: none;
-      color: #2563eb;
       font-weight: bold;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      padding: 6px 10px;
+      border-radius: 5px;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* 🔹 Stredový obsah */
+    .overlay {
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-top: 80px;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    h1 {
+      font-size: 2.8em;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+      letter-spacing: 1px;
+    }
+
+    h2 {
+      font-size: 1.5em;
+      font-weight: 400;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+      margin-bottom: 25px;
+    }
+
+    .info-box {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      font-size: 1.2em;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px 40px;
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+    }
+
+    .info-item {
+      text-align: center;
+    }
+
+    .label {
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9em;
+      color: #ddd;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 0;
     }
   </style>
 </head>
 <body>
 
- <h2>🔍 Vyhľadávanie na stránke SNV-Stred</h2>
-<input type="text" id="searchBox" placeholder="Zadaj meno, deň alebo tému..." style="width: 100%; padding: 10px; font-size: 16px; margin-bottom: 20px;">
-<div id="results"></div>
+  <!-- 🔹 Tvoje video pozadie -->
+  <video autoplay muted loop class="background">
+    <source src="video/video.mp4" type="video/mp4">
+    Váš prehliadač nepodporuje prehrávanie videa.
+  </video>
 
-<script>
-// Tu vytvoríme „index“ stránok, v ktorých sa má vyhľadávať
-const pages = [
-  { title: "Rozpis zhromaždení", text: "Program, predsedajúci, modlitby, témy, rečníci", link: "zas.html" },
-  { title: "Rozpis služieb", text: "Usporiadatelia, mikrofóny, audio, zoom, technické služby", link: "service.html" },
-  { title: "Štúdium Strážnej veže", text: "Články, otázky a odpovede na týždeň", link: "study.html" },
-  { title: "Schôdzky", text: "Zborové schôdzky, úlohy, skupiny", link: "meet.html" },
-  { title: "Skupiny", text: "Rozdelenie, vedúci skupín", link: "groups.html" }
-];
+  <!-- 🔹 Horné menu -->
+  <nav>
+    <a href="index.html">Domov</a>|
+    <a href="zas.html">Život a služba</a>|
+    <a href="study.html">Štúdium SV</a>|
+    <a href="service.html">Služby</a>|
+    <a href="meet.html">Schôdzky</a>|
+    <a href="groups.html">Skupiny</a>|
+    <a href="mapy_obvodu.html">Obvody</a>
+  </nav>
 
-const searchInput = document.getElementById("searchBox");
-const resultsDiv = document.getElementById("results");
+  <!-- 🔹 Obsah -->
+  <div class="overlay">
+    <h1>Zborová nástenka</h1>
+    <h2>Zbor Spišská Nová Ves - stred</h2>
 
-searchInput.addEventListener("input", () => {
-  const term = searchInput.value.toLowerCase().trim();
-  const results = pages.filter(item =>
-    item.title.toLowerCase().includes(term) ||
-    item.text.toLowerCase().includes(term)
-  );
-
-  if (!term) {
-    resultsDiv.innerHTML = "";
-    return;
-  }
-
-  if (results.length > 0) {
-    resultsDiv.innerHTML = results.map(r => `
-      <div style="padding:10px; background:#f9fafb; margin-bottom:10px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.1);">
-        <a href="${r.link}" style="font-weight:bold; color:#1e3a8a; text-decoration:none;">${r.title}</a>
-        <p style="margin:5px 0 0;">${r.text}</p>
+    <div class="info-box">
+      <div class="info-item">
+        <div id="time">--:--:--</div>
+        <div class="label">Aktuálny čas</div>
       </div>
-    `).join("");
-  } else {
-    resultsDiv.innerHTML = "<p>Žiadne výsledky pre daný výraz.</p>";
-  }
-});
-</script>
+      <div class="info-item">
+        <div id="date">--.--.----</div>
+        <div class="label">Dátum</div>
+      </div>
+      <div class="info-item">
+        <div id="weather">Načítavam...</div>
+        <div class="label">Počasie v SNV</div>
+      </div>
+    </div>
+  </div>
 
-        
-    <a href="https://www.jw.org/sk" target="_blank" class="button">
- 
-   Navštíviť oficiálnu stránku JW.ORG
-</a>
+  <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
 
-    </main>
+  <script>
+    // 🕒 Čas a dátum
+    function updateClock() {
+      const now = new Date();
+      document.getElementById("time").textContent = now.toLocaleTimeString("sk-SK");
+      document.getElementById("date").textContent = now.toLocaleDateString("sk-SK", {
+        weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
+      });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-    <footer>
-        <p>&copy; 2025 Spišská Nová Ves - stred</p>
-    </footer>
+    // ☀️ Počasie pre Spišskú Novú Ves
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=48.95&longitude=20.56&current=temperature_2m,weather_code&timezone=auto")
+      .then(res => res.json())
+      .then(data => {
+        const temp = data.current.temperature_2m;
+        const code = data.current.weather_code;
+        let desc = "";
+        if ([0,1].includes(code)) desc = "Jasno";
+        else if ([2].includes(code)) desc = "Polojasno";
+        else if ([3].includes(code)) desc = "Zamračené";
+        else if ([45,48].includes(code)) desc = "Hmla";
+        else if ([51,53,55].includes(code)) desc = "Mrholenie";
+        else if ([61,63,65].includes(code)) desc = "Dážď";
+        else if ([71,73,75].includes(code)) desc = "Sneh";
+        else if ([95,96,99].includes(code)) desc = "Búrky";
+        else desc = "Neznáme počasie";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        document.getElementById("weather").textContent = `${desc}, ${temp} °C`;
+      })
+      .catch(() => {
+        document.getElementById("weather").textContent = "Nedostupné";
+      });
+  </script>
+</body>
+</html>
