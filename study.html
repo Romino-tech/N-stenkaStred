@@ -3,6 +3,7 @@
   if (sessionStorage.getItem("accessGranted") !== "true") {
     window.location.href = "login.html";
   }
+<script>
 
 <!DOCTYPE html>
 <html lang="sk">
@@ -10,11 +11,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Štúdium Strážnej veže – SNV-Stred</title>
-    <h2> Štúdium Strážnej veže a verejné prednášky</h2>
+
   <link rel="stylesheet" href="style.css">
 
-   <style>
-    :root{
+  <style>
+    :root {
       --accent: #1e3a8a;
       --gray: #6b7280;
       --gold: #b97c00;
@@ -22,35 +23,38 @@
       --paper: #f8fafc;
       --card: #ffffff;
     }
-    body{
+
+    body {
       font-family: "Arial", "Helvetica", sans-serif;
       background: var(--paper);
       margin: 0;
       padding: 30px;
       color: #111827;
+    }
 
-     }
-    .container{
+    .container {
       max-width: 700px;
       margin: 0 auto;
-    }   
     }
-    header .center{
+
+    header .center {
       font-size: 14px;
       font-weight: 700;
     }
-    header h4{
+
+    header h4 {
       font-size: 28px;
       margin: 0;
-      text-align:center;
-      flex:1;
+      text-align: center;
+      flex: 1;
     }
-    }
+
     nav a {
       color: #1e3a8a;
       text-decoration: none;
       margin-right: 5px;
     }
+
     nav a:hover { text-decoration: underline; }
 
     h2 {
@@ -126,7 +130,15 @@
       font-size: 13px;
     }
   </style>
+
+  <script>
+    // ✅ Overenie prístupu – musí byť vo vnútri <script> a ukončené
+    if (sessionStorage.getItem("accessGranted") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
 </head>
+
 <body>
   <nav>
     <a href="index.html">Domov</a> |
@@ -136,7 +148,8 @@
     <a href="meet.html">Schôdzky</a> |
     <a href="groups.html">Skupiny</a>
   </nav>
-  <link rel="stylesheet" href="style.css">
+
+  <h2>Štúdium Strážnej veže a verejné prednášky</h2>
 
   <div class="controls">
     <input type="text" id="searchBox" placeholder="Zadaj tému, dátum alebo rečníka...">
@@ -166,34 +179,4 @@
 
     function renderData() {
       const container = document.getElementById("articles");
-      const search = document.getElementById("searchBox").value.toLowerCase();
-      const futureOnly = document.getElementById("futureOnly").checked;
-      const now = new Date();
-
-      const filtered = studyData.filter(item => {
-        const match =
-          item.theme.toLowerCase().includes(search) ||
-          item.speaker.toLowerCase().includes(search) ||
-          item.date.toLowerCase().includes(search);
-        const future = !futureOnly || new Date(item.date) >= now;
-        return match && future;
-      });
-
-      container.innerHTML = filtered.map(item => `
-        <div class="article">
-          <div class="date">${item.date}</div>
-          <div class="title">${item.theme || "—"}</div>
-          <div class="speaker">${item.speaker ? "Rečník: " + item.speaker : ""}</div>
-          <div class="watchtower">${item.watchtowerStudy}</div>
-        </div>
-      `).join('') || "<p>Žiadne výsledky.</p>";
-    }
-
-    document.getElementById("searchBox").addEventListener("input", renderData);
-    document.getElementById("futureOnly").addEventListener("change", renderData);
-
-    loadData();
-  </script>
-</body>
-</html>
-
+      const search = docum
