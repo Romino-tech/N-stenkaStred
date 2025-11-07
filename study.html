@@ -134,14 +134,6 @@
     }
   </style>
 
-  <script>
-    // ✅ Overenie prístupu – musí byť vo vnútri <script> a ukončené
-    if (sessionStorage.getItem("accessGranted") !== "true") {
-      window.location.href = "login.html";
-    }
-  </script>
-</head>
-
 <body>
   <nav>
     <a href="index.html">Domov</a> |
@@ -212,5 +204,6 @@
   </script>
 </body>
 </html>
+
 
 
