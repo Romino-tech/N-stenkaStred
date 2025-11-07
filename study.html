@@ -179,4 +179,34 @@
 
     function renderData() {
       const container = document.getElementById("articles");
-      const search = docum
+      const search = document.getElementById("searchBox").value.toLowerCase();
+      const futureOnly = document.getElementById("futureOnly").checked;
+      const now = new Date();
+
+      const filtered = studyData.filter(item => {
+        const match =
+          item.theme.toLowerCase().includes(search) ||
+          item.speaker.toLowerCase().includes(search) ||
+          item.date.toLowerCase().includes(search);
+        const future = !futureOnly || new Date(item.date) >= now;
+        return match && future;
+      });
+
+      container.innerHTML = filtered.map(item => `
+        <div class="article">
+          <div class="date">${item.date}</div>
+          <div class="title">${item.theme || "—"}</div>
+          <div class="speaker">${item.speaker ? "Rečník: " + item.speaker : ""}</div>
+          <div class="watchtower">${item.watchtowerStudy}</div>
+        </div>
+      `).join('') || "<p>Žiadne výsledky.</p>";
+    }
+
+    document.getElementById("searchBox").addEventListener("input", renderData);
+    document.getElementById("futureOnly").addEventListener("change", renderData);
+
+    loadData();
+  </script>
+</body>
+</html>
+
