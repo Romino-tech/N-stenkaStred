@@ -17,191 +17,163 @@
 
   <link rel="stylesheet" href="style.css">
 
-  <style>
-    :root {
-      --accent: #1e3a8a;
-      --gray: #6b7280;
-      --gold: #b97c00;
-      --maroon: #701a1a;
-      --paper: #f8fafc;
-      --card: #ffffff;
+<div id="study-container" class="container">
+  <p>Načítavam údaje...</p>
+</div>
+
+<style>
+  .container {
+    font-family: "Segoe UI", Roboto, sans-serif;
+    max-width: 600px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+    color: #222;
+  }
+
+  .week {
+    border: 1px solid #080805;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    background: #eef8ee;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: background 0.2s;
+  }
+
+  .week:hover {
+    background: #add88a;
+  }
+
+  .topline {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  .dateTitle {
+    color: #555;
+  }
+
+  .meta {
+    color: #12181b;
+  }
+
+  .time-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .time {
+    font-size: 15px;
+    color: #111;
+  }
+
+  .role {
+    font-size: 14px;
+    color: #000000;
+  }
+
+  p {
+    text-align: center;
+  }
+</style>
+  
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Štúdium Strážnej veže – SNV-Stred</title>
+    </a>  
+<nav>
+  <div class="container">
+  <a href="index.html">Domov</a>|
+  <a href="zas.html">Život a služba</a>|
+  <a href="study.html">Štúdium SV</a>|
+  <a href="service.html">Služby </a>|
+  <a href="meet.html">Schôdzky</a>|
+  <a href="groups.html">Skupiny</a>
+</nav>
+<div style="height: 15px;"></div>
+
+  <link rel="stylesheet" href="style.css">
+
+<script>
+async function loadStudyData() {
+  const url =
+    "https://docs.google.com/spreadsheets/d/1iugb5DydioZ33sLsWzfUeYkcz9a_XpVQOXNDnpcXFm4/gviz/tq?tqx=out:json&gid=1506346117";
+  const container = document.getElementById("study-container");
+  container.innerHTML = "<p>Načítavam údaje...</p>";
+
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows.slice(3); // od 4. riadku
+
+    const data = rows
+      .map(r => {
+        const rawDate = r.c[0]?.f || r.c[0]?.v || "";
+        const [y, m, d] = rawDate.split("-").map(Number);
+        const date = !isNaN(y) ? new Date(y, m - 1, d) : null;
+
+        return {
+          date,
+          dateString: rawDate,
+          speaker: r.c[1]?.v || "",
+          topic: r.c[2]?.v || "",
+          watchtower: r.c[3]?.v || "—"
+        };
+      })
+      .filter(d => d.date);
+
+    // aktuálny + budúci mesiac
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+    const end = new Date(now.getFullYear(), now.getMonth() + 2, 0);
+
+    const upcoming = data.filter(d => d.date >= start && d.date <= end);
+
+    if (upcoming.length === 0) {
+      container.innerHTML =
+        "<p>Žiadne plánované štúdiá pre aktuálny a budúci mesiac.</p>";
+      return;
     }
 
-    body {
-      font-family: "Arial", "Helvetica", sans-serif;
-      background: var(--paper);
-      margin: 0;
-      padding: 30px;
-      color: #111827;
-    }
+    container.innerHTML = `
+      <p><strong>Štúdiá pre ${
+        now.toLocaleString("sk-SK", { month: "long" })
+      } a ${
+        new Date(now.getFullYear(), now.getMonth() + 1).toLocaleString("sk-SK", { month: "long" })
+      } ${now.getFullYear()}</strong></p>
+    `;
 
-    .container {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    header .center {
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    header h4 {
-      font-size: 28px;
-      margin: 0;
-      text-align: center;
-      flex: 1;
-    }
-
-    nav a {
-      color: #1e3a8a;
-      text-decoration: none;
-      margin-right: 5px;
-    }
-
-    nav a:hover { text-decoration: underline; }
-
-    h2 {
-      text-align: center;
-      color: #1e3a8a;
-      margin-bottom: 20px;
-    }
-
-    .controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
-    }
-
-    #searchBox {
-      flex: 1;
-      min-width: 250px;
-      padding: 10px;
-      margin: 5px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-
-    label {
-      margin: 5px;
-      font-size: 14px;
-    }
-
-    .article {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .date {
-      font-size: 14px;
-      color: #6b7280;
-      margin-bottom: 6px;
-    }
-
-    .title {
-      font-weight: bold;
-      font-size: 18px;
-      color: #1e3a8a;
-      margin-bottom: 10px;
-    }
-
-    .speaker {
-      font-style: italic;
-      color: #374151;
-      margin-bottom: 10px;
-    }
-
-    .watchtower {
-      background: #f3f4f6;
-      border-left: 4px solid #1e3a8a;
-      padding: 10px 15px;
-      border-radius: 6px;
-      margin-top: 10px;
-      font-size: 15px;
-      color: #1f2937;
-    }
-
-    footer {
-      text-align: center;
-      color: #6b7280;
-      margin-top: 40px;
-      font-size: 13px;
-    }
-  </style>
-
-<body>
-  <nav>
-    <a href="index.html">Domov</a> |
-    <a href="zas.html">Život a služba</a> |
-    <a href="study.html"><strong>Štúdium SV</strong></a> |
-    <a href="service.html">Služby</a> |
-    <a href="meet.html">Schôdzky</a> |
-    <a href="groups.html">Skupiny</a>
-  </nav>
-
-  <h2>Štúdium Strážnej veže a verejné prednášky</h2>
-
-  <div class="controls">
-    <input type="text" id="searchBox" placeholder="Zadaj tému, dátum alebo rečníka...">
-    <label><input type="checkbox" id="futureOnly"> Len budúce týždne</label>
-  </div>
-
-  <div id="articles"></div>
-
-  <footer>
-    © 2025 Zbor SNV-Stred – všetky práva vyhradené
-  </footer>
-
-  <script>
-    let studyData = [];
-
-    async function loadData() {
-      try {
-        const response = await fetch("datastudy.json.txt");
-        const data = await response.json();
-        studyData = data;
-        renderData();
-      } catch (e) {
-        document.getElementById("articles").innerHTML =
-          "<p style='color:red;'>Nepodarilo sa načítať dáta.</p>";
-      }
-    }
-
-    function renderData() {
-      const container = document.getElementById("articles");
-      const search = document.getElementById("searchBox").value.toLowerCase();
-      const futureOnly = document.getElementById("futureOnly").checked;
-      const now = new Date();
-
-      const filtered = studyData.filter(item => {
-        const match =
-          item.theme.toLowerCase().includes(search) ||
-          item.speaker.toLowerCase().includes(search) ||
-          item.date.toLowerCase().includes(search);
-        const future = !futureOnly || new Date(item.date) >= now;
-        return match && future;
-      });
-
-      container.innerHTML = filtered.map(item => `
-        <div class="article">
-          <div class="date">${item.date}</div>
-          <div class="title">${item.theme || "—"}</div>
-          <div class="speaker">${item.speaker ? "Rečník: " + item.speaker : ""}</div>
-          <div class="watchtower">${item.watchtowerStudy}</div>
+    upcoming.forEach(item => {
+      const week = document.createElement("div");
+      week.className = "week";
+      week.innerHTML = `
+        <div class="topline">
+          <div class="dateTitle">${item.dateString}</div>
+          <div class="meta">${item.speaker}</div>
         </div>
-      `).join('') || "<p>Žiadne výsledky.</p>";
-    }
+        <div class="time-list">
+          <div class="time">${item.topic}</div>
+          <div class="role">${item.watchtower}</div>
+        </div>
+      `;
+      container.appendChild(week);
+    });
+  } catch (err) {
+    container.innerHTML = `<p>Chyba pri načítaní údajov: ${err.message}</p>`;
+    console.error(err);
+  }
+}
 
-    document.getElementById("searchBox").addEventListener("input", renderData);
-    document.getElementById("futureOnly").addEventListener("change", renderData);
+loadStudyData();
+</script>
 
-    loadData();
-  </script>
 </body>
 </html>
 
