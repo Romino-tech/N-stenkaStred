@@ -1,16 +1,19 @@
-<script>
-  // Overenie prístupu
-  if (sessionStorage.getItem("accessGranted") !== "true") {
-    window.location.href = "login.html";
-  }
-<script>
-
 <!DOCTYPE html>
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Štúdium Strážnej veže – SNV-Stred</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script>
+    // Overenie prístupu
+    if (sessionStorage.getItem("accessGranted") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
+
 
   <link rel="stylesheet" href="style.css">
 
@@ -209,4 +212,5 @@
   </script>
 </body>
 </html>
+
 
