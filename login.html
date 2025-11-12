@@ -4,36 +4,140 @@
   <meta charset="UTF-8">
   <title>Prihlásenie – SNV-Stred</title>
   <style>
-    body { font-family: Arial; background:#f1f5f9; display:flex; height:100vh; align-items:center; justify-content:center; }
-    .login-box { background:white; padding:30px; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.1); text-align:center; }
-    input { padding:10px; width:200px; border:1px solid #ccc; border-radius:6px; }
-    button { padding:10px 15px; background:#1e3a8a; color:white; border:none; border-radius:6px; cursor:pointer; }
+    /* 🔹 Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body, html {
+      height: 100%;
+      font-family: "Segoe UI", Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    /* 🔹 Video pozadie */
+    .background {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    /* 🔹 Tmavý overlay nad videom */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: -1;
+    }
+
+    /* 🔹 Vycentrovanie obsahu */
+    .center-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* 🔹 Prihlasovacie okno */
+    .login-box {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+
+    .login-box h2 {
+      margin-bottom: 15px;
+      font-size: 1.4em;
+    }
+
+    input {
+      padding: 10px;
+      width: 220px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #3748c5;
+    }
+
+    #error {
+      color: #ff6b6b;
+      margin-top: 10px;
+    }
   </style>
 </head>
+
 <body>
-  <div class="login-box">
-    <h2>🔐 Zadaj prístupové heslo</h2>
-    <input type="password" id="pwd" placeholder="Heslo"><br><br>
-    <button onclick="checkPass()">Vstúpiť</button>
-    <p id="error" style="color:red"></p>
+
+  <!-- 🔹 Video pozadie -->
+  <video autoplay muted loop class="background">
+    <source src="video/video.mp4" type="video/mp4">
+    Váš prehliadač nepodporuje prehrávanie videa.
+  </video>
+
+  <!-- 🔹 Tmavá vrstva pre lepšiu čitateľnosť -->
+  <div class="overlay"></div>
+
+  <!-- 🔹 Prihlasovací box uprostred -->
+  <div class="center-wrapper">
+    <div class="login-box">
+      <h2>🔐 Zadaj prístupové heslo</h2>
+      <input type="password" id="pwd" placeholder="Heslo" onkeypress="if(event.key==='Enter'){checkPass()}"><br>
+      <button onclick="checkPass()">Vstúpiť</button>
+      <p id="error"></p>
+    </div>
   </div>
 
   <script>
     function checkPass() {
       const pwd = document.getElementById("pwd").value;
-      // 🧩 Sem zadaj svoje heslo
       if (pwd === "stred2025") {
+        const video = document.querySelector("video");
+        video.pause();
         sessionStorage.setItem("accessGranted", "true");
         window.location.href = "index.html";
       } else {
-        document.getElementById("error").textContent = "Nesprávne heslo.";
+        document.getElementById("error").textContent = "❌ Nesprávne heslo.";
       }
     }
 
-    // Ak už je prihlásený, presmeruj rovno
+    // Ak je už prihlásený, presmeruj rovno
     if (sessionStorage.getItem("accessGranted") === "true") {
       window.location.href = "index.html";
     }
   </script>
+
 </body>
 </html>
+
