@@ -1,102 +1,133 @@
-<script>
-  // 🔐 Overenie prístupu
-  if (sessionStorage.getItem("accessGranted") !== "true") {
-    window.location.replace("login.html");
-  }
-</script>
-
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Schôdzky – SNV‑Stred</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schôdzky – SNV-Stred</title>
+
   <style>
-    * { margin:0; padding:0; box‑sizing:border‑box; }
+    * { margin:0; padding:0; box-sizing:border-box; }
     body, html {
       height:100%; width:100%;
-      font-family:"Segoe UI", Arial, sans‑serif;
-      color:white;
-      background:url('img/background.jpg') center/cover no‑repeat fixed;
-      overflow‑x:hidden;
+      font-family:"Segoe UI", Arial, sans-serif;
+      color:#fff;
+      overflow-x:hidden;
     }
+
+    /* 🔹 Video pozadie */
     video.background {
-      position:fixed; right:0; bottom:0;
-      min‑width:100%; min‑height:100%;
+      position:fixed;
+      right:0; bottom:0;
+      min-width:100%; min-height:100%;
       width:auto; height:auto;
-      z‑index:-1;
-      filter:brightness(0.6);
-      object‑fit:cover;
-      background:url('img/background.jpg') center/cover no‑repeat;
+      z-index:-1;
+      filter:brightness(0.55);
+      object-fit:cover;
     }
+
+    /* 🔹 Navigácia */
     nav {
       position:fixed; top:0; width:100%;
       background:rgba(0,0,0,0.45);
-      display:flex; justify‑content:center; flex‑wrap:wrap;
-      gap:15px; padding:12px 10px; z‑index:10;
-      backdrop‑filter:blur(6px);
+      display:flex; justify-content:center; flex-wrap:wrap;
+      gap:15px; padding:14px 10px; z-index:10;
+      backdrop-filter:blur(6px);
     }
     nav a {
-      color:#fff; text‑decoration:none;
-      font‑weight:bold; letter‑spacing:0.5px;
-      transition:0.3s; padding:6px 10px; border‑radius:5px;
-      font‑size:1em;
-    }
-    nav a:not(:last‑child)::after {
-      content:"|"; color:#bbb; margin‑left:10px;
+      color:#fff; text-decoration:none;
+      font-weight:bold; letter-spacing:0.5px;
+      transition:0.3s;
+      padding:6px 10px;
+      border-radius:5px;
     }
     nav a:hover { background:rgba(255,255,255,0.2); }
+
+    /* 🔹 Obsah */
     .overlay {
-      position:relative; min‑height:100%; width:100%;
-      display:flex; flex‑direction:column; align‑items:center;
+      position:relative;
+      min-height:100%;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
       padding:100px 20px 60px;
       background:rgba(0,0,0,0.35);
-      text‑align:center;
+      text-align:center;
     }
+
     h2 {
-      font‑size:2em; margin‑bottom:20px;
-      text‑shadow:1px 1px 8px rgba(0,0,0,0.6);
+      font-size:2em;
+      margin-bottom:20px;
+      text-shadow:1px 1px 8px rgba(0,0,0,0.6);
     }
+
     table {
-      width:90%; max‑width:900px; margin:auto;
-      border‑collapse:collapse;
-      background:rgba(255,255,255,0.12); backdrop‑filter:blur(5px);
-      border‑radius:12px; overflow:hidden;
-      color:#fff; box‑shadow:0 3px 10px rgba(0,0,0,0.3);
+      width:90%;
+      max-width:900px;
+      margin:auto;
+      border-collapse:collapse;
+      background:rgba(255,255,255,0.12);
+      backdrop-filter:blur(5px);
+      border-radius:12px;
+      overflow:hidden;
+      color:#fff;
+      box-shadow:0 3px 10px rgba(0,0,0,0.3);
     }
+
     th, td {
-      padding:12px 10px; text‑align:center;
-      border‑bottom:1px solid rgba(255,255,255,0.2);
+      padding:12px 10px;
+      text-align:center;
+      border-bottom:1px solid rgba(255,255,255,0.2);
     }
+
     th {
       background:rgba(37,99,235,0.6);
-      font‑weight:bold;
+      font-weight:bold;
     }
-    tr:nth‑child(even) {
+
+    tr:nth-child(even) {
       background:rgba(255,255,255,0.08);
     }
+
     footer {
-      position:fixed; bottom:0; width:100%;
-      text‑align:center; font‑size:0.9em; color:#ddd;
-      background:rgba(0,0,0,0.3); padding:8px 0;
+      position:fixed;
+      bottom:0;
+      width:100%;
+      text-align:center;
+      font-size:0.9em;
+      color:#ddd;
+      background:rgba(0,0,0,0.3);
+      padding:8px 0;
     }
-    @media(max‑width:768px) {
-      h2 { font‑size:1.5em; }
+
+    @media(max-width:768px) {
+      h2 { font-size:1.5em; }
       th, td { padding:10px; }
     }
-    @media(max‑width:480px) {
-      h2 { font‑size:1.2em; }
-      table { font‑size:0.9em; }
+
+    @media(max-width:480px) {
+      h2 { font-size:1.2em; }
+      table { font-size:0.9em; }
     }
   </style>
 </head>
+
 <body>
 
-  <video autoplay muted loop playsinline class="background" aria‑hidden="true">
+  <!-- 🔐 Overenie prístupu -->
+  <script>
+    if (sessionStorage.getItem("accessGranted") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <!-- 🔹 Video pozadie -->
+  <video autoplay muted loop playsinline class="background">
     <source src="video/video.mp4" type="video/mp4">
     Váš prehliadač nepodporuje prehrávanie videa.
   </video>
 
+  <!-- 🔹 Navigácia -->
   <nav>
     <a href="index.html">Domov</a>
     <a href="zas.html">Život a služba</a>
@@ -107,7 +138,7 @@
   </nav>
 
   <div class="overlay">
-    <h2>📅 Schôdzky – Spišská Nová Ves – stred</h2>
+    <h2>📅 Schôdzky — Spišská Nová Ves – stred</h2>
     <table id="meetingsTable">
       <thead>
         <tr>
@@ -118,11 +149,11 @@
           <th>Miesto</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody><tr><td colspan="5">Načítavam údaje...</td></tr></tbody>
     </table>
   </div>
 
-  <footer>© 2025 Zbor SNV‑Stred | Interné použitie</footer>
+  <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
 
   <script>
     const sheetCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTa7fvH3mSGOlAXkmuX0MMNZc1_JZqWclGsmgYQHgAEhQoblhbjjEje557zdJhuQIVCp5kSgq8FtPIr/pub?gid=0&single=true&output=csv";
@@ -130,27 +161,56 @@
     fetch(sheetCSV)
       .then(res => res.text())
       .then(csvText => {
-        const rows = csvText.split("\n").map(r => r.split(","));
-        const today = new Date();
+        const rows = csvText
+          .trim()
+          .split(/\r?\n/)
+          .map(r => r.split(",").map(c => c.trim()));
+
         const tbody = document.querySelector("#meetingsTable tbody");
         tbody.innerHTML = "";
 
-        rows.forEach((row,i) => {
-          if (i === 0) return; // preskočiť hlavičku
+        // preskočí hlavičku
+        const dataRows = rows.slice(1);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        dataRows.forEach(row => {
           const [dateStr, day, time, group, place] = row;
-          const dateObj = new Date(dateStr);
-          if (dateObj >= new Date(today.toDateString())) {
+
+          // 🧭 pokus o konverziu dátumu (formát "DD.MM.YYYY" aj ISO)
+          let dateObj;
+          if (/\d{1,2}\.\d{1,2}\.\d{4}/.test(dateStr)) {
+            const [d, m, y] = dateStr.split(".").map(Number);
+            dateObj = new Date(y, m - 1, d);
+          } else {
+            dateObj = new Date(dateStr);
+          }
+
+          if (!isNaN(dateObj) && dateObj >= today) {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${dateStr}</td><td>${day}</td><td>${time}</td><td>${group}</td><td>${place}</td>`;
+            tr.innerHTML = `
+              <td>${dateStr}</td>
+              <td>${day}</td>
+              <td>${time}</td>
+              <td>${group}</td>
+              <td>${place}</td>
+            `;
             tbody.appendChild(tr);
           }
         });
+
+        if (tbody.innerHTML.trim() === "") {
+          tbody.innerHTML = `<tr><td colspan="5">Žiadne nadchádzajúce schôdzky.</td></tr>`;
+        }
       })
       .catch(err => {
-        console.error(err);
-        document.querySelector("#meetingsTable tbody").innerHTML = `<tr><td colspan="5">⚠️ Chyba pri načítaní dát</td></tr>`;
+        console.error("Chyba pri načítaní CSV:", err);
+        document.querySelector("#meetingsTable tbody").innerHTML =
+          `<tr><td colspan="5">⚠️ Chyba pri načítaní dát</td></tr>`;
       });
   </script>
 
 </body>
 </html>
+
