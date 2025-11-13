@@ -6,155 +6,206 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
 
 <!DOCTYPE html>
 <html lang="sk">
-
-<Header>
-<h3>Rozpis zhromaždenia - Život a služba</h3></title>
-</Header>
-
-<link rel="stylesheet" href="style.css">
-  
-    <div style="height: 15px;"></div>
-</a>  
-<nav>
-  <div class="container">
-  <a href="index.html">Domov</a>|
-  <a href="zas.html">Život a služba</a>|
-  <a href="study.html">Štúdium SV</a>|
-  <a href="service.html">Služby </a>|
-  <a href="meet.html">Schôdzky</a>|
-  <a href="groups.html">Skupiny</a>
-</nav>
-<div style="height: 30px;"></div>
-
-  <!DOCTYPE html>
-<html lang="sk">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Program zhromaždenia v týždni — SNV</title>
+  <title>Rozpis zhromaždenia — Život a služba</title>
   <style>
-    :root{
-      --accent: #1e3a8a;
-      --gray: #6b7280;
-      --gold: #b97c00;
-      --maroon: #701a1a;
-      --paper: #f8fafc;
-      --card: #ffffff;
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body, html {
+      height:100%;
+      width:100%;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color:#fff;
+      overflow-x:hidden;
     }
-    body{
-      font-family: "Arial", "Helvetica", sans-serif;
-      background: var(--paper);
-      margin: 0;
-      padding: 30px;
-      color: #111827;
 
-     }
-    .container{
-      max-width: 700px;
-      margin: 0 auto;
-    }   
+    /* 🔹 Video pozadie */
+    video.background {
+      position:fixed;
+      right:0;
+      bottom:0;
+      min-width:100%;
+      min-height:100%;
+      width:auto;
+      height:auto;
+      z-index:-1;
+      filter:brightness(0.55);
+      object-fit:cover;
     }
-    header .center{
-      font-size: 14px;
-      font-weight: 700;
-    }
-    header h4{
-      font-size: 28px;
-      margin: 0;
-      text-align:center;
-      flex:1;
-    }
-    .week{
-      background: var(--card);
-      padding: 14px;
-      margin-bottom: 20px;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .week .topline{
+
+    /* 🔹 Navigácia */
+    nav {
+      position:fixed;
+      top:0;
+      width:100%;
+      background: rgba(0,0,0,0.45);
       display:flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:15px;
+      padding:14px 10px;
+      z-index:10;
+      backdrop-filter: blur(6px);
     }
-    .week .dateTitle{
-      font-weight:700;
-      font-size:15px;
+    nav a {
+      color:#fff;
+      text-decoration:none;
+      font-weight:bold;
+      letter-spacing:0.5px;
+      transition:0.3s;
+      padding:6px 10px;
+      border-radius:5px;
     }
-    .meta{
-      text-align: right;
-      font-size: 14px;
-      color: var(--gray);
+    nav a:hover {
+      background: rgba(255,255,255,0.2);
     }
-    .time-list{
-      display: grid;
-      grid-template-columns: 80px 1fr 220px;
-      gap: 6px 18px;
-      align-items: start;
-      margin-top: 8px;
+
+    /* 🔹 Overlay */
+    .overlay {
+      position:relative;
+      min-height:100%;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:100px 20px 60px;
+      background: rgba(0, 0, 0, 0);
+      text-align:center;
     }
-    .section-label{
-      grid-column: 1 / -1;
-      padding: 8px 12px;
-      border-radius: 4px;
-      color: #fff;
-      font-weight:700;
-      margin-top: 10px;
+
+    h2 {
+      font-size:2em;
+      margin-bottom:20px;
+      text-shadow:2px 2px 8px rgba(44, 33, 33, 0.6);
     }
-    .section-label.gray{ background: #4b5563; }
-    .section-label.gold{ background: var(--gold); }
-    .section-label.maroon{ background: var(--maroon); }
-    .time{
-      color: #111827;
-      font-weight:600;
-      padding-top:6px;
-    }
-    .text{
-      padding-top:6px;
-    }
-    .role{
-      text-align: right;
-      color: #111827;
-      padding-top:6px;
-      font-weight:600;
-    }
-    .small{
-      font-size:13px;
-      color:var(--gray);
-      font-weight:400;
+
+    /* 🔹 Obsah */
+    .container{
+      max-width:800px;
+      width:100%;
+      margin:0 auto;
+      color:#f8f3f3d3;
     }
     .filter{
-      margin: 12px 0 18px;
+      margin: 20px 0;
       display:flex;
       gap:8px;
+      justify-content:center;
+      width:100%;
     }
     .filter input{
       flex:1;
-      padding:8px 10px;
+      max-width:500px;
+      padding:10px 14px;
       border-radius:6px;
       border:1px solid #d1d5db;
-      font-size:14px;
+      font-size:15px;
     }
-    @media (max-width:700px){
-      .time-list{ grid-template-columns: 80px 1fr; }
-      .role{ grid-column: 1 / -1; text-align:left; font-size:14px; }
+
+    /* 🔹 Karty */
+    .week{
+      background: rgba(255,255,255,0.85);
+      padding:14px;
+      margin-bottom:20px;
+      border-radius:10px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.25);
+    }
+    .week .topline{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:8px;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .dateTitle{
+      font-weight:700;
+      font-size:16px;
+      color:#111;
+    }
+    .meta{
+      text-align:right;
+      font-size:14px;
+      color:#333;
+    }
+    .time-list{
+      display:grid;
+      grid-template-columns: 80px 1fr 220px;
+      gap:6px 18px;
+      align-items:start;
+      margin-top:8px;
+    }
+    .section-label{
+      grid-column:1 / -1;
+      padding:8px 12px;
+      border-radius:4px;
+      color:#fff;
+      font-weight:700;
+      margin-top:10px;
+    }
+    .section-label.gray{ background:#4b5563; }
+    .section-label.gold{ background:#b97c00; }
+    .section-label.maroon{ background:#701a1a; }
+
+    .time{ color:#111; font-weight:600; padding-top:6px; }
+    .text{ color:#111; padding-top:6px; }
+    .role{ text-align:right; color:#111; padding-top:6px; font-weight:600; }
+
+    .small{ font-size:13px; color:#555; }
+
+    footer {
+      position:fixed;
+      bottom:0;
+      width:100%;
+      text-align:center;
+      font-size:0.9em;
+      color:#ddd;
+      background:rgba(0,0,0,0.3);
+      padding:8px 0;
+    }
+
+    @media(max-width:768px){
+      .time-list{ grid-template-columns:80px 1fr; }
+      .role{ grid-column:1 / -1; text-align:left; font-size:14px; }
     }
   </style>
 </head>
 <body>
- 
-    <div class="filter">
-      <input id="search" placeholder="Vyhľadaj podľa mena, témy alebo dátumu..." />
-    </div>
 
-    <div id="weeks"></div>
+  <video autoplay muted loop playsinline class="background">
+    <source src="video/video.mp4" type="video/mp4">
+    Váš prehliadač nepodporuje prehrávanie videa.
+  </video>
+
+  <nav>
+    <a href="index.html">Domov</a>
+    <a href="zas.html"><strong>Život a služba</strong></a>
+    <a href="study.html">Štúdium SV</a>
+    <a href="service.html">Služby</a>
+    <a href="meet.html">Schôdzky</a>
+    <a href="groups.html">Skupiny</a>
+  </nav>
+
+  <div class="overlay">
+    <div class="container">
+      <h3>📖 Rozpis zhromaždenia — Život a služba</h3>
+
+      <div class="filter">
+        <input id="search" placeholder="Vyhľadaj podľa mena, témy alebo dátumu...">
+      </div>
+
+      <div id="weeks"></div>
+    </div>
   </div>
+
+  <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
 
   <script>
     async function loadData(){
       try{
         const res = await fetch('datazasadnutia.json.txt');
-         if(!res.ok) throw new Error('Nepodarilo sa načítať JSON');
+        if(!res.ok) throw new Error('Nepodarilo sa načítať JSON');
         const data = await res.json();
         renderWeeks(data);
         document.getElementById('search').addEventListener('input', e => {
@@ -169,17 +220,14 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       const container = document.getElementById('weeks');
       container.innerHTML = '';
       data.forEach(week=>{
-        // build week card
         const w = document.createElement('div');
         w.className = 'week';
 
-        // top line
         const topl = document.createElement('div');
         topl.className = 'topline';
         const left = document.createElement('div');
         left.className = 'dateTitle';
         const date = new Date(week.datum);
-        const options = { year:'numeric', month:'short', day:'numeric' };
         left.innerHTML = `${formatDate(date)} | <span class="small">${escapeHtml(week.title_line)}</span>`;
         const meta = document.createElement('div');
         meta.className = 'meta';
@@ -189,27 +237,18 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
         topl.appendChild(meta);
         w.appendChild(topl);
 
-        // sections
         week.sections.forEach(section=>{
-          // If filter, skip entire section if none of items match
-          const secText = JSON.stringify(section).toLowerCase();
-          if(filter && !secText.includes(filter)) {
-            // But still check items individually below (so keep logic per item)
-          }
-
           if(section.label){
             const lbl = document.createElement('div');
-            lbl.className = 'section-label ' + (section.color==='gold' ? 'gold' : section.color==='maroon' ? 'maroon' : 'gray');
+            lbl.className = 'section-label ' + (section.color || 'gray');
             lbl.textContent = section.label;
             w.appendChild(lbl);
           }
-
           const list = document.createElement('div');
           list.className = 'time-list';
-
           section.items.forEach(item=>{
             const itemText = (item.time + ' ' + item.text + ' ' + (item.role||'')).toLowerCase();
-            if(filter && !itemText.includes(filter)) return; // skip item when filtering
+            if(filter && !itemText.includes(filter)) return;
 
             const timeEl = document.createElement('div');
             timeEl.className = 'time';
@@ -220,13 +259,10 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
             const roleEl = document.createElement('div');
             roleEl.className = 'role';
             roleEl.innerHTML = escapeHtml(item.role || '');
-
             list.appendChild(timeEl);
             list.appendChild(textEl);
             list.appendChild(roleEl);
           });
-
-          // if after filtering no items, don't append empty list
           if(list.children.length > 0) w.appendChild(list);
         });
 
@@ -235,32 +271,18 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
     }
 
     function formatDate(d){
-      try{
-        const opts = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-        return d.toLocaleDateString('sk-SK', opts);
-      } catch(e){
-        return d.toDateString();
-      }
+      const opts = { weekday:'long', year:'numeric', month:'short', day:'numeric' };
+      return d.toLocaleDateString('sk-SK', opts);
     }
-
     function escapeHtml(str){
       if(!str) return '';
-      return String(str).replace(/[&<>"']/g, s => {
-        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]);
-      });
+      return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
     }
 
     loadData();
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 
