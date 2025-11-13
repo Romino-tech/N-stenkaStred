@@ -50,67 +50,87 @@
   <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
 
   <!-- Načítanie údajov -->
-  <script>
-    async function loadStudyData() {
-      const url = "https://docs.google.com/spreadsheets/d/1iugb5DydioZ33sLsWzfUeYkcz9a_XpVQOXNDnpcXFm4/gviz/tq?tqx=out:json&gid=1506346117";
-      const container = document.getElementById("study-list");
-      container.innerHTML = "<p>Načítavam údaje...</p>";
+<script>
+  async function loadStudyData() {
+    const url = "https://docs.google.com/spreadsheets/d/1iugb5DydioZ33sLsWzfUeYkcz9a_XpVQOXNDnpcXFm4/gviz/tq?tqx=out:json&gid=1506346117";
+    const container = document.getElementById("study-list");
+    container.innerHTML = "<p>Načítavam údaje...</p>";
 
-      try {
-        const res = await fetch(url);
-        const text = await res.text();
-        const json = JSON.parse(text.substring(47).slice(0, -2));
-        const rows = json.table.rows.slice(3);
+    try {
+      const res = await fetch(url);
+      const text = await res.text();
+      const json = JSON.parse(text.substring(47).slice(0, -2));
+      const rows = json.table.rows.slice(3);
 
-        const data = rows.map(r => {
-          const rawDate = r.c[0]?.f || r.c[0]?.v || "";
-          const [y, m, d] = rawDate.split("-").map(Number);
-          const date = !isNaN(y) ? new Date(y, m - 1, d) : null;
-          return {
-            date,
-            dateString: rawDate,
-            speaker: r.c[1]?.v || "",
-            topic: r.c[2]?.v || "",
-            watchtower: r.c[3]?.v || "—"
-          };
-        }).filter(d => d.date);
+      const data = rows.map(r => {
+        const rawDate = r.c[0]?.f || r.c[0]?.v || "";
+        const [y, m, d] = rawDate.split("-").map(Number);
+        const date = !isNaN(y) ? new Date(y, m - 1, d) : null;
+        return {
+          date,
+          dateString: rawDate,
+          speaker: r.c[1]?.v || "",
+          topic: r.c[2]?.v || "",
+          watchtower: r.c[3]?.v || "—"
+        };
+      }).filter(d => d.date);
 
-        renderList(data);
+      // 🔹 určíme hranice: od nedele aktuálneho týždňa do +2 mesiace
+      const today = new Date();
+      const currentDay = today.getDay(); // nedeľa = 0
+      const diffToSunday = (7 - currentDay) % 7; 
+      const nextSunday = new Date(today);
+      nextSunday.setDate(today.getDate() + diffToSunday);
 
-        document.getElementById('search').addEventListener('input', e => {
-          renderList(data, e.target.value.trim().toLowerCase());
-        });
+      // začiatok = nedeľa tohto týždňa
+      const startDate = new Date(nextSunday);
+      startDate.setHours(0, 0, 0, 0);
 
-      } catch (err) {
-        container.innerHTML = `<p style="color:red">Chyba pri načítaní údajov: ${err.message}</p>`;
-      }
-    }
+      // koniec = o 2 mesiace neskôr
+      const endDate = new Date(startDate);
+      endDate.setMonth(startDate.getMonth() + 2);
+      endDate.setHours(23, 59, 59, 999);
 
-    function renderList(data, filter='') {
-      const container = document.getElementById('study-list');
-      container.innerHTML = '';
-      data.forEach(item => {
-        const text = (item.dateString + item.speaker + item.topic + item.watchtower).toLowerCase();
-        if (filter && !text.includes(filter)) return;
+      // 🔹 filtrujeme podľa dátumu
+      const filtered = data.filter(item => item.date >= startDate && item.date <= endDate);
 
-        const week = document.createElement('div');
-        week.className = 'week';
-        week.innerHTML = `
-          <div class="topline">
-            <div class="dateTitle">${item.dateString}</div>
-            <div class="meta">${item.speaker}</div>
-          </div>
-          <div class="time-list">
-            <div class="time">${item.topic}</div>
-            <div class="role">${item.watchtower}</div>
-          </div>
-        `;
-        container.appendChild(week);
+      renderList(filtered);
+
+      document.getElementById('search').addEventListener('input', e => {
+        renderList(filtered, e.target.value.trim().toLowerCase());
       });
-      if (container.innerHTML === '') container.innerHTML = '<p>Žiadne výsledky.</p>';
-    }
 
-    loadStudyData();
-  </script>
+    } catch (err) {
+      container.innerHTML = `<p style="color:red">Chyba pri načítaní údajov: ${err.message}</p>`;
+    }
+  }
+
+  function renderList(data, filter = '') {
+    const container = document.getElementById('study-list');
+    container.innerHTML = '';
+    data.forEach(item => {
+      const text = (item.dateString + item.speaker + item.topic + item.watchtower).toLowerCase();
+      if (filter && !text.includes(filter)) return;
+
+      const week = document.createElement('div');
+      week.className = 'week';
+      week.innerHTML = `
+        <div class="topline">
+          <div class="dateTitle">${item.dateString}</div>
+          <div class="meta">${item.speaker}</div>
+        </div>
+        <div class="time-list">
+          <div class="time">${item.topic}</div>
+          <div class="role">${item.watchtower}</div>
+        </div>
+      `;
+      container.appendChild(week);
+    });
+    if (container.innerHTML === '') container.innerHTML = '<p>Žiadne výsledky.</p>';
+  }
+
+  loadStudyData();
+</script>
 </body>
 </html>
+
