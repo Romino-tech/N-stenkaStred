@@ -10,279 +10,148 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Služobné skupiny – SNV-Stred</title>
+  <title>Schôdzky – SNV‑Stred</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
+    * { margin:0; padding:0; box‑sizing:border‑box; }
     body, html {
-      height: 100%;
-      width: 100%;
-      font-family: "Segoe UI", Arial, sans-serif;
-      color: white;
-      background: url('img/background.jpg') center/cover no-repeat fixed;
-      overflow-x: hidden;
+      height:100%; width:100%;
+      font-family:"Segoe UI", Arial, sans‑serif;
+      color:white;
+      background:url('img/background.jpg') center/cover no‑repeat fixed;
+      overflow‑x:hidden;
     }
-
-    /* 🔹 Video pozadie */
     video.background {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
-      z-index: -1;
-      filter: brightness(0.6);
-      object-fit: cover;
-      background: url('img/background.jpg') center/cover no-repeat;
+      position:fixed; right:0; bottom:0;
+      min‑width:100%; min‑height:100%;
+      width:auto; height:auto;
+      z‑index:-1;
+      filter:brightness(0.6);
+      object‑fit:cover;
+      background:url('img/background.jpg') center/cover no‑repeat;
     }
-
-    /* 🔹 Horné menu */
     nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.45);
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      padding: 12px 10px;
-      z-index: 10;
-      backdrop-filter: blur(6px);
+      position:fixed; top:0; width:100%;
+      background:rgba(0,0,0,0.45);
+      display:flex; justify‑content:center; flex‑wrap:wrap;
+      gap:15px; padding:12px 10px; z‑index:10;
+      backdrop‑filter:blur(6px);
     }
-
     nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      transition: all 0.3s ease;
-      padding: 6px 10px;
-      border-radius: 5px;
-      font-size: 1em;
+      color:#fff; text‑decoration:none;
+      font‑weight:bold; letter‑spacing:0.5px;
+      transition:0.3s; padding:6px 10px; border‑radius:5px;
+      font‑size:1em;
     }
-
-    nav a:not(:last-child)::after {
-      content: "|";
-      color: #bbb;
-      margin-left: 10px;
+    nav a:not(:last‑child)::after {
+      content:"|"; color:#bbb; margin‑left:10px;
     }
-
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    /* 🔹 Obsah */
+    nav a:hover { background:rgba(255,255,255,0.2); }
     .overlay {
-      position: relative;
-      min-height: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 100px 20px 60px;
-      background: rgba(0, 0, 0, 0.35);
+      position:relative; min‑height:100%; width:100%;
+      display:flex; flex‑direction:column; align‑items:center;
+      padding:100px 20px 60px;
+      background:rgba(0,0,0,0.35);
+      text‑align:center;
     }
-
     h2 {
-      font-size: 2em;
-      text-shadow: 1px 1px 8px rgba(0,0,0,0.6);
-      margin-bottom: 20px;
+      font‑size:2em; margin‑bottom:20px;
+      text‑shadow:1px 1px 8px rgba(0,0,0,0.6);
     }
-
-    /* 🔹 Vyhľadávanie */
-    .search-box {
-      margin: 20px auto;
-      max-width: 500px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
+    table {
+      width:90%; max‑width:900px; margin:auto;
+      border‑collapse:collapse;
+      background:rgba(255,255,255,0.12); backdrop‑filter:blur(5px);
+      border‑radius:12px; overflow:hidden;
+      color:#fff; box‑shadow:0 3px 10px rgba(0,0,0,0.3);
     }
-
-    input[type="text"] {
-      flex: 1;
-      min-width: 200px;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      outline: none;
-      background: rgba(255,255,255,0.8);
-      color: #111;
+    th, td {
+      padding:12px 10px; text‑align:center;
+      border‑bottom:1px solid rgba(255,255,255,0.2);
     }
-
-    button {
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
+    th {
+      background:rgba(37,99,235,0.6);
+      font‑weight:bold;
     }
-
-    button:hover {
-      background: #60a5fa;
-      color: #111;
+    tr:nth‑child(even) {
+      background:rgba(255,255,255,0.08);
     }
-
-    /* 🔹 Karty skupín */
-    .group {
-      background: rgba(255,255,255,0.12);
-      border-radius: 15px;
-      backdrop-filter: blur(5px);
-      margin: 15px auto;
-      max-width: 800px;
-      padding: 20px;
-      text-align: left;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-      color: #fff;
-    }
-
-    .header {
-      background: rgba(37, 99, 235, 0.6);
-      color: #fff;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 10px;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin-top: 8px;
-    }
-
-    li {
-      background: rgba(255,255,255,0.1);
-      margin: 4px 0;
-      padding: 6px 10px;
-      border-radius: 6px;
-    }
-
-    .highlight {
-      background: rgba(255, 235, 59, 0.8);
-      color: #111;
-      font-weight: bold;
-    }
-
-    /* 🔹 Pätička */
     footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
-      font-size: 0.9em;
-      color: #ddd;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 8px 0;
+      position:fixed; bottom:0; width:100%;
+      text‑align:center; font‑size:0.9em; color:#ddd;
+      background:rgba(0,0,0,0.3); padding:8px 0;
     }
-
-    /* 🔹 Responzivita */
-    @media (max-width: 768px) {
-      h2 { font-size: 1.5em; }
-      nav a { font-size: 0.95em; }
-      .group { padding: 15px; }
+    @media(max‑width:768px) {
+      h2 { font‑size:1.5em; }
+      th, td { padding:10px; }
     }
-
-    @media (max-width: 480px) {
-      h2 { font-size: 1.2em; }
-      nav { gap: 10px; }
-      nav a { font-size: 0.9em; padding: 4px 6px; }
+    @media(max‑width:480px) {
+      h2 { font‑size:1.2em; }
+      table { font‑size:0.9em; }
     }
   </style>
 </head>
 <body>
 
-  <!-- 🔹 Video pozadie -->
-  <video autoplay muted loop playsinline class="background" aria-hidden="true">
+  <video autoplay muted loop playsinline class="background" aria‑hidden="true">
     <source src="video/video.mp4" type="video/mp4">
     Váš prehliadač nepodporuje prehrávanie videa.
   </video>
 
-  <!-- 🔹 Horné menu -->
   <nav>
     <a href="index.html">Domov</a>
     <a href="zas.html">Život a služba</a>
     <a href="study.html">Štúdium SV</a>
     <a href="service.html">Služby</a>
-    <a href="meet.html">Schôdzky</a>
-    <a href="groups.html"><strong>Služobné skupiny</strong></a>
+    <a href="meet.html"><strong>Schôdzky</strong></a>
+    <a href="groups.html">Skupiny</a>
   </nav>
 
-  <!-- 🔹 Obsah -->
   <div class="overlay">
-    <h2>📋 Služobné skupiny – Spišská Nová Ves – stred</h2>
-
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="🔍 Zadaj meno (napr. Závacky)">
-      <button onclick="searchName()">Hľadaj</button>
-    </div>
-
-    <div id="groupsContainer"></div>
+    <h2>📅 Schôdzky – Spišská Nová Ves – stred</h2>
+    <table id="meetingsTable">
+      <thead>
+        <tr>
+          <th>Dátum</th>
+          <th>Deň</th>
+          <th>Čas</th>
+          <th>Služobná skupina</th>
+          <th>Miesto</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
-  <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
+  <footer>© 2025 Zbor SNV‑Stred | Interné použitie</footer>
 
   <script>
-    let allGroups = [];
+    const sheetCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTa7fvH3mSGOlAXkmuX0MMNZc1_JZqWclGsmgYQHgAEhQoblhbjjEje557zdJhuQIVCp5kSgq8FtPIr/pub?gid=0&single=true&output=csv";
 
-    fetch('groups.json.txt')
-      .then(response => response.json())
-      .then(data => {
-        allGroups = data;
-        renderGroups(allGroups);
+    fetch(sheetCSV)
+      .then(res => res.text())
+      .then(csvText => {
+        const rows = csvText.split("\n").map(r => r.split(","));
+        const today = new Date();
+        const tbody = document.querySelector("#meetingsTable tbody");
+        tbody.innerHTML = "";
+
+        rows.forEach((row,i) => {
+          if (i === 0) return; // preskočiť hlavičku
+          const [dateStr, day, time, group, place] = row;
+          const dateObj = new Date(dateStr);
+          if (dateObj >= new Date(today.toDateString())) {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${dateStr}</td><td>${day}</td><td>${time}</td><td>${group}</td><td>${place}</td>`;
+            tbody.appendChild(tr);
+          }
+        });
       })
       .catch(err => {
-        document.getElementById('groupsContainer').innerHTML = "<p>⚠️ Chyba pri načítaní skupín.</p>";
         console.error(err);
+        document.querySelector("#meetingsTable tbody").innerHTML = `<tr><td colspan="5">⚠️ Chyba pri načítaní dát</td></tr>`;
       });
-
-    function renderGroups(groups, highlight = "") {
-      const container = document.getElementById('groupsContainer');
-      container.innerHTML = "";
-      groups.forEach(group => {
-        const div = document.createElement('div');
-        div.className = 'group';
-        const membersList = group.members.map(name => {
-          if (highlight && name.toLowerCase().includes(highlight.toLowerCase())) {
-            return `<li class="highlight">${name}</li>`;
-          } else {
-            return `<li>${name}</li>`;
-          }
-        }).join('');
-        div.innerHTML = `
-          <div class="header">
-            🟢 Skupina č.${group.groupNumber}<br>
-            <small>Koordinátor: ${group.coordinator} | Zástupca: ${group.assistant}</small>
-          </div>
-          <ul>${membersList}</ul>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function searchName() {
-      const input = document.getElementById('searchInput').value.trim();
-      if (!input) {
-        renderGroups(allGroups);
-        return;
-      }
-      const results = allGroups.filter(g => g.members.some(m => m.toLowerCase().includes(input.toLowerCase())));
-      if (results.length > 0) {
-        renderGroups(results, input);
-      } else {
-        document.getElementById('groupsContainer').innerHTML = `<p>😕 Člen <strong>${input}</strong> nebol nájdený.</p>`;
-      }
-    }
   </script>
 
 </body>
 </html>
+
