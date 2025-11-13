@@ -1,181 +1,156 @@
 <script>
-if (sessionStorage.getItem("accessGranted") !== "true") {
-  window.location.href = "login.html";
-}
+  // 🔐 Overenie prístupu
+  if (sessionStorage.getItem("accessGranted") !== "true") {
+    window.location.replace("login.html");
+  }
 </script>
+
 <!DOCTYPE html>
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Schôdzky – SNV-Stred</title>
+  <title>Schôdzky – SNV‑Stred</title>
   <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: #c2ffd0;
-      text-align: center;
-      padding: 10px;
+    * { margin:0; padding:0; box‑sizing:border‑box; }
+    body, html {
+      height:100%; width:100%;
+      font-family:"Segoe UI", Arial, sans‑serif;
+      color:white;
+      background:url('img/background.jpg') center/cover no‑repeat fixed;
+      overflow‑x:hidden;
     }
-
-    header {
-      background-color: #9e7743cb;
-      color: rgb(87, 24, 24);
-      padding: 5px;
-      border-radius: 5px;
-      margin-bottom: 10px;
+    video.background {
+      position:fixed; right:0; bottom:0;
+      min‑width:100%; min‑height:100%;
+      width:auto; height:auto;
+      z‑index:-1;
+      filter:brightness(0.6);
+      object‑fit:cover;
+      background:url('img/background.jpg') center/cover no‑repeat;
     }
-
     nav {
-      margin-bottom: 10px;
+      position:fixed; top:0; width:100%;
+      background:rgba(0,0,0,0.45);
+      display:flex; justify‑content:center; flex‑wrap:wrap;
+      gap:15px; padding:12px 10px; z‑index:10;
+      backdrop‑filter:blur(6px);
     }
-
     nav a {
-      color: rgb(20, 17, 17);
-      text-decoration: none;
-      margin: 0 10px;
-      padding: 8px 16px;
-      font-weight: bold;
-      border-radius: 5px;
-      transition: background-color 0.3s;
+      color:#fff; text‑decoration:none;
+      font‑weight:bold; letter‑spacing:0.5px;
+      transition:0.3s; padding:6px 10px; border‑radius:5px;
+      font‑size:1em;
     }
-
-    nav a:hover {
-      background-color: rgba(255, 255, 255, 0.2);
+    nav a:not(:last‑child)::after {
+      content:"|"; color:#bbb; margin‑left:10px;
     }
-
-    .special-btn:hover {
-      background-color: #382a14;
-      color: white;
+    nav a:hover { background:rgba(255,255,255,0.2); }
+    .overlay {
+      position:relative; min‑height:100%; width:100%;
+      display:flex; flex‑direction:column; align‑items:center;
+      padding:100px 20px 60px;
+      background:rgba(0,0,0,0.35);
+      text‑align:center;
     }
-
+    h2 {
+      font‑size:2em; margin‑bottom:20px;
+      text‑shadow:1px 1px 8px rgba(0,0,0,0.6);
+    }
     table {
-      margin: 0 auto;
-      border-collapse: collapse;
-      width: 95%;
-      background-color: #ffffff;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width:90%; max‑width:900px; margin:auto;
+      border‑collapse:collapse;
+      background:rgba(255,255,255,0.12); backdrop‑filter:blur(5px);
+      border‑radius:12px; overflow:hidden;
+      color:#fff; box‑shadow:0 3px 10px rgba(0,0,0,0.3);
     }
-
+    th, td {
+      padding:12px 10px; text‑align:center;
+      border‑bottom:1px solid rgba(255,255,255,0.2);
+    }
     th {
-      background-color: #23572f;
-      color: white;
-      padding: 10px;
+      background:rgba(37,99,235,0.6);
+      font‑weight:bold;
     }
-
-    td {
-      padding: 8px;
-      border-bottom: 1px solid #ddd;
+    tr:nth‑child(even) {
+      background:rgba(255,255,255,0.08);
     }
-
-    tr:nth-child(even) {
-      background-color: #f0f0f0;
-    }
-
-    .group-ZBOROVÁ {
-      background-color: #00b050;
-      color: white;
-      font-weight: bold;
-      border-radius: 4px;
-      padding: 4px 8px;
-    }
-
-    .group-č1 {
-      background-color: #00b0f0;
-      color: white;
-      font-weight: bold;
-      border-radius: 4px;
-      padding: 4px 8px;
-    }
-
-    .group-č2 {
-      background-color: #92d050;
-      color: white;
-      font-weight: bold;
-      border-radius: 4px;
-      padding: 4px 8px;
-    }
-
-    .group-č3 {
-      background-color: #ffc000;
-      color: #000;
-      font-weight: bold;
-      border-radius: 4px;
-      padding: 4px 8px;
-    }
-
     footer {
-      text-align: center;
-      margin-top: 30px;
-      color: #333;
-      font-size: 13px;
+      position:fixed; bottom:0; width:100%;
+      text‑align:center; font‑size:0.9em; color:#ddd;
+      background:rgba(0,0,0,0.3); padding:8px 0;
+    }
+    @media(max‑width:768px) {
+      h2 { font‑size:1.5em; }
+      th, td { padding:10px; }
+    }
+    @media(max‑width:480px) {
+      h2 { font‑size:1.2em; }
+      table { font‑size:0.9em; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h3>Schôdzky pred zvestovateľskou službou</h3>
-    <p>Spišská Nová Ves – stred</p>
-  </header>
+  <video autoplay muted loop playsinline class="background" aria‑hidden="true">
+    <source src="video/video.mp4" type="video/mp4">
+    Váš prehliadač nepodporuje prehrávanie videa.
+  </video>
 
   <nav>
     <a href="index.html">Domov</a>
     <a href="zas.html">Život a služba</a>
     <a href="study.html">Štúdium SV</a>
     <a href="service.html">Služby</a>
-    <a href="meet.html" class="special-btn">Schôdzky</a>
+    <a href="meet.html"><strong>Schôdzky</strong></a>
     <a href="groups.html">Skupiny</a>
   </nav>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Dátum</th>
-        <th>Deň</th>
-        <th>Čas</th>
-        <th>Skupina</th>
-        <th>Miesto</th>
-      </tr>
-    </thead>
-    <tbody id="meetings"></tbody>
-  </table>
+  <div class="overlay">
+    <h2>📅 Schôdzky – Spišská Nová Ves – stred</h2>
+    <table id="meetingsTable">
+      <thead>
+        <tr>
+          <th>Dátum</th>
+          <th>Deň</th>
+          <th>Čas</th>
+          <th>Služobná skupina</th>
+          <th>Miesto</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-  <footer>
-    <p>© 2025 Zbor Spišská Nová Ves – Stred | rozpisysnv.online</p>
-  </footer>
+  <footer>© 2025 Zbor SNV‑Stred | Interné použitie</footer>
 
   <script>
-    async function loadMeetings() {
-      try {
-        const response = await fetch("meet.json.txt");
-        const data = await response.json();
+    const sheetCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTa7fvH3mSGOlAXkmuX0MMNZc1_JZqWclGsmgYQHgAEhQoblhbjjEje557zdJhuQIVCp5kSgq8FtPIr/pub?gid=0&single=true&output=csv";
 
-        const tbody = document.getElementById("meetings");
-        data.forEach(item => {
-          const tr = document.createElement("tr");
-          const groupClass = item.group.replace('.', '');
-          tr.innerHTML = `
-            <td>${item.date}</td>
-            <td>${item.day}</td>
-            <td>${item.time}</td>
-            <td><span class="group-${groupClass}">${item.group}</span></td>
-            <td>${item.place}</td>
-          `;
-          tbody.appendChild(tr);
+    fetch(sheetCSV)
+      .then(res => res.text())
+      .then(csvText => {
+        const rows = csvText.split("\n").map(r => r.split(","));
+        const today = new Date();
+        const tbody = document.querySelector("#meetingsTable tbody");
+        tbody.innerHTML = "";
+
+        rows.forEach((row,i) => {
+          if (i === 0) return; // preskočiť hlavičku
+          const [dateStr, day, time, group, place] = row;
+          const dateObj = new Date(dateStr);
+          if (dateObj >= new Date(today.toDateString())) {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${dateStr}</td><td>${day}</td><td>${time}</td><td>${group}</td><td>${place}</td>`;
+            tbody.appendChild(tr);
+          }
         });
-      } catch (error) {
-        console.error("Chyba pri načítaní JSON:", error);
-      }
-    }
-    loadMeetings();
+      })
+      .catch(err => {
+        console.error(err);
+        document.querySelector("#meetingsTable tbody").innerHTML = `<tr><td colspan="5">⚠️ Chyba pri načítaní dát</td></tr>`;
+      });
   </script>
 
 </body>
 </html>
-
-
-
-
-

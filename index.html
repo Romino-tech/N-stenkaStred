@@ -1,7 +1,8 @@
 <script>
-if (sessionStorage.getItem("accessGranted") !== "true") {
-  window.location.href = "login.html";
-}
+  // 🔐 Overenie prístupu
+  if (sessionStorage.getItem("accessGranted") !== "true") {
+    window.location.replace("login.html");
+  }
 </script>
 
 <!DOCTYPE html>
@@ -12,10 +13,13 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <title>Zbor SNV-Stred</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body, html {
       height: 100%;
+      width: 100%;
       font-family: "Segoe UI", Arial, sans-serif;
       color: white;
+      background: url('img/background.jpg') center/cover no-repeat fixed;
       overflow: hidden;
     }
 
@@ -26,9 +30,12 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       bottom: 0;
       min-width: 100%;
       min-height: 100%;
+      width: auto;
+      height: auto;
       z-index: -1;
       filter: brightness(0.6);
       object-fit: cover;
+      background: url('img/background.jpg') center/cover no-repeat;
     }
 
     /* 🔹 Horné menu */
@@ -39,8 +46,9 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       background: rgba(0, 0, 0, 0.45);
       display: flex;
       justify-content: center;
-      gap: 20px;
-      padding: 14px 10px;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 12px 10px;
       z-index: 10;
       backdrop-filter: blur(6px);
     }
@@ -53,6 +61,13 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       transition: all 0.3s ease;
       padding: 6px 10px;
       border-radius: 5px;
+      font-size: 1em;
+    }
+
+    nav a:not(:last-child)::after {
+      content: "|";
+      color: #bbb;
+      margin-left: 10px;
     }
 
     nav a:hover {
@@ -63,12 +78,13 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
     .overlay {
       position: relative;
       height: 100%;
+      width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding-top: 80px;
+      padding: 80px 20px 40px;
       background: rgba(0, 0, 0, 0.35);
     }
 
@@ -86,20 +102,25 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       margin-bottom: 25px;
     }
 
+    /* 🔹 Info box */
     .info-box {
       display: flex;
-      gap: 40px;
       flex-wrap: wrap;
       justify-content: center;
+      align-items: center;
+      gap: 30px;
       font-size: 1.2em;
       background: rgba(255, 255, 255, 0.1);
       padding: 20px 40px;
       border-radius: 15px;
       backdrop-filter: blur(5px);
+      min-width: 250px;
+      max-width: 90%;
     }
 
     .info-item {
       text-align: center;
+      min-width: 140px;
     }
 
     .label {
@@ -107,9 +128,10 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       opacity: 0.9;
     }
 
+    /* 🔹 Pätička */
     footer {
       position: fixed;
-      bottom: 10px;
+      bottom: 0;
       width: 100%;
       text-align: center;
       font-size: 0.9em;
@@ -117,25 +139,40 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       background: rgba(0, 0, 0, 0.3);
       padding: 8px 0;
     }
+
+    /* 🔹 Responzivita */
+    @media (max-width: 768px) {
+      h1 { font-size: 2em; }
+      h2 { font-size: 1.2em; }
+      .info-box { flex-direction: column; gap: 15px; padding: 20px; }
+      nav a { font-size: 0.95em; padding: 5px 8px; }
+    }
+
+    @media (max-width: 480px) {
+      nav { gap: 10px; padding: 10px; }
+      h1 { font-size: 1.7em; }
+      h2 { font-size: 1em; }
+      .info-box { font-size: 1em; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- 🔹 Tvoje video pozadie -->
-  <video autoplay muted loop class="background">
+  <!-- 🔹 Video pozadie -->
+  <video autoplay muted loop playsinline class="background" aria-hidden="true">
     <source src="video/video.mp4" type="video/mp4">
     Váš prehliadač nepodporuje prehrávanie videa.
   </video>
 
   <!-- 🔹 Horné menu -->
   <nav>
-    <a href="index.html">Domov</a>|
-    <a href="zas.html">Život a služba</a>|
-    <a href="study.html">Štúdium SV</a>|
-    <a href="service.html">Služby</a>|
-    <a href="meet.html">Schôdzky</a>|
-    <a href="groups.html">Skupiny</a>|
-    <a href="mapy_obvodu.html">Obvody</a>
+    <a href="index.html" aria-label="Domov">Domov</a>
+    <a href="zas.html" aria-label="Život a služba">Život a služba</a>
+    <a href="study.html" aria-label="Štúdium SV">Štúdium SV</a>
+    <a href="service.html" aria-label="Služby">Služby</a>
+    <a href="meet.html" aria-label="Schôdzky">Schôdzky</a>
+    <a href="groups.html" aria-label="Skupiny">Skupiny</a>
+    <a href="mapy_obvodu.html" aria-label="Obvody">Obvody</a>
   </nav>
 
   <!-- 🔹 Obsah -->
@@ -188,9 +225,15 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
         else if ([61,63,65].includes(code)) desc = "Dážď";
         else if ([71,73,75].includes(code)) desc = "Sneh";
         else if ([95,96,99].includes(code)) desc = "Búrky";
-        else desc = "Neznáme počasie";
+        else desc = "Neznáme";
 
-        document.getElementById("weather").textContent = `${desc}, ${temp} °C`;
+        const icons = {
+          "Jasno": "☀️", "Polojasno": "🌤️", "Zamračené": "☁️",
+          "Hmla": "🌫️", "Mrholenie": "🌦️", "Dážď": "🌧️",
+          "Sneh": "❄️", "Búrky": "⛈️", "Neznáme": "❔"
+        };
+
+        document.getElementById("weather").textContent = `${icons[desc]} ${desc}, ${temp} °C`;
       })
       .catch(() => {
         document.getElementById("weather").textContent = "Nedostupné";
