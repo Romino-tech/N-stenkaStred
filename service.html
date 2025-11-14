@@ -14,32 +14,27 @@
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body, html { height:100%; width:100%; font-family:"Segoe UI", Arial, sans-serif; color:#fff; overflow-x:hidden; }
+    body, html { height:100%; width:100%; font-family: "Segoe UI", Arial, sans-serif; color:#fff; overflow-x:hidden; }
 
-    video.background {
-      position:fixed; right:0; bottom:0; min-width:100%; min-height:100%; width:auto; height:auto; z-index:-1;
-      filter:brightness(0.55); object-fit:cover;
-    }
+    /* 🔹 Video pozadie */
+    video.background { position:fixed; right:0; bottom:0; min-width:100%; min-height:100%; width:auto; height:auto; z-index:-1; filter:brightness(0.55); object-fit:cover; }
 
-    nav {
-      position:fixed; top:0; width:100%; background: rgba(0,0,0,0.45);
-      display:flex; justify-content:center; flex-wrap:wrap; gap:15px; padding:14px 10px; z-index:10;
-      backdrop-filter: blur(6px);
-    }
+    /* 🔹 Navigácia */
+    nav { position:fixed; top:0; width:100%; background: rgba(0,0,0,0.45); display:flex; justify-content:center; flex-wrap:wrap; gap:15px; padding:14px 10px; z-index:10; backdrop-filter: blur(6px); }
     nav a { color:#fff; text-decoration:none; font-weight:bold; letter-spacing:0.5px; transition:0.3s; padding:6px 10px; border-radius:5px; }
     nav a:hover { background: rgba(255,255,255,0.2); }
 
-    .overlay {
-      position:relative; min-height:100%; width:100%; display:flex; flex-direction:column;
-      align-items:center; padding:100px 20px 60px; text-align:center;
-    }
+    /* 🔹 Overlay */
+    .overlay { position:relative; min-height:100%; width:100%; display:flex; flex-direction:column; align-items:center; padding:100px 20px 60px; text-align:center; }
 
     h2 { font-size:2em; margin-bottom:20px; text-shadow:2px 2px 8px rgba(44,33,33,0.6); }
 
+    /* 🔹 Obsah */
     .container{ max-width:800px; width:100%; margin:0 auto; color:#f8f3f3d3; }
     .filter{ margin:20px 0; display:flex; gap:8px; justify-content:center; width:100%; }
     .filter input{ flex:1; max-width:500px; padding:10px 14px; border-radius:6px; border:1px solid #d1d5db; font-size:15px; }
 
+    /* 🔹 Karty */
     .week{ background: rgba(255,255,255,0.85); padding:14px; margin-bottom:20px; border-radius:10px; box-shadow:0 3px 8px rgba(0,0,0,0.25); }
     .week .topline{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:10px; }
     .dateTitle{ font-weight:700; font-size:16px; color:#111; }
@@ -49,7 +44,6 @@
     .section-label.gray{ background:#4b5563; }
     .section-label.gold{ background:#b97c00; }
     .section-label.maroon{ background:#701a1a; }
-
     .time{ color:#111; font-weight:600; padding-top:6px; }
     .text{ color:#111; padding-top:6px; }
     .role{ text-align:right; color:#111; padding-top:6px; font-weight:600; }
@@ -57,10 +51,7 @@
 
     footer { position:fixed; bottom:0; width:100%; text-align:center; font-size:0.9em; color:#ddd; background:rgba(0,0,0,0.3); padding:8px 0; }
 
-    @media(max-width:768px){
-      .time-list{ grid-template-columns:80px 1fr; }
-      .role{ grid-column:1 / -1; text-align:left; font-size:14px; }
-    }
+    @media(max-width:768px){ .time-list{ grid-template-columns:80px 1fr; } .role{ grid-column:1 / -1; text-align:left; font-size:14px; } }
   </style>
 </head>
 <body>
@@ -82,94 +73,103 @@
   <div class="overlay">
     <div class="container">
       <h3>📖 Rozpis zhromaždenia — Život a služba</h3>
+
       <div class="filter">
         <input id="search" placeholder="Vyhľadaj podľa mena, témy alebo dátumu...">
       </div>
+
       <div id="weeks"></div>
     </div>
   </div>
 
   <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script>
     async function loadData(){
-      try{
-        const res = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRlWNH2-03UJF46Kk7VUQzk9y3GCNO9T0sgWiLUv9pP4N2vO811mFSHKuWgQVEFBEmVaeVma_D43J-4/pub?output=csv');
-        if(!res.ok) throw new Error('Nepodarilo sa načítať CSV');
-        const text = await res.text();
-        const data = csvToArray(text);
+      try {
+        const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTa7fvH3mSGOlAXkmuX0MMNZc1_JZqWclGsmgYQHgAEhQoblhbjjEje557zdJhuQIVCp5kSgq8FtPIr/pub?output=csv";
+        const res = await fetch(url);
+        const csvText = await res.text();
 
-        // Parse dátum
-        data.forEach(w => w._dateObj = parseDatum(w.datum));
+        const rawData = Papa.parse(csvText, { header:true, skipEmptyLines:true }).data;
+
+        // Prejdeme sekcie JSON
+        rawData.forEach(row=>{
+          if(row.sections){
+            try { row.sections = JSON.parse(row.sections); } catch(e){ row.sections=[]; }
+          } else row.sections=[];
+          // Dátum
+          row._dateObj = parseDatum(row.datum);
+        });
 
         // Filtrovanie od dneška
         const dnes = new Date(); dnes.setHours(0,0,0,0);
-        const filtered = data.filter(w=>w._dateObj>=dnes).sort((a,b)=>a._dateObj-b._dateObj);
+        const filtered = rawData.filter(r => r._dateObj >= dnes).sort((a,b)=>a._dateObj - b._dateObj);
 
         renderWeeks(filtered);
 
-        document.getElementById('search').addEventListener('input', e=>{
+        document.getElementById('search').addEventListener('input', e => {
           renderWeeks(filtered, e.target.value.trim().toLowerCase());
         });
+
       } catch(err){
-        document.getElementById('weeks').innerHTML = '<p style="color:red">Chyba: '+err.message+'</p>';
+        document.getElementById('weeks').innerHTML = '<p style="color:red">Chyba pri načítaní dát: '+err.message+'</p>';
       }
     }
 
-    function parseDatum(d){ const [day,month,year]=d.split('.').map(Number); return new Date(year,month-1,day); }
-
-    function csvToArray(str, delimiter=','){
-      const lines=str.trim().split('\n');
-      const headers=lines.shift().split(delimiter);
-      return lines.map(line=>{
-        const values=line.split(delimiter);
-        const obj={};
-        headers.forEach((h,i)=>obj[h.trim()]=values[i]?.trim());
-        if(obj.sections){
-          try{ obj.sections=JSON.parse(obj.sections); } catch(e){ obj.sections=[]; }
-        }
-        return obj;
-      });
+    function parseDatum(d){
+      if(!d) return new Date(0);
+      const parts = d.split('.');
+      return new Date(Number(parts[2]), Number(parts[1])-1, Number(parts[0]));
     }
 
     function renderWeeks(data, filter=''){
       const container = document.getElementById('weeks');
-      container.innerHTML='';
+      container.innerHTML = '';
       data.forEach(week=>{
-        const w=document.createElement('div'); w.className='week';
-        const topl=document.createElement('div'); topl.className='topline';
-        const left=document.createElement('div'); left.className='dateTitle';
-        left.innerHTML=`${formatDate(week._dateObj)} | <span class="small">${escapeHtml(week.title_line)}</span>`;
-        const meta=document.createElement('div'); meta.className='meta';
-        meta.innerHTML=`<div><strong>Predsedajúci:</strong> ${escapeHtml(week.presedajuci)}</div>
-                        <div><strong>Modlitba:</strong> ${escapeHtml(week.modlitba)}</div>`;
+        const w = document.createElement('div'); w.className='week';
+
+        const topl = document.createElement('div'); topl.className='topline';
+        const left = document.createElement('div'); left.className='dateTitle';
+        left.innerHTML = `${formatDate(week._dateObj)} | <span class="small">${escapeHtml(week.title_line || week.podujatie)}</span>`;
+        const meta = document.createElement('div'); meta.className='meta';
+        meta.innerHTML = `<div><strong>Predsedajúci:</strong> ${escapeHtml(week.presedajuci||'')}</div>
+                          <div><strong>Modlitba:</strong> ${escapeHtml(week.modlitba||'')}</div>`;
         topl.appendChild(left); topl.appendChild(meta); w.appendChild(topl);
 
         (week.sections||[]).forEach(section=>{
           if(section.label){
-            const lbl=document.createElement('div'); lbl.className='section-label ' + (section.color||'gray');
-            lbl.textContent=section.label; w.appendChild(lbl);
+            const lbl = document.createElement('div');
+            lbl.className='section-label ' + (section.color||'gray');
+            lbl.textContent = section.label;
+            w.appendChild(lbl);
           }
-          const list=document.createElement('div'); list.className='time-list';
+
+          const list = document.createElement('div'); list.className='time-list';
           (section.items||[]).forEach(item=>{
-            const itemText=(item.time+' '+item.text+' '+(item.role||'')).toLowerCase();
+            const itemText = ((item.time||'')+' '+(item.text||'')+' '+(item.role||'')).toLowerCase();
             if(filter && !itemText.includes(filter)) return;
-            const timeEl=document.createElement('div'); timeEl.className='time'; timeEl.textContent=item.time||'';
-            const textEl=document.createElement('div'); textEl.className='text'; textEl.innerHTML=escapeHtml(item.text||'');
-            const roleEl=document.createElement('div'); roleEl.className='role'; roleEl.innerHTML=escapeHtml(item.role||'');
+
+            const timeEl = document.createElement('div'); timeEl.className='time'; timeEl.textContent=item.time||'';
+            const textEl = document.createElement('div'); textEl.className='text'; textEl.innerHTML=escapeHtml(item.text||'');
+            const roleEl = document.createElement('div'); roleEl.className='role'; roleEl.innerHTML=escapeHtml(item.role||'');
             list.appendChild(timeEl); list.appendChild(textEl); list.appendChild(roleEl);
           });
           if(list.children.length>0) w.appendChild(list);
         });
+
         container.appendChild(w);
       });
     }
 
     function formatDate(d){ return d.toLocaleDateString('sk-SK',{ weekday:'long', year:'numeric', month:'short', day:'numeric' }); }
-    function escapeHtml(str){ if(!str) return ''; return String(str).replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
+    function escapeHtml(str){ if(!str) return ''; return String(str).replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
 
     loadData();
   </script>
 
 </body>
 </html>
+
+
