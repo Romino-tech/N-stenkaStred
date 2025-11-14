@@ -1,173 +1,40 @@
- <!DOCTYPE html>
-<html lang="sk">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Technická podpora – SNV-Stred</title>
+const dnes = new Date();
+dnes.setHours(0,0,0,0); // ignorujeme čas
 
-  <!-- Zabezpečenie -->
-  <script>
-    if (sessionStorage.getItem("accessGranted") !== "true") {
-      window.location.href = "login.html";
-    }
-  </script>
+const parseDatum = (datum) => {
+  const [d, m, r] = datum.split(".").map(Number);
+  return new Date(r, m - 1, d);
+};
 
-  <!-- Spoločné štýly -->
-  <link rel="stylesheet" href="style.css" />
+// filtrovanie a zoradenie
+const filtrData = data
+  .map(item => ({...item, _datumObj: parseDatum(item.datum)}))
+  .filter(item => item._datumObj >= dnes) // od dnešného dňa vrátane
+  .sort((a, b) => a._datumObj - b._datumObj); // zoradíme od najbližšieho
 
-  <style>
-    /* 🔹 Vlastné doplnky len pre túto stránku */
-    table {
-      width: 100%;
-      max-width: 800px;
-      margin: 16px auto;
-      border-collapse: collapse;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.25);
-    }
+function renderData(list) {
+  if (!list.length) {
+    contentDiv.innerHTML = "<p>Žiadne nadchádzajúce služby.</p>";
+    return;
+  }
 
-    th {
-      background-color: #2d5130;
-      color: #fff;
-      padding: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+  contentDiv.innerHTML = list.map(item => `
+    <h2>${item.datum} (${item.den})</h2>
 
-    td {
-      padding: 8px 10px;
-      border-bottom: 1px solid #ddd;
-      text-align: left;
-      color: #111;
-    }
+    <table>
+      <tr><th colspan="2">${item.podujatie}</th></tr>
+      ${Object.entries(item.sluzby)
+        .map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`)
+        .join("")}
+    </table>
 
-    tr:nth-child(even) { background-color: #f3f6f2; }
+    <table>
+      <tr><th colspan="2">Nedeľa – ${item.nedela.datum}</th></tr>
+      ${Object.entries(item.nedela)
+        .filter(([k]) => k !== "datum")
+        .map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`)
+        .join("")}
+    </table>
+  `).join("");
+}
 
-    h2 {
-      margin-top: 24px;
-      margin-bottom: 6px;
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-    }
-
-    #searchBox {
-      margin: 20px auto;
-      display: block;
-      width: 100%;
-      max-width: 500px;
-      padding: 10px 14px;
-      border-radius: 6px;
-      border: 1px solid #d1d5db;
-      font-size: 15px;
-    }
-
-    #content p {
-      color: #fff;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Video pozadie -->
-  <video autoplay muted loop playsinline class="background">
-    <source src="video/video.mp4" type="video/mp4" />
-    Váš prehliadač nepodporuje prehrávanie videa.
-  </video>
-
-  <!-- Navigácia -->
-  <nav>
-    <a href="index.html">Domov</a>
-    <a href="zas.html">Život a služba</a>
-    <a href="study.html">Štúdium SV</a>
-    <a href="service.html"><strong>Služby</strong></a>
-    <a href="meet.html">Schôdzky</a>
-    <a href="groups.html">Skupiny</a>
-  </nav>
-
-  <!-- Obsah -->
-  <div class="overlay">
-    <div class="container">
-      <h3>🛠️ Technická podpora zhromaždení</h3>
-      <input type="text" id="searchBox" placeholder="Vyhľadaj podľa dátumu alebo mena..." />
-      <div id="content">Načítavam údaje...</div>
-    </div>
-  </div>
-
-  <!-- Pätička -->
-  <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
-
-  <script>
-    async function loadServices() {
-      const contentDiv = document.getElementById("content");
-      const searchBox = document.getElementById("searchBox");
-      contentDiv.innerHTML = "<p>Načítavam údaje...</p>";
-
-      try {
-        const res = await fetch("datasluzby.json.txt");
-        if (!res.ok) throw new Error("Nepodarilo sa načítať údaje");
-        const data = await res.json();
-
-        const dnes = new Date();
-        const parseDatum = (datum) => {
-          const [d, m, r] = datum.split(".").map(Number);
-          return new Date(r, m - 1, d);
-        };
-
-        const filtrData = data.filter(item => {
-          const datumTyzden = parseDatum(item.datum);
-          return datumTyzden >= new Date(dnes.getFullYear(), dnes.getMonth(), dnes.getDate());
-        });
-
-        renderData(filtrData);
-
-        // Vyhľadávanie
-        searchBox.addEventListener("input", e => {
-          const val = e.target.value.toLowerCase();
-          const filtrovane = filtrData.filter(item => 
-            item.datum.toLowerCase().includes(val) ||
-            item.den.toLowerCase().includes(val) ||
-            JSON.stringify(item.sluzby).toLowerCase().includes(val) ||
-            JSON.stringify(item.nedela).toLowerCase().includes(val)
-          );
-          renderData(filtrovane);
-        });
-
-      } catch (err) {
-        contentDiv.innerHTML = `<p style="color:red">⚠️ Chyba: ${err.message}</p>`;
-      }
-
-      function renderData(list) {
-        if (!list.length) {
-          contentDiv.innerHTML = "<p>Žiadne nadchádzajúce služby.</p>";
-          return;
-        }
-
-        contentDiv.innerHTML = list.map(item => `
-          <h2>${item.datum} (${item.den})</h2>
-
-          <table>
-            <tr><th colspan="2">${item.podujatie}</th></tr>
-            ${Object.entries(item.sluzby)
-              .map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`)
-              .join("")}
-          </table>
-
-          <table>
-            <tr><th colspan="2">Nedeľa – ${item.nedela.datum}</th></tr>
-            ${Object.entries(item.nedela)
-              .filter(([k]) => k !== "datum")
-              .map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`)
-              .join("")}
-          </table>
-        `).join("");
-      }
-    }
-
-    loadServices();
-  </script>
-</body>
-</html>
