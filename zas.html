@@ -7,238 +7,172 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rozpis zhromaždenia — Život a služba</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body, html {
-      height:100%;
-      width:100%;
-      font-family: "Segoe UI", Arial, sans-serif;
-      color:#fff;
-      overflow-x:hidden;
-    }
-    video.background {
-      position:fixed;
-      right:0;
-      bottom:0;
-      min-width:100%;
-      min-height:100%;
-      width:auto;
-      height:auto;
-      z-index:-1;
-      filter:brightness(0.55);
-      object-fit:cover;
-    }
-    nav {
-      position:fixed;
-      top:0;
-      width:100%;
-      background: rgba(0,0,0,0.45);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:15px;
-      padding:14px 10px;
-      z-index:10;
-      backdrop-filter: blur(6px);
-    }
-    nav a, nav button {
-      color:#fff;
-      text-decoration:none;
-      font-weight:bold;
-      letter-spacing:0.5px;
-      transition:0.3s;
-      padding:6px 10px;
-      border-radius:5px;
-      background:transparent;
-      border:0;
-      cursor:pointer;
-    }
-    nav a:hover, nav button:hover {
-      background: rgba(255,255,255,0.2);
-    }
-    .overlay {
-      position:relative;
-      min-height:100%;
-      width:100%;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      padding:100px 20px 60px;
-      background: rgba(0, 0, 0, 0);
-      text-align:center;
-    }
-    h2 { font-size:2em; margin-bottom:20px; text-shadow:2px 2px 8px rgba(44, 33, 33, 0.6); }
-    .container{ max-width:800px; width:100%; margin:0 auto; color:#f8f3f3d3; }
-    .filter{ margin: 20px 0; display:flex; gap:8px; justify-content:center; width:100%; }
-    .filter input{ flex:1; max-width:500px; padding:10px 14px; border-radius:6px; border:1px solid #d1d5db; font-size:15px; }
-    .week{ background: rgba(255,255,255,0.85); padding:14px; margin-bottom:20px; border-radius:10px; box-shadow:0 3px 8px rgba(0,0,0,0.25); color:#111; }
-    .week .topline{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:10px; }
-    .dateTitle{ font-weight:700; font-size:16px; color:#111; }
-    .meta{ text-align:right; font-size:14px; color:#333; }
-    .time-list{ display:grid; grid-template-columns: 80px 1fr 220px; gap:6px 18px; align-items:start; margin-top:8px; }
-    .section-label{ grid-column:1 / -1; padding:8px 12px; border-radius:4px; color:#fff; font-weight:700; margin-top:10px; }
-    .section-label.gray{ background:#4b5563; }
-    .section-label.gold{ background:#b97c00; }
-    .section-label.maroon{ background:#701a1a; }
-    .time{ color:#111; font-weight:600; padding-top:6px; }
-    .text{ color:#111; padding-top:6px; }
-    .role{ text-align:right; color:#111; padding-top:6px; font-weight:600; }
-    .small{ font-size:13px; color:#555; }
-    footer { position:fixed; bottom:0; width:100%; text-align:center; font-size:0.9em; color:#ddd; background:rgba(0,0,0,0.3); padding:8px 0; }
-    @media(max-width:768px){ .time-list{ grid-template-columns:80px 1fr; } .role{ grid-column:1 / -1; text-align:left; font-size:14px; } }
-    @media print { video.background{ display:none !important; } nav, footer, .filter { display:none !important; } body, html { background: #fff; color: #000; } .week { page-break-inside: avoid; } }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rozpis zhromaždenia — Život a služba</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body, html { height:100%; width:100%; font-family:"Segoe UI",Arial,sans-serif; color:#fff; overflow-x:hidden; }
+video.background { position:fixed; right:0; bottom:0; min-width:100%; min-height:100%; width:auto; height:auto; z-index:-1; filter:brightness(0.55); object-fit:cover; }
+nav { position:fixed; top:0; width:100%; background: rgba(0,0,0,0.45); display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:15px; padding:14px 10px; z-index:10; backdrop-filter: blur(6px); }
+nav a, nav button { color:#fff; text-decoration:none; font-weight:bold; letter-spacing:0.5px; transition:0.3s; padding:6px 10px; border-radius:5px; background:transparent; border:0; cursor:pointer; }
+nav a:hover, nav button:hover { background: rgba(255,255,255,0.2); }
+.overlay { position:relative; min-height:100%; width:100%; display:flex; flex-direction:column; align-items:center; padding:100px 20px 60px; background: rgba(0,0,0,0); text-align:center; }
+h2 { font-size:2em; margin-bottom:20px; text-shadow:2px 2px 8px rgba(44,33,33,0.6); }
+.container{ max-width:800px; width:100%; margin:0 auto; color:#f8f3f3d3; }
+.filter{ margin: 20px 0; display:flex; gap:8px; justify-content:center; width:100%; }
+.filter input{ flex:1; max-width:500px; padding:10px 14px; border-radius:6px; border:1px solid #d1d5db; font-size:15px; }
+.week{ background: rgba(255,255,255,0.85); padding:14px; margin-bottom:20px; border-radius:10px; box-shadow:0 3px 8px rgba(0,0,0,0.25); color:#111; }
+.week .topline{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:10px; }
+.dateTitle{ font-weight:700; font-size:16px; color:#111; }
+.meta{ text-align:right; font-size:14px; color:#333; }
+.time-list{ display:grid; grid-template-columns: 70px 1fr 120px 140px; gap:6px 12px; align-items:start; margin-top:8px; }
+.text { text-align:left; }
+.role { font-size:13px; color:#555; text-align:right; }
+.person { font-weight:600; color:#111; text-align:right; }
+.section-label{ grid-column:1 / -1; padding:8px 12px; border-radius:4px; color:#fff; font-weight:700; margin-top:10px; }
+.section-label.gray{ background:#4b5563; }
+.section-label.gold{ background:#b97c00; }
+.section-label.maroon{ background:#701a1a; }
+footer { position:fixed; bottom:0; width:100%; text-align:center; font-size:0.9em; color:#ddd; background:rgba(0,0,0,0.3); padding:8px 0; }
+@media(max-width:768px){ .time-list { grid-template-columns: 70px 1fr; } .role, .person { grid-column:1 / -1; text-align:left; font-size:13px; } }
+@media print { video.background{ display:none !important; } nav, footer, .filter { display:none !important; } body, html { background: #fff; color: #000; } .week { page-break-inside: avoid; } }
+</style>
 </head>
 <body>
 
-  <video autoplay muted loop playsinline class="background">
-    <source src="video/video.mp4" type="video/mp4">
-    Váš prehliadač nepodporuje prehrávanie videa.
-  </video>
+<video autoplay muted loop playsinline class="background">
+<source src="video/video.mp4" type="video/mp4">
+Váš prehliadač nepodporuje prehrávanie videa.
+</video>
 
-  <nav>
-    <a href="index.html">Domov</a>
-    <a href="zas.html"><strong>Život a služba</strong></a>
-    <a href="study.html">Štúdium SV</a>
-    <a href="service.html">Služby</a>
-    <a href="meet.html">Schôdzky</a>
-    <a href="groups.html">Skupiny</a>
-    <button id="printBtn">Generovať PDF / Tlač</button>
-  </nav>
+<nav>
+  <a href="index.html">Domov</a>
+  <a href="zas.html"><strong>Život a služba</strong></a>
+  <a href="study.html">Štúdium SV</a>
+  <a href="service.html">Služby</a>
+  <a href="meet.html">Schôdzky</a>
+  <a href="groups.html">Skupiny</a>
+  <button id="printBtn">Generovať PDF / Tlač</button>
+</nav>
 
-  <div class="overlay">
-    <div class="container">
-      <h3>📖 Rozpis zhromaždenia — Život a služba</h3>
-      <div class="filter">
-        <input id="search" placeholder="Vyhľadaj podľa mena, témy alebo dátumu...">
-      </div>
-      <div id="weeks"></div>
+<div class="overlay">
+  <div class="container">
+    <h3>📖 Rozpis zhromaždenia — Život a služba</h3>
+    <div class="filter">
+      <input id="search" placeholder="Vyhľadaj podľa mena, témy alebo dátumu...">
     </div>
+    <div id="weeks"></div>
   </div>
+</div>
 
-  <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
+<footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
 
-  <script>
-    document.getElementById('printBtn').addEventListener('click', ()=>{
-      const printWindow = window.open('', '_blank');
-      const styles = Array.from(document.querySelectorAll('style')).map(s=>s.outerHTML).join('\n');
-      const content = document.querySelector('.container').outerHTML;
-      printWindow.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Tlač - Rozpis</title>'+styles+'</head><body>'+content+'</body></html>');
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(()=>{ printWindow.print(); },300);
-    });
+<script>
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  const printWindow = window.open('', '_blank');
+  const styles = Array.from(document.querySelectorAll('style')).map(s=>s.outerHTML).join('\n');
+  const content = document.querySelector('.container').outerHTML;
+  printWindow.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Tlač - Rozpis</title>'+styles+'</head><body>'+content+'</body></html>');
+  printWindow.document.close(); printWindow.focus();
+  setTimeout(()=>{ printWindow.print(); },300);
+});
 
-    function parseDate(str){
-      const parts = str.split('.');
-      if(parts.length!==3) return str;
-      const [day, month, year] = parts;
-      return new Date(`${year}-${month}-${day}`);
-    }
+function parseDate(str){ const parts=str.split('.'); if(parts.length!==3) return str; const [day, month, year]=parts; return new Date(`${year}-${month}-${day}`); }
+function formatDate(d){ if(!(d instanceof Date)||isNaN(d)) return d; const opts={ weekday:'long', year:'numeric', month:'short', day:'numeric' }; return d.toLocaleDateString('sk-SK',opts); }
+function escapeHtml(str){ if(!str) return ''; return String(str).replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
 
-    function formatDate(d){
-      if(!(d instanceof Date)||isNaN(d)) return d;
-      const opts={ weekday:'long', year:'numeric', month:'short', day:'numeric' };
-      return d.toLocaleDateString('sk-SK',opts);
-    }
+async function loadData(){
+  try{
+    const url='https://docs.google.com/document/d/e/2PACX-1vRm8N5hXDs3OT1FtcNErzVKviXjr0v9R9hb16jGU0sja0Np7LJ9TS4xPGS-v90wzZUplgBNS4emYDON/pub?embedded=true';
+    const res=await fetch(url); if(!res.ok) throw new Error('Nepodarilo sa načítať Google dokument');
+    const html=await res.text(); const parser=new DOMParser(); const doc=parser.parseFromString(html,'text/html');
+    let paragraphs=[...doc.querySelectorAll('p')].map(p=>p.innerText.trim()).filter(p=>p!=='');
+    const weeks=[]; let current=[]; paragraphs.forEach(line=>{ if(line.match(/^\d{1,2}\.\d{1,2}\.\d{4}/)){ if(current.length) weeks.push(current); current=[line]; } else current.push(line); });
+    if(current.length) weeks.push(current);
+    const data=weeks.map(parseWeek); renderWeeks(data);
+    document.getElementById('search').addEventListener('input', e=>{ renderWeeks(data, e.target.value.trim().toLowerCase()); });
+  } catch(err){ document.getElementById('weeks').innerHTML='<p style="color:red">Chyba pri načítaní dát: '+err.message+'</p>'; }
+}
 
-    function escapeHtml(str){
-      if(!str) return '';
-      return String(str).replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-    }
+function parseWeek(lines){
+  const week={ datum: lines[0].split('|')[0].trim(), title_line: lines[0].split('|')[1]?.trim()||'', presedajuci:'', modlitba:'', sections:[] };
+  function startSection(label,color){ const sec={label,color,items:[]}; week.sections.push(sec); return sec; }
+  let currentSection=null; let i=1;
+  while(i<lines.length){
+    let line=lines[i].trim();
+    if(line.startsWith('Predsedajúci')){ week.presedajuci=(lines[i+1]||'').trim(); i+=2; continue; }
+    if(line.startsWith('Modlitba')){ if(currentSection && currentSection.items.length) currentSection.items[currentSection.items.length-1].person=(lines[i+1]||'').trim(); else week.modlitba=(lines[i+1]||'').trim(); i+=2; continue; }
+    if(line.startsWith('POKLADY Z BOŽIEHO SLOVA')){ currentSection=startSection('POKLADY Z BOŽIEHO SLOVA','gold'); i++; continue; }
+    if(line.startsWith('ZLEPŠUJME SA V SLUŽBE')){ currentSection=startSection('ZLEPŠUJME SA V SLUŽBE','maroon'); i++; continue; }
+    if(line.startsWith('ŽIVOT KRESŤANA')){ currentSection=startSection('ŽIVOT KRESŤANA','gray'); i++; continue; }
 
-    async function loadData(){
-      try{
-        const url = 'https://docs.google.com/document/d/e/2PACX-1vRm8N5hXDs3OT1FtcNErzVKviXjr0v9R9hb16jGU0sja0Np7LJ9TS4xPGS-v90wzZUplgBNS4emYDON/pub?embedded=true';
-        const res = await fetch(url);
-        if(!res.ok) throw new Error('Nepodarilo sa načítať Google dokument');
-        const html = await res.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html,'text/html');
-        let paragraphs = [...doc.querySelectorAll('p')].map(p=>p.innerText.trim()).filter(p=>p!=='');
-        const weeks=[];
-        let current=[];
-        paragraphs.forEach(line=>{
-          if(line.match(/^\d{1,2}\.\d{1,2}\.\d{4}/)){
-            if(current.length) weeks.push(current);
-            current=[line];
-          } else current.push(line);
-        });
-        if(current.length) weeks.push(current);
-        const data = weeks.map(parseWeek);
-        renderWeeks(data);
-        document.getElementById('search').addEventListener('input', e=>{
-          renderWeeks(data, e.target.value.trim().toLowerCase());
-        });
-      } catch(err){
-        document.getElementById('weeks').innerHTML = '<p style="color:red">Chyba pri načítaní dát: '+err.message+'</p>';
+    let timeMatch=line.match(/^(\d{1,2}\.\d{2})/);
+    if(timeMatch){
+      const time = timeMatch[1];
+      const text = (lines[i+1] || '').trim();
+      let role_label = '', role_name = '';
+      const nextLine = (lines[i+2]||'').trim();
+      const nextNextLine = (lines[i+3]||'').trim();
+
+      // Ak nasledujúci riadok obsahuje Študujúci / Vedie/Číta / Modlitba
+      if(nextLine.startsWith('Študujúci') || nextLine.startsWith('Vedie/Číta') || nextLine.startsWith('Modlitba')){
+          role_label = nextLine.split(':')[0].trim();
+          role_name = nextLine.split(':')[1]?.trim() || nextNextLine;
+          i += (nextLine.includes(':') ? (role_name===nextNextLine ? 4 : 3) : 3);
       }
-    }
-
-    function parseWeek(lines){
-      const week = { datum: lines[0].split('|')[0].trim(), title_line: lines[0].split('|')[1]?.trim()||'', presedajuci:'', modlitba:'', sections:[] };
-      function startSection(label,color){ const sec={label,color,items:[]}; week.sections.push(sec); return sec; }
-      let currentSection=null; let i=1;
-      while(i<lines.length){
-        let line=lines[i].trim();
-        if(line.startsWith('Predsedajúci')){ week.presedajuci=(lines[i+1]||'').trim(); i+=2; continue; }
-        if(line.startsWith('Modlitba')){ if(currentSection && currentSection.items.length) currentSection.items[currentSection.items.length-1].role=(lines[i+1]||'').trim(); else week.modlitba=(lines[i+1]||'').trim(); i+=2; continue; }
-        if(line.startsWith('POKLADY Z BOŽIEHO SLOVA')){ currentSection=startSection('POKLADY Z BOŽIEHO SLOVA','gold'); i++; continue; }
-        if(line.startsWith('ZLEPŠUJME SA V SLUŽBE')){ currentSection=startSection('ZLEPŠUJME SA V SLUŽBE','maroon'); i++; continue; }
-        if(line.startsWith('ŽIVOT KRESŤANA')){ currentSection=startSection('ŽIVOT KRESŤANA','gray'); i++; continue; }
-        let timeMatch=line.match(/^(\d{1,2}\.\d{2})/);
-        if(timeMatch){
-          const time=timeMatch[1]; const text=(lines[i+1]||'').trim();
-          let role='';
-          if(lines[i+2] && (lines[i+2].startsWith('Študujúci') || lines[i+2].startsWith('Vedie/Číta') || lines[i+2].startsWith('Modlitba'))){
-            role=lines[i+2].split(':')[1]?.trim()||'';
-            i+=3;
-          } else i+=2;
-          if(!currentSection) currentSection=startSection('Program','gray');
-          currentSection.items.push({time,text,role});
-          continue;
-        }
-        if(line.startsWith('·')){ if(!currentSection) currentSection=startSection('Program','gray'); currentSection.items.push({time:'',text:line.replace('·','').trim(),role:''}); i++; continue; }
-        i++;
+      // Ak nasledujúci riadok je len meno osoby
+      else if(nextLine && !nextLine.includes('(')){
+          role_label = '';
+          role_name = nextLine;
+          i += 2;
       }
-      return week;
+      else{
+          i += 2;
+      }
+
+      if(!currentSection) currentSection=startSection('Program','gray');
+      currentSection.items.push({time,text,role_label,person:role_name});
+      continue;
     }
 
-    function renderWeeks(data,filter=''){
-      const container=document.getElementById('weeks'); container.innerHTML='';
-      data.forEach(week=>{
-        const w=document.createElement('div'); w.className='week';
-        const topl=document.createElement('div'); topl.className='topline';
-        const left=document.createElement('div'); left.className='dateTitle';
-        const date=parseDate(week.datum); left.innerHTML=`${formatDate(date)} | <span class="small">${escapeHtml(week.title_line)}</span>`;
-        const meta=document.createElement('div'); meta.className='meta';
-        meta.innerHTML=`<div><strong>Predsedajúci:</strong> ${escapeHtml(week.presedajuci)}</div><div><strong>Modlitba:</strong> ${escapeHtml(week.modlitba)}</div>`;
-        topl.appendChild(left); topl.appendChild(meta); w.appendChild(topl);
-        week.sections.forEach(section=>{
-          if(section.label){ const lbl=document.createElement('div'); lbl.className='section-label '+(section.color||'gray'); lbl.textContent=section.label; w.appendChild(lbl); }
-          const list=document.createElement('div'); list.className='time-list';
-          section.items.forEach(item=>{
-            const itemText=(item.time+' '+item.text+' '+(item.role||'')).toLowerCase();
-            if(filter && !itemText.includes(filter)) return;
-            const timeEl=document.createElement('div'); timeEl.className='time'; timeEl.textContent=item.time||'';
-            const textEl=document.createElement('div'); textEl.className='text'; textEl.innerHTML=escapeHtml(item.text);
-            const roleEl=document.createElement('div'); roleEl.className='role'; roleEl.innerHTML=escapeHtml(item.role||'');
-            list.appendChild(timeEl); list.appendChild(textEl); list.appendChild(roleEl);
-          });
-          if(list.children.length>0) w.appendChild(list);
-        });
-        container.appendChild(w);
+    if(line.startsWith('·')){ if(!currentSection) currentSection=startSection('Program','gray'); currentSection.items.push({time:'',text:line.replace('·','').trim(),role_label:'',person:''}); i++; continue; }
+    i++;
+  }
+  return week;
+}
+
+function renderWeeks(data,filter=''){
+  const container=document.getElementById('weeks'); container.innerHTML='';
+  data.forEach(week=>{
+    const w=document.createElement('div'); w.className='week';
+    const topl=document.createElement('div'); topl.className='topline';
+    const left=document.createElement('div'); left.className='dateTitle';
+    const date=parseDate(week.datum); left.innerHTML=`${formatDate(date)} | <span class="small">${escapeHtml(week.title_line)}</span>`;
+    const meta=document.createElement('div'); meta.className='meta';
+    meta.innerHTML=`<div><strong>Predsedajúci:</strong> ${escapeHtml(week.presedajuci)}</div><div><strong>Modlitba:</strong> ${escapeHtml(week.modlitba)}</div>`;
+    topl.appendChild(left); topl.appendChild(meta); w.appendChild(topl);
+
+    week.sections.forEach(section=>{
+      if(section.label){ const lbl=document.createElement('div'); lbl.className='section-label '+(section.color||'gray'); lbl.textContent=section.label; w.appendChild(lbl); }
+      const list=document.createElement('div'); list.className='time-list';
+      section.items.forEach(item=>{
+        const itemText=(item.time+' '+item.text+' '+(item.role_label||'')+' '+(item.person||'')).toLowerCase();
+        if(filter && !itemText.includes(filter)) return;
+        const timeEl=document.createElement('div'); timeEl.className='time'; timeEl.textContent=item.time||'';
+        const textEl=document.createElement('div'); textEl.className='text'; textEl.textContent=item.text;
+        const roleEl=document.createElement('div'); roleEl.className='role'; roleEl.textContent=item.role_label||'';
+        const personEl=document.createElement('div'); personEl.className='person'; personEl.textContent=item.person||'';
+        list.appendChild(timeEl); list.appendChild(textEl); list.appendChild(roleEl); list.appendChild(personEl);
       });
-    }
+      if(list.children.length>0) w.appendChild(list);
+    });
+    container.appendChild(w);
+  });
+}
 
-    loadData();
-  </script>
+loadData();
+</script>
 </body>
 </html>
-
-
 
