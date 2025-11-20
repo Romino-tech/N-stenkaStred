@@ -20,7 +20,6 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       overflow-x:hidden;
     }
 
-    /* 🔹 Video pozadie */
     video.background {
       position:fixed;
       right:0;
@@ -34,7 +33,6 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       object-fit:cover;
     }
 
-    /* 🔹 Navigácia */
     nav {
       position:fixed;
       top:0;
@@ -65,7 +63,6 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       background: rgba(255,255,255,0.2);
     }
 
-    /* 🔹 Overlay */
     .overlay {
       position:relative;
       min-height:100%;
@@ -78,77 +75,18 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
       text-align:center;
     }
 
-    h2 {
-      font-size:2em;
-      margin-bottom:20px;
-      text-shadow:2px 2px 8px rgba(44, 33, 33, 0.6);
-    }
+    h2 { font-size:2em; margin-bottom:20px; text-shadow:2px 2px 8px rgba(44, 33, 33, 0.6); }
 
-    /* 🔹 Obsah */
-    .container{
-      max-width:800px;
-      width:100%;
-      margin:0 auto;
-      color:#f8f3f3d3;
-    }
-    .filter{
-      margin: 20px 0;
-      display:flex;
-      gap:8px;
-      justify-content:center;
-      width:100%;
-    }
-    .filter input{
-      flex:1;
-      max-width:500px;
-      padding:10px 14px;
-      border-radius:6px;
-      border:1px solid #d1d5db;
-      font-size:15px;
-    }
+    .container{ max-width:800px; width:100%; margin:0 auto; color:#f8f3f3d3; }
+    .filter{ margin: 20px 0; display:flex; gap:8px; justify-content:center; width:100%; }
+    .filter input{ flex:1; max-width:500px; padding:10px 14px; border-radius:6px; border:1px solid #d1d5db; font-size:15px; }
 
-    /* 🔹 Karty */
-    .week{
-      background: rgba(255,255,255,0.85);
-      padding:14px;
-      margin-bottom:20px;
-      border-radius:10px;
-      box-shadow:0 3px 8px rgba(0,0,0,0.25);
-      color:#111;
-    }
-    .week .topline{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:8px;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-    .dateTitle{
-      font-weight:700;
-      font-size:16px;
-      color:#111;
-    }
-    .meta{
-      text-align:right;
-      font-size:14px;
-      color:#333;
-    }
-    .time-list{
-      display:grid;
-      grid-template-columns: 80px 1fr 220px;
-      gap:6px 18px;
-      align-items:start;
-      margin-top:8px;
-    }
-    .section-label{
-      grid-column:1 / -1;
-      padding:8px 12px;
-      border-radius:4px;
-      color:#fff;
-      font-weight:700;
-      margin-top:10px;
-    }
+    .week{ background: rgba(255,255,255,0.85); padding:14px; margin-bottom:20px; border-radius:10px; box-shadow:0 3px 8px rgba(0,0,0,0.25); color:#111; }
+    .week .topline{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:10px; }
+    .dateTitle{ font-weight:700; font-size:16px; color:#111; }
+    .meta{ text-align:right; font-size:14px; color:#333; }
+    .time-list{ display:grid; grid-template-columns: 80px 1fr 220px; gap:6px 18px; align-items:start; margin-top:8px; }
+    .section-label{ grid-column:1 / -1; padding:8px 12px; border-radius:4px; color:#fff; font-weight:700; margin-top:10px; }
     .section-label.gray{ background:#4b5563; }
     .section-label.gold{ background:#b97c00; }
     .section-label.maroon{ background:#701a1a; }
@@ -159,29 +97,11 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
 
     .small{ font-size:13px; color:#555; }
 
-    footer {
-      position:fixed;
-      bottom:0;
-      width:100%;
-      text-align:center;
-      font-size:0.9em;
-      color:#ddd;
-      background:rgba(0,0,0,0.3);
-      padding:8px 0;
-    }
+    footer { position:fixed; bottom:0; width:100%; text-align:center; font-size:0.9em; color:#ddd; background:rgba(0,0,0,0.3); padding:8px 0; }
 
-    @media(max-width:768px){
-      .time-list{ grid-template-columns:80px 1fr; }
-      .role{ grid-column:1 / -1; text-align:left; font-size:14px; }
-    }
+    @media(max-width:768px){ .time-list{ grid-template-columns:80px 1fr; } .role{ grid-column:1 / -1; text-align:left; font-size:14px; } }
 
-    /* print tweaks */
-    @media print {
-      video.background{ display:none !important; }
-      nav, footer, .filter { display:none !important; }
-      body, html { background: #fff; color: #000; }
-      .week { page-break-inside: avoid; }
-    }
+    @media print { video.background{ display:none !important; } nav, footer, .filter { display:none !important; } body, html { background: #fff; color: #000; } .week { page-break-inside: avoid; } }
   </style>
 </head>
 <body>
@@ -204,11 +124,9 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <div class="overlay">
     <div class="container">
       <h3>📖 Rozpis zhromaždenia — Život a služba</h3>
-
       <div class="filter">
         <input id="search" placeholder="Vyhľadaj podľa mena, témy alebo dátumu...">
       </div>
-
       <div id="weeks"></div>
     </div>
   </div>
@@ -216,24 +134,18 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
   <footer>© 2025 Zbor SNV-Stred | Interné použitie</footer>
 
   <script>
-    // tlačové tlačidlo
     document.addEventListener('DOMContentLoaded', ()=>{
-      document.getElementById('printBtn').addEventListener('click', printSchedule);
+      document.getElementById('printBtn').addEventListener('click', ()=>{
+        const printWindow = window.open('', '_blank');
+        const styles = Array.from(document.querySelectorAll('style')).map(s=>s.outerHTML).join('\n');
+        const content = document.querySelector('.container').outerHTML;
+        printWindow.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Tlač - Rozpis</title>'+styles+'</head><body>'+content+'</body></html>');
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(()=>{ printWindow.print(); }, 300);
+      });
     });
 
-    function printSchedule(){
-      // otvorí nové okno s obsahom, zachová štýly a spustí print dialog
-      const printWindow = window.open('', '_blank');
-      const styles = Array.from(document.querySelectorAll('style')).map(s=>s.outerHTML).join('\n') + '\n<style>@media print{ video.background{display:none;} nav, footer, .filter{display:none;} }</style>';
-      const content = document.querySelector('.container').outerHTML;
-      printWindow.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Tlač - Rozpis</title>'+styles+'</head><body>'+content+'</body></html>');
-      printWindow.document.close();
-      printWindow.focus();
-      // krátke oneskorenie, aby sa načítali štýly
-      setTimeout(()=>{ printWindow.print(); }, 300);
-    }
-
-    // --------- načítanie a parsing Google Doc ---------
     async function loadData(){
       try{
         const url = "https://docs.google.com/document/d/e/2PACX-1vRm8N5hXDs3OT1FtcNErzVKviXjr0v9R9hb16jGU0sja0Np7LJ9TS4xPGS-v90wzZUplgBNS4emYDON/pub?embedded=true";
@@ -242,25 +154,17 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
         const html = await res.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
-        let paragraphs = [...doc.querySelectorAll('p')].map(p=>p.innerText.trim());
-        paragraphs = paragraphs.filter(p=>p !== '');
+        let paragraphs = [...doc.querySelectorAll('p')].map(p=>p.innerText.trim()).filter(p=>p !== '');
 
-        // rozdelíme do blokov podľa riadku začínajúceho dátumom
         const weeks = [];
         let current = [];
         paragraphs.forEach(line=>{
-          if(line.match(/^\d{1,2}\.\d{1,2}\.\d{4}/)){
-            if(current.length) weeks.push(current);
-            current = [line];
-          } else {
-            current.push(line);
-          }
+          if(line.match(/^\d{1,2}\.\d{1,2}\.\d{4}/)){ if(current.length) weeks.push(current); current=[line]; } else current.push(line);
         });
         if(current.length) weeks.push(current);
 
         const data = weeks.map(parseWeek);
         renderWeeks(data);
-
         document.getElementById('search').addEventListener('input', e=>{
           renderWeeks(data, e.target.value.trim().toLowerCase());
         });
@@ -270,143 +174,60 @@ if (sessionStorage.getItem("accessGranted") !== "true") {
     }
 
     function parseWeek(lines){
-      const week = {
-        datum: lines[0].split('|')[0].trim(),
-        title_line: lines[0].split('|')[1]?.trim() || '',
-        presedajuci: '',
-        modlitba: '',
-        sections: []
-      };
-
-      function startSection(label, color){
-        const sec = { label, color, items: [] };
-        week.sections.push(sec);
-        return sec;
-      }
-
-      let currentSection = null;
-      let i = 1;
-      while(i < lines.length){
-        let line = lines[i].trim();
-        // Predsedajúci
-        if(line.startsWith('Predsedajúci')){
-          week.presedajuci = (lines[i+1] || '').trim(); i += 2; continue;
-        }
-        // Modlitba
-        if(line.startsWith('Modlitba')){
-          week.modlitba = (lines[i+1] || '').trim(); i += 2; continue;
-        }
-        // Sekcie
-        if(line === 'POKLADY Z BOŽIEHO SLOVA'){
-          currentSection = startSection('POKLADY Z BOŽIEHO SLOVA', 'gold'); i++; continue;
-        }
-        if(line === 'ZLEPŠUJME SA V SLUŽBE'){
-          currentSection = startSection('ZLEPŠUJME SA V SLUŽBE', 'maroon'); i++; continue;
-        }
-        if(line === 'ŽIVOT KRESŤANA'){
-          currentSection = startSection('ŽIVOT KRESŤANA', 'gray'); i++; continue;
-        }
-        // Časový záznam: formát 18.06 alebo 18.00
+      const week = { datum: lines[0].split('|')[0].trim(), title_line: lines[0].split('|')[1]?.trim()||'', presedajuci:'', modlitba:'', sections:[] };
+      function startSection(label, color){ const sec={label,color,items:[]}; week.sections.push(sec); return sec; }
+      let currentSection = null; let i=1;
+      while(i<lines.length){
+        let line=lines[i].trim();
+        if(line.startsWith('Predsedajúci')){ week.presedajuci=(lines[i+1]||'').trim(); i+=2; continue; }
+        if(line.startsWith('Modlitba')){ week.modlitba=(lines[i+1]||'').trim(); i+=2; continue; }
+        if(line==='POKLADY Z BOŽIEHO SLOVA'){ currentSection=startSection('POKLADY Z BOŽIEHO SLOVA','gold'); i++; continue; }
+        if(line==='ZLEPŠUJME SA V SLUŽBE'){ currentSection=startSection('ZLEPŠUJME SA V SLUŽBE','maroon'); i++; continue; }
+        if(line==='ŽIVOT KRESŤANA'){ currentSection=startSection('ŽIVOT KRESŤANA','gray'); i++; continue; }
         if(line.match(/^\d{1,2}\.\d{2}$/)){
-          const time = line;
-          const text = (lines[i+1] || '').trim();
-          // nasledujúci riadok môže byť meno/role alebo ďalší čas
-          let role = '';
-          if(lines[i+2] && !lines[i+2].trim().match(/^\d{1,2}\.\d{2}$/) && !lines[i+2].trim().startsWith('·')){
-            role = lines[i+2].trim();
-            i += 3;
-          } else {
-            i += 2;
-          }
-          if(!currentSection) currentSection = startSection('Program', 'gray');
-          currentSection.items.push({ time, text, role });
-          continue;
+          const time=line; const text=(lines[i+1]||'').trim();
+          let role='';
+          if(lines[i+2] && !lines[i+2].trim().match(/^\d{1,2}\.\d{2}$/) && !lines[i+2].trim().startsWith('·')){ role=lines[i+2].trim(); i+=3; } else i+=2;
+          if(!currentSection) currentSection=startSection('Program','gray');
+          currentSection.items.push({time,text,role}); continue;
         }
-        // bod označený odrážkou – pieseň, úvodné slová...
-        if(line.startsWith('·')){
-          if(!currentSection) currentSection = startSection('Program', 'gray');
-          currentSection.items.push({ time: '', text: line.replace('·','').trim(), role: '' });
-          i++; continue;
-        }
-        // niekedy sú riadky typu "1. Text (10 min)" bez samostatného času
-        if(line.match(/^\d+\./)){
-          if(!currentSection) currentSection = startSection('Program', 'gray');
-          currentSection.items.push({ time: '', text: line, role: lines[i+1] || '' });
-          i += 2; continue;
-        }
+        if(line.startsWith('·')){ if(!currentSection) currentSection=startSection('Program','gray'); currentSection.items.push({time:'',text:line.replace('·','').trim(),role:''}); i++; continue; }
+        if(line.match(/^\d+\./)){ if(!currentSection) currentSection=startSection('Program','gray'); currentSection.items.push({time:'',text:line,role:lines[i+1]||''}); i+=2; continue; }
         i++;
       }
-
       return week;
     }
 
-    // render funkcie prevzaté z pôvodného kódu
-    function renderWeeks(data, filter=''){
-      const container = document.getElementById('weeks');
-      container.innerHTML = '';
+    function renderWeeks(data,filter=''){
+      const container=document.getElementById('weeks'); container.innerHTML='';
       data.forEach(week=>{
-        const w = document.createElement('div');
-        w.className = 'week';
-
-        const topl = document.createElement('div');
-        topl.className = 'topline';
-        const left = document.createElement('div');
-        left.className = 'dateTitle';
-        const date = new Date(week.datum);
-        left.innerHTML = `${formatDate(date)} | <span class="small">${escapeHtml(week.title_line)}</span>`;
-        const meta = document.createElement('div');
-        meta.className = 'meta';
-        meta.innerHTML = `<div><strong>Predsedajúci:</strong> ${escapeHtml(week.presedajuci)}</div>
-                          <div><strong>Modlitba:</strong> ${escapeHtml(week.modlitba)}</div>`;
-        topl.appendChild(left);
-        topl.appendChild(meta);
-        w.appendChild(topl);
-
+        const w=document.createElement('div'); w.className='week';
+        const topl=document.createElement('div'); topl.className='topline';
+        const left=document.createElement('div'); left.className='dateTitle';
+        const date=new Date(week.datum); left.innerHTML=`${formatDate(date)} | <span class="small">${escapeHtml(week.title_line)}</span>`;
+        const meta=document.createElement('div'); meta.className='meta';
+        meta.innerHTML=`<div><strong>Predsedajúci:</strong> ${escapeHtml(week.presedajuci)}</div><div><strong>Modlitba:</strong> ${escapeHtml(week.modlitba)}</div>`;
+        topl.appendChild(left); topl.appendChild(meta); w.appendChild(topl);
         week.sections.forEach(section=>{
-          if(section.label){
-            const lbl = document.createElement('div');
-            lbl.className = 'section-label ' + (section.color || 'gray');
-            lbl.textContent = section.label;
-            w.appendChild(lbl);
-          }
-          const list = document.createElement('div');
-          list.className = 'time-list';
+          if(section.label){ const lbl=document.createElement('div'); lbl.className='section-label '+(section.color||'gray'); lbl.textContent=section.label; w.appendChild(lbl); }
+          const list=document.createElement('div'); list.className='time-list';
           section.items.forEach(item=>{
-            const itemText = (item.time + ' ' + item.text + ' ' + (item.role||'')).toLowerCase();
+            const itemText=(item.time+' '+item.text+' '+(item.role||'')).toLowerCase();
             if(filter && !itemText.includes(filter)) return;
-
-            const timeEl = document.createElement('div');
-            timeEl.className = 'time';
-            timeEl.textContent = item.time || '';
-            const textEl = document.createElement('div');
-            textEl.className = 'text';
-            textEl.innerHTML = escapeHtml(item.text);
-            const roleEl = document.createElement('div');
-            roleEl.className = 'role';
-            roleEl.innerHTML = escapeHtml(item.role || '');
-            list.appendChild(timeEl);
-            list.appendChild(textEl);
-            list.appendChild(roleEl);
+            const timeEl=document.createElement('div'); timeEl.className='time'; timeEl.textContent=item.time||'';
+            const textEl=document.createElement('div'); textEl.className='text'; textEl.innerHTML=escapeHtml(item.text);
+            const roleEl=document.createElement('div'); roleEl.className='role'; roleEl.innerHTML=escapeHtml(item.role||'');
+            list.appendChild(timeEl); list.appendChild(textEl); list.appendChild(roleEl);
           });
-          if(list.children.length > 0) w.appendChild(list);
+          if(list.children.length>0) w.appendChild(list);
         });
-
         container.appendChild(w);
       });
     }
 
-    function formatDate(d){
-      // ak dátum nie je validný, vrátime pôvodný string
-      if(!(d instanceof Date) || isNaN(d)) return d;
-      const opts = { weekday:'long', year:'numeric', month:'short', day:'numeric' };
-      return d.toLocaleDateString('sk-SK', opts);
-    }
-    function escapeHtml(str){
-      if(!str) return '';
-      return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-    }
+    function formatDate(d){ if(!(d instanceof Date)||isNaN(d)) return d; const opts={ weekday:'long', year:'numeric', month:'short', day:'numeric' }; return d.toLocaleDateString('sk-SK',opts); }
+    function escapeHtml(str){ if(!str) return ''; return String(str).replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
 
-    // spusti načítanie
     loadData();
   </script>
 </body>
